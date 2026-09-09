@@ -23,6 +23,7 @@ Step 3: End 戻り値 + if_master；升环境按リリース手順書
 - 框架 / 返回码 / 系统表 → [framework.md](framework.md)
 - 命名 / 三套环境 / 发布步骤 → [naming-release.md](naming-release.md)
 - 样板脚本 CM0010_IF0079_006 与培训演示 → [examples.md](examples.md)
+- 可视化速查（Cursor Canvas）→ [DSS-开发速查.canvas.tsx](../../canvases/DSS-开发速查.canvas.tsx)
 
 ---
 
