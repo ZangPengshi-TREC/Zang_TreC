@@ -1,0 +1,14 @@
+.DS_Store
+.env
+.env.*
+*.pem
+node_modules/
+__pycache__/
+.pycache/
+.cursor/
+.codex-skill-staging/
+.meeting_parse_*/
+.wms_mapping_extract/
+.wms_must_extract/
+.wms_raw_extract/
+*.pyc

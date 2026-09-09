@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hitluster WMS 统合资料 · 西友 PMI</title>
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --paper: #fff;
+      --ink: #1c1c1a;
+      --muted: #5c5b56;
+      --line: #e4e2dc;
+      --accent: #1f4e79;
+      --info: #e8f0f6;
+      --warn: #f7efd8;
+      --danger: #f6e4e2;
+      --ok: #e5f2e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.55 "Hiragino Sans", "Noto Sans CJK SC", "PingFang SC", "Source Han Sans SC", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 32px 20px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 22px; font-weight: 650; }
+    header p { margin: 0; opacity: .88; font-size: 13px; max-width: 72rem; }
+    .meta { margin-top: 12px; font-size: 12px; opacity: .75; }
+    nav {
+      position: sticky; top: 0; z-index: 5;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 24px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    nav button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    nav button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+    section { display: none; }
+    section.active { display: block; }
+    h2 { font-size: 18px; margin: 28px 0 12px; }
+    h3 { font-size: 15px; margin: 20px 0 8px; }
+    p { color: var(--muted); }
+    .lead { color: var(--ink); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+    .stat { background: var(--paper); border: 1px solid var(--line); padding: 12px 14px; }
+    .stat b { display: block; font-size: 16px; color: var(--accent); }
+    .stat span { font-size: 12px; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card { background: var(--paper); border: 1px solid var(--line); padding: 14px 16px; }
+    .card h3 { margin-top: 0; }
+    .note { padding: 12px 14px; margin: 14px 0; border-left: 4px solid var(--accent); background: var(--info); }
+    .note.warn { border-color: #b8860b; background: var(--warn); }
+    .note.danger { border-color: #a33; background: var(--danger); }
+    .note b { display: block; margin-bottom: 4px; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; background: var(--paper); font-size: 13px; margin: 8px 0 16px; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+    th { background: #eef3f7; font-weight: 600; }
+    tr.ok td:first-child { box-shadow: inset 3px 0 0 #2e7d4f; }
+    tr.warn td:first-child { box-shadow: inset 3px 0 0 #b8860b; }
+    tr.bad td:first-child { box-shadow: inset 3px 0 0 #a33; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+    footer { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 800px) {
+      .stats, .cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media print {
+      nav { display: none; }
+      section { display: block !important; break-inside: avoid; }
+      header { background: #fff; color: #000; border-bottom: 2px solid #000; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hitluster WMS 统合资料</h1>
+    <p>西友现行物流中心系统（Hitluster，日立）在 PMI 混在期仍按这套 AS-IS 运转。方案 3 的物流控制器换号是叠加层，不是 WMS 自己的功能。</p>
+    <p class="meta">Project West / MD基幹統合 · 订正截止 2026-09-08 · 口径含 2026-09-04 standup、日立①ケース/③ボール、TRE QA 66 条、必須チェック 8 S-IF</p>
+  </header>
+  <nav>
+    <button class="active" data-tab="role">WMS 是什么</button>
+    <button data-tab="flow">三条物流路径</button>
+    <button data-tab="ops">中心作业</button>
+    <button data-tab="qty">数量换算</button>
+    <button data-tab="if">15 本接口</button>
+    <button data-tab="pmi">接到 TRIAL 时</button>
+  </nav>
+  <main>
+
+    <section id="role" class="active">
+      <div class="note"><b>一句话</b>Hitluster 是西友物流中心的执行系统：按基干给的予定做入荷、分货、拣货、出荷，再把実績和中心在库报回去。它不管店铺订货、不管会计仕入、不管店头库存。店直不经过它。</div>
+      <div class="stats">
+        <div class="stat"><b>执行层</b><span>入荷 / 分货 / 出荷 / 中心在库</span></div>
+        <div class="stat"><b>3 条路径</b><span>DC ストック · TC総量 · TC店别</span></div>
+        <div class="stat"><b>15 + ASN</b><span>与基干的正式接口</span></div>
+        <div class="stat"><b>不持有</b><span>TC 路径的中心库存</span></div>
+      </div>
+      <h2>在西友链路里的位置</h2>
+      <table>
+        <thead><tr><th>层</th><th>系统</th><th>负责什么</th><th>不负责什么</th></tr></thead>
+        <tbody>
+          <tr><td>发订 / 会计</td><td>MD 基干（现行 TC / Tomorrow Chain）</td><td>向仕入先发注、采番、仕入/振替伝票、GLOVIA 会计</td><td>仓内拣货、検品、ロケーション</td></tr>
+          <tr><td>物流中心</td><td>Hitluster WMS</td><td>按予定入荷、按店别指示分货或出库、报確定数量和欠品、报 DC 在库；棚卸用 310R（在库一览）核对 + 320R（在库调整）改账</td><td>店头库存、最终売价、TRIAL 総平均原価、独立棚卸 IF</td></tr>
+          <tr><td>主数据喂给仓</td><td>基干 → 直送 010S（商品） / データ HUB 020S（部门）·030S（仕入先）·040S（出荷先）</td><td>JAN、WMS 4 分类码、仕入先、出荷先（店）</td><td>PK 不能改。8→4 投影不在本系统做</td></tr>
+          <tr><td>EDI 旁路</td><td>900S（ASN）</td><td>ASN=2 时 EDI 先把预告送给 WMS。9/4：凡进 Hitluster 的设 2；店直 ASN 归取引先マスタ</td><td>不是 15 本正式移送表；工数默认不含</td></tr>
+        </tbody>
+      </table>
+      <h2>WMS 眼里的据点</h2>
+      <table>
+        <thead><tr><th>コード</th><th>名称</th><th>类型</th><th>样本里干什么</th></tr></thead>
+        <tbody>
+          <tr><td>007452</td><td>三郷 DC</td><td>ストック</td><td>入荷予定、出荷実績、在库调整、移动平均単価</td></tr>
+          <tr><td>007453</td><td>昭島 DC</td><td>ストック</td><td>DC 出荷指示</td></tr>
+          <tr><td>007455</td><td>DC（抬头未展开）</td><td>ストック</td><td>入荷実績、在库一览。QA 152：就按这 6 桁用</td></tr>
+          <tr><td>007013</td><td>小牧 TC</td><td>通過</td><td>TC 総量/店别予定</td></tr>
+          <tr><td>007450</td><td>長野 TC</td><td>通過</td><td>TC 予定</td></tr>
+          <tr><td>007451</td><td>TC</td><td>通過</td><td>TC 総量/店别実績成对样本</td></tr>
+          <tr><td>007402 / 007409</td><td>三郷 TC / 宇治 TC</td><td>通過</td><td>130S（TC総量予定）同文件多仓</td></tr>
+        </tbody>
+      </table>
+      <div class="note warn"><b>仓码：不转换、不改桁</b>QA 152：仓库码保持西友 6 桁，007455 就按 007455。mapping 把 center_stock.store_code 写成 INT4 ??? 是过时 GAP。店码是否洗成 TRIAL 码由据点統合定（QA 112），和仓码不是同一件事。</div>
+      <div class="cards">
+        <div class="card">
+          <h3>WMS 做的</h3>
+          <p class="lead">DCロケーション把货分到常温/低温逻辑仓——这不是棚番；棚レイアウト是 WMS 内部マスタ。TRIAL 无同名项：阶层 → 物流控制器转换成 Hitluster ロケ（9/4）。</p>
+          <p class="lead">入荷/出荷：指示ピース ÷ 出荷単位 = 管理数；需要物理箱再 ÷ 010S（商品）ケース入数。</p>
+          <p class="lead">DC 进中心在库再按店出；TC 总量入荷后立刻按店振替，不在 DC 记账。有横持，无预托。</p>
+        </div>
+        <div class="card">
+          <h3>WMS 不做的</h3>
+          <p class="lead">不自己决定ボール还是ケース，只做除法。</p>
+          <p class="lead">ケース入数只回答「一箱几个管理单位」：ケース管理=1，ボール管理=箱内ボール数。不是箱内ピース。</p>
+          <p class="lead">不解释 10/12 为「一店 vs 多店」。形態 10 也要 140S（TC店别予定）。不吃 TRIAL 8 层树，作业只用 4 个分类码。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="note"><b>先分路径，再看接口</b>同一套 Hitluster、同一类文件名，DC 有中心库存；TC 是通過，予定/実績必须「総量 + 店别」成对。形态码 30/51 在 DC 几乎固定；10/12 在 TC 才是作业开关。</div>
+      <h2>路径 A · DC ストック（买取在库）</h2>
+      <table>
+        <thead><tr><th>步</th><th>谁</th><th>动作</th><th>文件</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>基干</td><td>JAN、4 分类码、ケース入数（管理单位/箱）、不定贯、赏味、DCロケ</td><td>010S（商品）差分 GET</td></tr>
+          <tr><td>2</td><td>基干</td><td>入荷予定：供应商、着荷日、バラ、出荷単位（WHPK）、発注単位、単価（税抜）</td><td>110S（DC入荷予定）形态固定 30</td></tr>
+          <tr><td>3</td><td>WMS</td><td>入荷検品。过去日 NG。バラ÷出荷単位=管理数。货进中心在库</td><td>—</td></tr>
+          <tr><td>4</td><td>WMS → 基干</td><td>回报確定入荷。回的仍是ピース</td><td>210R（DC入荷実績）</td></tr>
+          <tr><td>5</td><td>基干</td><td>按店切出荷指示</td><td>120S（DC出荷指示）形态固定 51</td></tr>
+          <tr><td>6</td><td>WMS</td><td>从在库拣货。可不足一箱</td><td>—</td></tr>
+          <tr><td>7</td><td>WMS → 基干</td><td>按店回报確定出荷 / 欠品</td><td>220R（DC出荷実績）</td></tr>
+          <tr><td>8</td><td>WMS → 基干</td><td>日次快照、调整、移动平均単価。棚卸=310R（在库一览）核对 + 320R（在库调整）改账</td><td>310R（在库一览） / 320R（在库调整） / 330R（単価）</td></tr>
+        </tbody>
+      </table>
+      <p>样本仓：三郷 007452、昭島 007453、007455。110S（DC入荷予定）発注単価当作入库原価；130S（TC総量予定）発注単価 WMS 只收不看。QA 163：无预托，有横持。</p>
+      <h2>路径 B · TC 総量（通過，仓内再分店）</h2>
+      <table>
+        <thead><tr><th>步</th><th>谁</th><th>动作</th><th>文件</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>基干</td><td>総量入荷予定（一行 = 一商品一伝票行）</td><td>130S（TC総量予定）</td></tr>
+          <tr><td>2</td><td>基干</td><td>同一伝票号、同一行号，按店拆成多行</td><td>140S（TC店别予定）枝番 001…n</td></tr>
+          <tr><td>3</td><td>WMS</td><td>対総量入荷，再按 140S（TC店别予定） 分到各出荷先。不进 DC 在库账</td><td>形态 10 或 12</td></tr>
+          <tr><td>4</td><td>WMS → 基干</td><td>総量確定一行</td><td>230R（TC総量実績）</td></tr>
+          <tr><td>5</td><td>WMS → 基干</td><td>店别確定多行，バラ加总必须等于総量</td><td>240R（TC店别実績）</td></tr>
+        </tbody>
+      </table>
+      <h2>路径 C · TC 店别</h2>
+      <p class="lead">仍用 130S（TC総量予定）+140S（TC店别予定） / 230R（TC総量実績）+240R（TC店别実績），不是另一套接口。QA 104：形態 10 也要出 140S（TC店别予定）。样本里形态 10 也会拆到最多 50 店——「店别」指发注作业，不是「这个票只有一店」。mapping 写「12=総量 / 10=店别不必拆」是错的。</p>
+      <h2>成对规则（TC 硬约束）</h2>
+      <table>
+        <thead><tr><th>规则</th><th>内容</th><th>证据</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>键</td><td>検品倉庫 + 伝票番号(10) + 行番号(3)；店行再加枝番</td><td>140S（TC店别予定） 备考「与総量入荷予定成对」</td></tr>
+          <tr class="ok"><td>数量</td><td>SUM(店别 出荷/確定バラ) = 総量 発注/確定バラ</td><td>06-17、06-25 样本 100%</td></tr>
+          <tr class="warn"><td>単位数</td><td>店行自己的包装回数，多店时不能对父行 SUM</td><td>与 9/1 standup 一致</td></tr>
+          <tr class="ok"><td>同号字段</td><td>JAN、取引先、便、形态在父子行必须相同</td><td>样本 mismatch = 0</td></tr>
+          <tr><td>文件</td><td>予定一份可含多仓；実績文件名带 6 桁仓码</td><td>130S（TC総量予定） 晨批 8+ 仓；230R（TC総量実績）=007451</td></tr>
+        </tbody>
+      </table>
+      <div class="stats">
+        <div class="stat"><b>94,978</b><span>06-17 130S（TC総量予定） 父行</span></div>
+        <div class="stat"><b>359,647</b><span>同日 140S（TC店别予定） 店行（4 批）</span></div>
+        <div class="stat"><b>100%</b><span>亲子命中，无孤儿</span></div>
+        <div class="stat"><b>S / R</b><span>S=基干→WMS，R=WMS→基干</span></div>
+      </div>
+    </section>
+
+    <section id="ops">
+      <h2>仓内功能怎么拆</h2>
+      <p>括号里是驱动它的接口。日立必須チェック的「使用用途」比 mapping GAP 更接近现场。</p>
+      <table>
+        <thead><tr><th>功能</th><th>现场在干什么</th><th>吃什么</th><th>吐什么</th></tr></thead>
+        <tbody>
+          <tr><td>主数据收纳</td><td>商品 PK、部门 4 码 PK、仕入先、出荷先。画面可改名称/尺寸，不能改码</td><td>010S（商品） GET；020S（部门）/030S（仕入先）/040S（出荷先） HUB PUT CSV</td><td>无回写マスタ IF</td></tr>
+          <tr><td>エリア / 温度帯</td><td>DCロケーション分到畜产、チルド等逻辑仓。不是棚番</td><td>010S（商品）、各予定的 DCロケ，均为 ○</td><td>作业分区，不单独回传</td></tr>
+          <tr><td>入荷検品</td><td>过去日 NG。バラ÷出荷単位得管理数</td><td>110S（DC入荷予定） / 130S（TC総量予定）；ASN=2 时另收 900S（ASN）</td><td>210R（DC入荷実績） / 230R（TC総量実績），確定ピース、欠品</td></tr>
+          <tr><td>中心在库（仅 DC）</td><td>买取货入库</td><td>110S（DC入荷予定） 単価作入库原価；010S（商品） ケース入数</td><td>310R（在库一览） 全件快照；320R（在库调整） 符号 01/02</td></tr>
+          <tr><td>棚卸（仅 DC）</td><td>9/4 三田确认：无独立功能。一览+ハンディ，差异走调整</td><td>QA 209 口头关闭功能缺口</td><td>结果进 320R（在库调整）。不要新 IF</td></tr>
+          <tr><td>期限管理</td><td>赏味有无、日数、入荷/出荷限界（出荷限界优先）</td><td>010S（商品） 五项全 ○</td><td>超限则挡住</td></tr>
+          <tr><td>不定贯</td><td>定贯/不定贯判定</td><td>010S（商品） 不定貫 ○</td><td>影响计量</td></tr>
+          <tr><td>分货 / 振替（TC）</td><td>总量入荷后按 140S（TC店别予定） 的出荷先和枝番切开</td><td>130S（TC総量予定）+140S（TC店别予定） 同号</td><td>230R（TC総量実績）+240R（TC店别実績） 同号</td></tr>
+          <tr><td>拣货出荷（DC）</td><td>WMS 不判ボール/ケース；可不足一箱</td><td>120S（DC出荷指示）；ケース入数来自 010S（商品）</td><td>220R（DC出荷実績）</td></tr>
+          <tr><td>欠品</td><td>00000 无、00001 取引先、00002 センター、DMG12</td><td>作业结果</td><td>2xxR 欠品字段</td></tr>
+          <tr><td>ASN</td><td>仕入先 ASN=2 时 EDI 先给 WMS</td><td>030S（仕入先） ASN区分 ○ + 900S（ASN）</td><td>随后仍走 210R（DC入荷実績）/230R（TC総量実績）</td></tr>
+          <tr><td>横持</td><td>A 仓仕入+振替 → 搬到 B → B 再配送。无预托</td><td>QA 163</td><td>是否另开伝票给控制器（QA 170）</td></tr>
+        </tbody>
+      </table>
+      <h2>分类：WMS 只要 4 码</h2>
+      <table>
+        <thead><tr><th>图上西友层</th><th>WMS 字段</th><th>必須チェック</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>Division（7）</td><td>部門グループ 2 桁</td><td>○ 010S（商品） バッチ、020S（部门） PK</td></tr>
+          <tr class="ok"><td>デバ（49）</td><td>部門 2 桁</td><td>○ 备考 Dept。汉字「部門」在此，不是西友顶层 4</td></tr>
+          <tr><td>西友ライン（391）</td><td>中分類 2 桁</td><td>○ 局部码；予定 IF 只收不看</td></tr>
+          <tr><td>ファインライン（2,655）</td><td>小分類 4 桁</td><td>○ 备考 Fineline；予定不看</td></tr>
+          <tr><td>西友大分類 4 / 細分類槽</td><td>大分類 / 細分類</td><td>- 现行 00 / 不使用</td></tr>
+        </tbody>
+      </table>
+      <p>8→4 投影归商品マスタ統合（QA 118）。QA 208 扩桁：默认不扩。</p>
+      <h2>WMS 明确不看的字段</h2>
+      <p class="lead">处理日、入力連番（QA 106）、名称、発注日、予定里的中/小分类、DC 文件里的形态码 30/51、110S（DC入荷予定） 発注区分、130S（TC総量予定） 発注単価、010S（商品） 納品路径、通過在库、010S（商品） 発注単位数（全 1，不要实现 SS06）。HUB 荷主/企业现行 0000 / 00。</p>
+    </section>
+
+    <section id="qty">
+      <div class="note"><b>两步，不要合成一个数</b>基干始终用ピース。WMS 始终用管理单位。第一步：ピース ÷ 出荷単位 = WMS 管理数。第二步（仓内可选）：管理数 ÷ 010S（商品） ケース入数 = 物理箱数。出荷可以不是整箱，常常停在第一步。</div>
+      <div class="note warn"><b>9/4：出荷単位只信伝票；発注単位=1 是旗标</b>WMS 不拿マスタ出荷単位来除。LOMOS 的 1 是バラ/ケース旗，不能填 IF 出荷単位。TRIAL 无ケース JAN。きのこの山入数 8（幻灯③）vs 80（当场口说）未关，设计暂按 8。</div>
+      <div class="stats">
+        <div class="stat"><b>ピース ÷ 出荷単位</b><span>WMS 管理数（始终）</span></div>
+        <div class="stat"><b>管理数 ÷ ケース入数</b><span>物理箱数（入荷展示）</span></div>
+        <div class="stat"><b>出荷単位 × ケース入数</b><span>一箱ピース（只验算）</span></div>
+        <div class="stat"><b>禁止</b><span>把 24 / 80 写入ケース入数</span></div>
+      </div>
+      <h2>① ケース管理 vs ③ ボール管理</h2>
+      <table>
+        <thead><tr><th></th><th>① カルピスソーダ</th><th>③ きのこの山</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>WMS 管理单位</td><td>1 ケース</td><td>1 ボール</td></tr>
+          <tr><td>出荷単位（伝票）</td><td>24（箱内ピース）</td><td>10（ボール内ピース）</td></tr>
+          <tr><td>010S（商品） ケース入数</td><td>1</td><td>8（箱内ボール数）</td></tr>
+          <tr class="warn"><td>验算 出荷単位×入数</td><td>24×1=24 ピース/箱</td><td>10×8=80 ピース/箱</td></tr>
+          <tr><td>入荷例</td><td>72÷24=3 ケース</td><td>160÷10=16 ボール → 16÷8=2 箱</td></tr>
+          <tr><td>出荷例</td><td>48÷24=2 ケース</td><td>60÷10=6 ボール（不足一箱）</td></tr>
+        </tbody>
+      </table>
+      <div class="note danger"><b>禁止把箱内ピース写入ケース入数</b>QA 189 仍对应中。カルピス若送 24、きのこの山若送 80，第二步会错一档。9/1 曾把きのこの山当成「ケース出荷、入数 80」——③ 已订正为ボール管理。</div>
+      <h2>谁写哪个数</h2>
+      <table>
+        <thead><tr><th>字段</th><th>谁给</th><th>WMS 怎么用</th><th>TRIAL 生成时</th></tr></thead>
+        <tbody>
+          <tr><td>数量（バラ）</td><td>予定：発注/出荷数量バラ。実績：確定数量バラ</td><td>ピース合计。回基干仍是ピース</td><td>箱数×箱内ピース，或ボール数×ボール内ピース</td></tr>
+          <tr><td>出荷単位数</td><td>110S（DC入荷予定） WHPK；120S（DC出荷指示）/140S（TC店别予定） 出荷単位数</td><td>导入时做除法的唯一除数</td><td>ケース写 24，ボール写 10。禁止抄発注単位=1（QA 198）</td></tr>
+          <tr><td>010S（商品） ケース入数</td><td>只在商品マスタ</td><td>第二步升格成物理箱</td><td>ケース=1，ボール=箱内ボール。不要送 24/80</td></tr>
+          <tr><td>010S（商品） 発注単位数</td><td>必須：不使用，接收全 1</td><td>不驱动作业</td><td>不要实现 SS06 复杂分支（QA 188）</td></tr>
+        </tbody>
+      </table>
+      <p>ハイチュウ（9/1）：DC 入荷単位 1、出荷単位 8——同一 JAN 入出荷除数可以不同。啤酒 6 罐ボール JAN 是第四例，指示数可能已是ボール数，三田要对现行 WMS 实值。</p>
+    </section>
+
+    <section id="if">
+      <div class="note"><b>S / R 怎么读</b>S = 基干 → WMS（予定、マスタ、指示）。R = WMS → 基干（実績、在库、単価）。文件名 IFSYLMS* 里的末字母就是这个方向，和「谁发起 SFTP GET」不是同一件事。</div>
+      <h2>编号就是方向（S=基干→WMS，R=WMS→基干）</h2>
+      <table>
+        <thead><tr><th>段</th><th>方向</th><th>内容</th><th>通道</th></tr></thead>
+        <tbody>
+          <tr><td>0xxS</td><td>基干 → WMS</td><td>マスタ 4 本</td><td>010S（商品）：SFTP GET 差分 SJIS 512B；020S（部门）/030S（仕入先）/040S（出荷先）：HUB PUT UTF-8 CSV 全件（无 BOM；更新区分现行全 02）</td></tr>
+          <tr><td>1xxS</td><td>基干 → WMS</td><td>予定 / 指示 4 本</td><td>GET 差分，固定长 512 + CRLF。必须按 Shift_JIS 字节切片</td></tr>
+          <tr><td>2xxR</td><td>WMS → 基干</td><td>入出荷 / 振替実績 4 本</td><td>GET 差分；実績文件名带仓库码</td></tr>
+          <tr><td>3xxR</td><td>WMS → 基干</td><td>在库一览 / 调整 / 単価</td><td>310R（在库一览）/330R（単価） 全件，320R（在库调整） 差分。无伝票号。仓码保持 6 桁</td></tr>
+          <tr><td>900S（ASN）</td><td>EDI → WMS</td><td>仕入先预告</td><td>仅内部レイアウト，无移送表/样本</td></tr>
+        </tbody>
+      </table>
+      <h2>15 本对照（S=基干→WMS，R=WMS→基干）</h2>
+      <table>
+        <thead><tr><th>IF</th><th>路径</th><th>WMS 当什么用</th><th>日立 ○ / 订正点</th></tr></thead>
+        <tbody>
+          <tr><td>010S（商品）</td><td>共通</td><td>PK、ロケ、赏味、不定贯、ケース入数、三郷尺寸</td><td>18 项 ○。ケース入数=管理单位/箱。発注単位数不看</td></tr>
+          <tr><td>020S（部门）</td><td>HUB</td><td>部門G/部门/中/小 四层 PK + 名称</td><td>大分类现行 00，细分类不看。8→4 不在本 IF</td></tr>
+          <tr><td>030S（仕入先）</td><td>HUB</td><td>供应商 PK、纳品形态、要不要 ASN</td><td>码 6+3=9 桁。荷主 0000</td></tr>
+          <tr><td>040S（出荷先）</td><td>HUB</td><td>店 PK、名称、カナ、标签略称</td><td>码文字列 10。UTF-8</td></tr>
+          <tr><td>110S（DC入荷予定）</td><td>DC</td><td>入荷作业 + 入库换算 + 入库単価</td><td>形态固定 30；过去日 NG；出荷単位 WHPK ○</td></tr>
+          <tr><td>120S（DC出荷指示）</td><td>DC</td><td>按店拣货。出荷単位数做出库换算</td><td>形态固定 51；漏店即漏货</td></tr>
+          <tr><td>130S（TC総量予定）</td><td>TC</td><td>総量入荷父行。形态 10/12、便、単位数</td><td>単価不看。10 和 12 都 ○</td></tr>
+          <tr><td>140S（TC店别予定）</td><td>TC</td><td>同一伝票的店行。枝番、出荷先</td><td>官方成对。形態 10 也要出</td></tr>
+          <tr><td>210R（DC入荷実績）</td><td>DC</td><td>確定入荷回基干（ピース）</td><td>mapping 进仕入伝票</td></tr>
+          <tr><td>220R（DC出荷実績）</td><td>DC</td><td>按店確定出荷 / 欠品</td><td>mapping 进振替伝票</td></tr>
+          <tr><td>230R（TC総量実績）</td><td>TC</td><td>総量確定父行</td><td>mapping 进仕入 TMDLI0110</td></tr>
+          <tr><td>240R（TC店别実績）</td><td>TC</td><td>店别確定；加总=230R（TC総量実績）</td><td>mapping 同时写了仕入和振替，过宽</td></tr>
+          <tr><td>310R（在库一览）</td><td>DC</td><td>仓×JAN 快照；棚卸清单源</td><td>center_stock，主键用 6 桁仓码</td></tr>
+          <tr><td>320R（在库调整）</td><td>DC</td><td>符号 01/02 差分 UPSERT；棚卸结果</td><td>调整码 ADJ01 无落点</td></tr>
+          <tr><td>330R（単価）</td><td>DC</td><td>抽出時点移动平均</td><td>TRIAL 不用作仕入原価（QA 154）</td></tr>
+        </tbody>
+      </table>
+      <p>2026-06 同日：TC 店别予定约 36 万行、総量 9.5 万行、DC 出荷指示 3.5 万行。瓶颈在店别文件（120S（DC出荷指示）/140S（TC店别予定）/220R（DC出荷実績）/240R（TC店别実績））。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>基干必须写对的主键</h3>
+          <p class="lead">予定：検品倉庫 + 伝票番号 + 行番号（140S（TC店别予定） 加枝番）。商品：仓库 + JAN + 取引先。HUB：更新区分 + 各マスタ码。</p>
+        </div>
+        <div class="card">
+          <h3>规格分层（不要混）</h3>
+          <p class="lead">項目移送表 = 文件长什么样。必須チェック = WMS 用哪些列。SS06 = TC 从哪张表填。mapping = 接到 TRIAL 哪张对象。TRE QA 完了 ≠ 设计冻结。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pmi">
+      <div class="note warn"><b>方案 3 是叠加，不是重做 WMS</b>发订 / EDI / 会计按店 CV。Hitluster 文件布局冻结（日立 800 万是验证改修）。已 CV 店：Shinise 发订 → 物流控制器换号 → 仍写成同一套 IFSYLMS*。WMS 只认西友 6 桁仓码和 10 桁伝票。9 月末若改切 Himalaya，本目录整列作废。P50 <b>380</b> 人日 / P80 <b>480</b> 人日（详细设计+开发+单测；不含联测/UAT/切替）。</div>
+      <h2>混在期谁产、谁吃</h2>
+      <table>
+        <thead><tr><th>对象</th><th>未 CV</th><th>已 CV</th><th>控制器要动吗</th></tr></thead>
+        <tbody>
+          <tr><td>010S（商品）</td><td>TC → WMS</td><td>TRMD 商品 → WMS</td><td>否</td></tr>
+          <tr class="warn"><td>020S（部门）/030S（仕入先）/040S（出荷先）</td><td>TC → HUB → WMS</td><td>谁喂 HUB 未决</td><td>否</td></tr>
+          <tr><td>110S（DC入荷予定） / 210R（DC入荷実績）</td><td>TC 仕入ワーク ↔ WMS</td><td>Shinise ↔ 控制器 ↔ WMS</td><td>是，予定実績同号</td></tr>
+          <tr class="bad"><td>120S（DC出荷指示） / 220R（DC出荷実績）</td><td>TC 店别 ↔ WMS</td><td>同一 DC 可混两套店</td><td>是，按店切 + 换号</td></tr>
+          <tr><td>130S（TC総量予定）+140S（TC店别予定） / 230R（TC総量実績）+240R（TC店别実績）</td><td>TC 成对 ↔ WMS</td><td>成对一起换号</td><td>是，禁止只换総量</td></tr>
+          <tr class="ok"><td>310R（在库一览）/320R（在库调整）/330R（単価）</td><td>WMS → TC</td><td>WMS → TRMD center_stock（6 桁仓码）</td><td>否（无伝票号）</td></tr>
+        </tbody>
+      </table>
+      <h2>接到 TRIAL 对象时（mapping 现状）</h2>
+      <table>
+        <thead><tr><th>WMS</th><th>TRIAL 对象</th><th>成熟度</th></tr></thead>
+        <tbody>
+          <tr><td>010S（商品） / 020S（部门）</td><td>F053+F023、分类 6 表 JOIN</td><td>可对照；阶层 8→4 归商品統合</td></tr>
+          <tr><td>030S（仕入先） / 040S（出荷先）</td><td>MST_TORIHIKI / 店マスタ</td><td>空模板，但日立已标 ASN、出荷先略称必须</td></tr>
+          <tr><td>110S（DC入荷予定）/120S（DC出荷指示）/130S（TC総量予定）/140S（TC店别予定）</td><td>発注伝票 / 発注振分伝票</td><td>字段备忘；缺成对键和単位数不加总</td></tr>
+          <tr><td>210R（DC入荷実績） / 230R（TC総量実績）</td><td>仕入伝票 TMDLI0110</td><td>可对照。伝票区分、原/売単価未决</td></tr>
+          <tr><td>220R（DC出荷実績）</td><td>振替伝票</td><td>可对照</td></tr>
+          <tr class="bad"><td>240R（TC店别実績）</td><td>同时写了仕入和振替</td><td>主张过宽：一文件不要拆成两种票</td></tr>
+          <tr><td>310R（在库一览） / 320R（在库调整）</td><td>center_stock（v2）</td><td>仓码按 QA 152 存 6 桁，不要 INT4</td></tr>
+          <tr><td>330R（単価）</td><td>不进仕入</td><td>方向已定</td></tr>
+        </tbody>
+      </table>
+      <h2>TRE QA 未关（6）· 2026-09-04</h2>
+      <table>
+        <thead><tr><th>No</th><th>状态</th><th>挡什么</th></tr></thead>
+        <tbody>
+          <tr class="bad"><td>188</td><td>对应中</td><td>010S（商品） 発注単位数：以必須「不看、全 1」为准，不要复刻 SS06</td></tr>
+          <tr class="bad"><td>189</td><td>对应中</td><td>ケース入数能否送箱内バラ。未关前按 1 / ボール数设计</td></tr>
+          <tr class="bad"><td>198</td><td>对应中</td><td>110S（DC入荷予定） 出荷単位：日立已 OK；TRIAL 発注単位=1 如何写出 24/10</td></tr>
+          <tr class="warn"><td>196</td><td>对应中</td><td>返品/废弃。暂无独立返品 IF；195 说 WMS 只做调整</td></tr>
+          <tr class="warn"><td>208</td><td>未对应 9/1</td><td>分类扩桁。默认不扩；真扩须另开日立改修</td></tr>
+          <tr><td>209</td><td>未对应 9/3；9/4 三田口头确认</td><td>棚卸无新 IF：310R（在库一览）清单 + 320R（在库调整）</td></tr>
+        </tbody>
+      </table>
+      <p>完了 53/66 不降低 P50。仍挡设计的完了结论：104 形態10 也要 140S（TC店别予定）；152 仓码不转换；141/170 采番与非発注振替给控制器；QA 110/111 荷主 0000；163 无预托有横持。</p>
+      <h2>会计回写时必须补的（WMS 没有）</h2>
+      <p class="lead">仕入/振替要的原単価、売単価、金额，WMS 実績里没有。从 DIFBRANCHPURCHASEINFO / SALESINFO ×1000 补。不要用 330R（単価） 填。伝票区分（10 仕入 / 30 振替等）由基干定固定值。</p>
+      <h2>设计优先级</h2>
+      <table>
+        <thead><tr><th>先做</th><th>后做或不做</th></tr></thead>
+        <tbody>
+          <tr><td>130S（TC総量予定）/140S（TC店别予定）、230R（TC総量実績）/240R（TC店别実績） 同号成对；形态 10 也出 140S（TC店别予定）；按店切开</td><td>把 10/12 当成 1 店 vs N 店</td></tr>
+          <tr><td>出荷単位写管理单位的ピース数（24 或 10）；ケース入数写 1 或箱内ボール</td><td>把 24/80 写入ケース入数；把発注単位=1 抄进出荷単位</td></tr>
+          <tr><td>010S（商品） 取引先 9 桁、赏味 5 项、不定贯、DCロケ、発注単位数固定 1</td><td>納品路径 / 通過在库转换；在 010S（商品） 实现 SS06</td></tr>
+          <tr><td>仓库 6 桁原样进 center_stock；棚卸走 310R（在库一览）+320R（在库调整）</td><td>等 INT4 对照；新棚卸 IF；把 330R（単価） 当仕入原価</td></tr>
+          <tr><td>消费商品統合已经投影好的 4 分类码</td><td>在控制器里临时拼 8 层；默认扩 020S（部门） 桁位</td></tr>
+          <tr><td>030S（仕入先） ASN 区分、040S（出荷先） 出荷先略称、HUB 荷主 0000</td><td>020S（部门） 大分类 10 桁扩展（WMS 不读）</td></tr>
+        </tbody>
+      </table>
+      <h2>工数包络（详细设计 + 开发 + 单测）</h2>
+      <div class="stats">
+        <div class="stat"><b>380</b><span>P50 计划人日</span></div>
+        <div class="stat"><b>480</b><span>P80 管理人日</span></div>
+        <div class="stat"><b>330–430</b><span>决策冻结时的包络</span></div>
+        <div class="stat"><b>不含联测</b><span>UAT / 切替 / Himalaya 另估</span></div>
+      </div>
+      <p>P50 结构约：控制器 110 + 予定 115 + 実績 85 + HUB/共通 32 + 在库 25 + 日立协调 8。TRE 完了 53/66 不减人日。189 若改口送箱内バラ，翻案进 P80（+15–25）。</p>
+    </section>
+
+  </main>
+  <footer>
+    本文件由 Overview 口径导出，便于转发和打印。交互分册仍在 Cursor canvas。打印时会展开全部章节。S=基干→WMS，R=WMS→基干。方案 3 To-Be 与 Himalaya 切换未签字，不作为合同终态。
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("nav button");
+    const sections = document.querySelectorAll("main section");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach((b) => b.classList.remove("active"));
+        sections.forEach((s) => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+        history.replaceState(null, "", "#" + btn.dataset.tab);
+      });
+    });
+    const hash = location.hash.slice(1);
+    if (hash) {
+      const target = document.querySelector('nav button[data-tab="' + hash + '"]');
+      if (target) target.click();
+    }
+  </script>
+</body>
+</html>
