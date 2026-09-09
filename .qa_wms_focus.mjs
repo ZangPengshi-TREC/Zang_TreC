@@ -1,0 +1,13 @@
+import { FileBlob, SpreadsheetFile } from "@oai/artifact-tool";
+const input = await FileBlob.load("/Users/treqd/Downloads/情報システムPMI_MD基幹統合PJ_TRE_課題管理表.xlsx");
+const workbook = await SpreadsheetFile.importXlsx(input);
+const sheet = workbook.worksheets.getItem("TRE_課題管理表 MDSCM領域");
+const values = sheet.getRange("A1:P224").values;
+const hi = values.findIndex((r) => r.some((v) => String(v ?? "").includes("課題・質問概要")));
+const h = values[hi]; const idx = (n) => h.findIndex((x) => String(x ?? "").includes(n));
+const si=idx("システム"), ti=idx("ステータス"), ni=idx("課題・質問概要"), ai=idx("回答"), ri=idx("残課題");
+const rows=values.slice(hi+1).map((r,i)=>({row:hi+i+2,no:r[1],summary:String(r[ni]??"").replace(/\n/g," / "),answer:String(r[ai]??"").replace(/\n/g," / "),residual:String(r[ri]??"").replace(/\n/g," / "),status:String(r[ti]??"")})).filter(x=>String(values[x.row-1][si]??"")==="WMS");
+const counts={}; rows.forEach(x=>counts[x.status]=(counts[x.status]??0)+1);
+console.log("COUNT",rows.length,"STATUS",JSON.stringify(counts));
+console.log("OPEN_OR_RESIDUAL");
+for(const x of rows.filter(x=>x.status!=="完了"||x.residual)) console.log(JSON.stringify(x));
