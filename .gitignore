@@ -1,0 +1,9 @@
+.DS_Store
+.env
+.env.*
+*.pem
+node_modules/
+__pycache__/
+.pycache/
+.codex-skill-staging/
+*.pyc
