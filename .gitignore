@@ -7,3 +7,7 @@ __pycache__/
 .pycache/
 .codex-skill-staging/
 *.pyc
+
+# local extraction / meeting scratch (not deliverables)
+.meeting_parse_*/
+.wms_*_extract/
