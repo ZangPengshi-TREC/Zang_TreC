@@ -1,0 +1,35 @@
+gate,residual_no,related_if,theme,current_design_status,definition_of_done,evidence_or_owner
+G-01,1,共通,西友店舗リスト,未完了,TRIAL店舗コードと西友店舗コードの一覧および抽出条件を確定,残課題表 No.1 / 波多野
+G-01,2,共通,西友倉庫コード,未完了,西友DC店番一覧をコード変換テーブルへ登録,残課題表 No.2 / 波多野
+G-01,3,Sinops-01,対象商品範囲,未完了,西友店舗と店別調達を用いた商品抽出条件を確定,残課題表 No.3 / 波多野
+G-01,4,Sinops-01/Sinops-03,商品階層,完了,大分類/中分類/小分類の意味対応を設計書へ反映,残課題表 No.4
+G-01,5,Sinops-01,発注単位数,完了,複数店舗の最多値採用ロジックをSQL/テストで固定,残課題表 No.5
+G-01,6,Sinops-02,標準原価,完了,原価税抜の扱いを項目仕様とテストへ反映,残課題表 No.6
+G-01,7,Sinops-02,出荷元店登録コード,完了,管轄センターではなく出荷センターを参照,残課題表 No.7
+G-01,8,Sinops-04/Sinops-17,仕入先コード,設計再確認,Master統合側の最大8桁と残課題表 No.8の9桁回答について格納先とSinops出力桁を確定,残課題表 No.8 / Master統合:取引先マスタ・商品調達マスタ
+G-02,9,Sinops-05,ケース/バラ発注商品フラグ,未完了,ISSTOPORDERの参照粒度と0/1導出を確定,残課題表 No.9 / 波多野・Shinise
+G-02,10,Sinops-05,新旧/クロスリファレンス/代替,未完了,採否と入力元を確定し除外条件をテスト化,残課題表 No.10 / 波多野・Shinise
+G-03,11,Sinops-18,仕入先休日マスタ,未完了,source of truthと運用者、Sinops-W/Rの適用範囲を確定,残課題表 No.11 / 補充部
+G-03,12,Sinops-13/Sinops-19,発注スケジュール,未完了,階層別設定と優先順位、仕入先コードの桁数と生成を確定,残課題表 No.12
+G-01,13,Sinops-16/Sinops-10,センター在庫,完了,Hitlusterを現行入力としHimalaya切替条件を分離,残課題表 No.13
+G-01,14,Sinops-16,カテゴリ桁,完了,Sinops側の拡張レイアウトと入力桁を一致させる,残課題表 No.14 / Sinops
+G-01,15,Sinops-16,発注ロット,完了,店別調達の発注単位をSinops-W発注ロットへ反映,残課題表 No.15
+G-03,16,Sinops-13,発注締め時刻,未完了,発注締時間マスタの発注締番号1〜10とHHmmの供給元・更新方法・欠損時処理を確定,残課題表 No.16 / CoreSaver・Shinise / 発注締時間マスタ
+G-01,17,Sinops-13/Sinops-15/Sinops-19,自動発注対象の店/JAN,未完了,自動発注対象フラグの保持元と抽出タイミングを確定,残課題表 No.17 / Shinise / 商品自動発注制御マスタ
+G-03,18,Sinops-11/Sinops-12,便区分,未完了,キー/値域/付与方式を確定,残課題表 No.18 / SY運用
+G-05,19,Sinops-22,発注勧告当日分W,未完了,SinopsからTRへの連携主体と受信先を確定,残課題表 No.19 / Shinise
+G-05,20,Sinops-23,発注勧告翌日以降W,未完了,TRへ渡す要否と連携主体を確定,残課題表 No.20 / Shinise
+G-05,21,Sinops-24,発注勧告当日分R,未完了,連携主体、担当者コード、受信先を確定,残課題表 No.21 / Shinise
+G-05,22,Sinops-25,発注勧告翌日以降R,未完了,TRへ渡す要否と連携主体を確定,残課題表 No.22 / Shinise
+G-04,23,Sinops-10/Sinops-15,24時営業在庫,未完了,Shinise断面の作成可否と代替方式を確定,残課題表 No.23 / Shinise
+G-04,24,Sinops-14,自動補充側の棚割入力契約,外部依存,自動補充側の受信項目・更新タイミング・欠損時処理を確定。棚割システム本体は対象外,残課題表 No.24 / 棚割担当
+G-04,25,Sinops-14/Sinops-15,自動補充側の開始日/終了日入力,外部依存,自動補充側が受け取る開始日/終了日と前倒し条件を確定。棚割システム本体は対象外,残課題表 No.25 / 棚割担当・Shinise
+G-06,Phase1-Q&A-28,Sinops-11/Sinops-12,入荷系の便区分,未完了,便区分のキー/値域/付与方式を確定,Phase1判定サマリ B1
+G-06,Phase1-Q&A-29,Sinops-11/Sinops-12,入荷予定の便区分,未完了,便区分のキー/値域/付与方式を確定,Phase1判定サマリ B1
+G-06,Phase1-Q&A-49,Sinops-12,発注区分,未完了,SinopsとTRIALの区分対応表を確定,Phase1判定サマリ B2
+G-06,Phase1-Q&A-151,Sinops-21,受払伝票区分,未完了,出庫/入庫とTRIAL伝票区分の対応表を確定,Phase1判定サマリ B5
+G-01,MSTR-01,Sinops-01/Sinops-02/Sinops-04/Sinops-16/Sinops-17,仕入先コード桁数整合,設計再確認,Master統合側の8桁項目と西友9桁コードの保持先・変換・出力桁を確定,master-integration-structure.md MSTR-01
+G-01,MSTR-02,Sinops-01/Sinops-03/Sinops-16,追加版分類項目投影,未完了,base_org・base_div・base_line・base_upper1〜5とSinops階層の対応・桁・ゼロ埋めを確定,master-integration-structure.md MSTR-02
+G-01,MSTR-03,Sinops-02,売価税区分,設計再確認,price・price_intaxのどちらをSinopsへ出すか税率参照と端数処理を確定,master-integration-structure.md MSTR-03
+G-01,MSTR-04,Sinops-02/Sinops-16/Sinops-17,センターキー表現,設計再確認,char6とint32最大5のコード表現・先頭0・変換ルールを確定,master-integration-structure.md MSTR-04
+G-01,MSTR-05,Sinops-13/Sinops-15/Sinops-19,自動発注対象フラグ保持元,設計再確認,商品自動発注制御マスタと自動発注システム・Shiniseのsource of truthと更新時点を確定,master-integration-structure.md MSTR-05
