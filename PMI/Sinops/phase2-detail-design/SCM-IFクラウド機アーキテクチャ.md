@@ -31,18 +31,20 @@
 flowchart LR
   H[Hinemos] -->|本機の処理のみ起動| IF
 
-  subgraph TRIAL[TRIAL]
+  subgraph TRIAL[TRIAL 基幹]
     CS[CoreSaver 基幹]
+    MST[統合マスタ]
     SV[集計 SV]
     AO[自動発注]
+    CS --- MST
     CS -.->|共用データを出力| SV
     CS --- AO
   end
 
   CS -->|基幹直出| IF
+  MST -->|基幹の一部| IF
   SV -->|共用断面| IF
   AO -->|自動発注連携| IF
-  MST[統合マスタ] --> IF
   WMS[Hitluster / 棚割] --> IF
 
   subgraph IF["新 IF クラウド機"]
@@ -67,7 +69,7 @@ flowchart LR
 
 直結しないもの:
 
-- 集計 SV / CoreSaver / 自動発注 → Sinops
+- 集計 SV / CoreSaver / 統合マスタ / 自動発注 → Sinops
 - Sinops → Shinise
 
 ---
@@ -77,10 +79,11 @@ flowchart LR
 | コンポーネント | 意味 | IF クラウド機への渡し方 |
 |---|---|---|
 | CoreSaver | TRIAL の **基幹データ** | 発注締め等は基幹直出（13/19 など） |
+| 統合マスタ | **基幹の一部**（西友×TRIAL 統合後のマスタ IF） | 商品・店舗商品・カテゴリ・仕入先等（01–05、16–17）。TRIAL 枠の外ではない |
 | 集計 SV | 基幹から出力する **各種共用データ** | 第二の基幹ではない。販売・来客・廃棄等の断面（06–09 など） |
 | 自動発注 | 同じ基幹を使う TRIAL 側機能 | 仕入先休日等（18）。見積は TRIAL 自動発注連携前提 |
 
-西友側の統合マスタ、Hitluster、棚割は TRIAL 枠の外。いずれもいったん本機へ落としてから DSS で送る。
+Hitluster と棚割は TRIAL 基幹の外。いずれもいったん本機へ落としてから DSS で送る。
 
 ---
 
@@ -111,7 +114,7 @@ flowchart LR
 
 | 層 | 範囲 | Sinops 人日 | 内容 |
 |---|---|---|---|
-| ① | ソース ↔ IF クラウド機で加工 | 297 | 往路：基幹直出 / 集計出力 / 自動発注 / 統合マスタ。復路：Sinops 回送を Shinise 向けに変換 |
+| ① | ソース ↔ IF クラウド機で加工 | 297 | 往路：基幹直出（統合マスタを含む）/ 集計出力 / 自動発注。復路：Sinops 回送を Shinise 向けに変換 |
 | ② | IF クラウド機 → DWH | 31 | DSS Intake。原則ファイルをそのまま格納。対象は 01–05、13、14、16–19 |
 | ③ | IF クラウド機 ↔ Sinops / Shinise | 75 | DSS 転送。往路は Sinops、復路は Shinise。14 は送受信 |
 
