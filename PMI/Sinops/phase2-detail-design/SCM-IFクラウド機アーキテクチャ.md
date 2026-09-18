@@ -66,7 +66,7 @@ flowchart LR
   DS3 -->|Layer③ 往路| SN
   SN -.->|Layer③ 復路受信| DS3
   DS3 -.->|Layer③ GCSへ| FILE
-  FILE -.->|Layer① 拉取| EXT
+  FILE -.->|Layer① プル| EXT
   STORE -.->|Layer① 自動発注GCSへ| AOGCS
   AOGCS -.-> AOX
   AOX -.->|既存転送| OS
@@ -124,24 +124,31 @@ flowchart LR
 4. 必要なマスタのみ DSS が DWH へ Intake（② 31 人日。実績は多くが 0）
 5. DSS が GCS 上のファイルを Sinops へ転送（③）
 
-### 復路（Sinops 発注勧告 → 連携用 GCS → IFクラウド機 → 自動発注 GCS → OrdreSV）
+### 復路（発注勧告 R：Layer③ と Layer①）
 
 TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ直送しない。
 
-1. DSS が Sinops から発注勧告を取得し、**連携用 GCS** へ置く（③ 受信・書込）
-2. IF クラウド機が連携用 GCS から勧告を拉取し、TRIAL 自動発注 IF のレイアウトへ変換して本機保存（①）
-3. IF クラウド機が変換後ファイルを **TRIAL 自動発注の GCS** へ置く（①）。連携用 GCS とは別用途
+発注勧告 R の層分担:
+
+- **Layer③** Sinops → DSS 処理 → **連携用 GCS**
+- **Layer①** 連携用 GCS → IFクラウド機で処理 → **TRIAL 自動発注 GCS** へアップロード
+
+手順:
+
+1. Layer③：DataSpider が Sinops の発注勧告を処理し、**連携用 GCS** へ出す
+2. Layer①：IFクラウド機が連携用 GCS からプルし、店舗系 R は発注IF `SIREJAN_RCMDORDER_LAST` へ変換して本機保存
+3. Layer①：IFクラウド機が変換後ファイルを **TRIAL 自動発注の GCS** へアップロード。連携用 GCS とは別用途
 4. **TRIAL 自動発注の転送機能** が自動発注 GCS から OrdreSV へ渡す（既存機能。西友 DSS ではない。403 の③送信ではない）
 5. OrdreSV が自動確定したあと、CoreSaver へ同期（基幹内。403 の IF 加工には入れない）
 
 見積 22–25 の「CORESAVER連携→SHINISE連携」は次のとおり読む。
 
 - 実経路の最終着地は OrdreSV。Shinise は TRIAL 新基幹だが、勧告のホップではない
-- 会社間をまたぐのは **連携用 GCS のみ**。ファイル契約は TRIAL 自動発注 IF
+- 会社間をまたぐのは **連携用 GCS のみ**。店舗系 R のファイル契約は発注IF `SIREJAN_RCMDORDER_LAST`（2026-09-18）。倉庫系 W は G01 未確認
 - OrdreSV は自動発注サーバそのものではない。自動発注は GCS 受けと転送を担う
 - 便区分は Shinise 側前提（本見積 403 に含まない）
 - 自動発注の既存転送、OrdreSV の自動確定、CoreSaver 同期は TRIAL 内であり、403 に含まない
-- 既存 OrderSV 対照（`EOBTempOrderData_XXXX`）は自動発注 IF のレイアウト参照
+- OrderSV `EOBTempOrderData_XXXX` は旧第三候補。店舗系 R の出力契約ではない
 
 ---
 
@@ -151,7 +158,7 @@ TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ
 
 | 層 | 範囲 | 対象 IF | Sinops 人日 | 内容 |
 |---|---|---|---|---|
-| ① | TRIAL↔GCS（外部IFプログラム開発） | **01–25 全件**。10 は店舗/センターを 2 行 | 297 | ProjectD 外部IF。往路：集計SV抽出・共通化・本機保存・連携用 GCS 出力。復路 22–25：連携用 GCS から拉取し自動発注 IF へ変換、自動発注 GCS へ出力 |
+| ① | TRIAL↔GCS（外部IFプログラム開発） | **01–25 全件**。10 は店舗/センターを 2 行 | 297 | ProjectD 外部IF。往路：集計SV抽出・共通化・本機保存・連携用 GCS 出力。復路 22–25：連携用 GCS からプルし、店舗系 R は発注IF `SIREJAN_RCMDORDER_LAST` へ変換して自動発注 GCS へ出力。倉庫系 W は G01 |
 | ② | GCS→DWH（DataSpider 取込） | **01–05、13、14、16–19** の 11 本のみ | 31 | 西友 Azure DataSpider。GCS ファイルをそのまま Intake。06–12、15、20–25 は 0 |
 | ③ | DWH・GCS↔業務システム（連携） | **01–25 全件** | 75 | 西友 Azure DataSpider。往路は Sinops / sinops-W。14 は受信 GCS→Sinops と送信 DWH→GCS。22–25 は勧告受信して連携用 GCS へ書く。OrdreSV へは送らない |
 
@@ -180,10 +187,10 @@ TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ
 | 19 | 仕入先発注曜日【倉庫】 | 14 | 3 | 3 | 20 | ①→②→③ |
 | 20 | 発注実績【倉庫】 | 8 | 0 | 2.5 | 10.5 | ①→③ 直送 |
 | 21 | 受払明細【倉庫】 | 14 | 0 | 4 | 18 | 同上 |
-| 22 | 発注勧告(当日)【倉庫】 | 14 | 0 | 3 | 17 | ③連携用GCSへ → ①拉取・変換 → 自動発注GCS → 既存転送 → OrdreSV |
+| 22 | 発注勧告(当日)【倉庫】 | 14 | 0 | 3 | 17 | ③連携用GCSへ → ①プル・変換 → 自動発注GCS → 既存転送 → OrdreSV |
 | 23 | 発注勧告(翌日)【倉庫】 | 14 | 0 | 3 | 17 | 同上 |
-| 24 | 発注勧告(当日) | 14 | 0 | 3 | 17 | 同上 |
-| 25 | 発注勧告(翌日) | 14 | 0 | 3 | 17 | 同上 |
+| 24 | 発注勧告(当日) | 14 | 0 | 3 | 17 | ③ Sinops→DSS→連携GCS → ① IFクラウド機処理→自動発注GCS → 既存転送 → OrdreSV |
+| 25 | 発注勧告(翌日) | 14 | 0 | 3 | 17 | 同上（店舗系 R。レイアウト `SIREJAN_RCMDORDER_LAST`） |
 
 Layer① 見出しの「IF用サーバー構築、MD/SCM・BOの共通化、型変換」は、IF クラウド機上の抽出プログラムであり、43 人日の外でもう一台買う意味ではない。
 
@@ -222,7 +229,7 @@ IF クラウド機を別構築する場合、労働下限はもう +43。ライ�
 ## 8. 詳細設計への落とし方
 
 - Job は「集計SVは出数、ProjectD 外部IFで抽出・保存、連携用 GCS へファイル出力、西友 DataSpider は転送」で書く。
-- Hinemos の順序は 抽出 → 本機保存 → GCS 出力（ProjectD①）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路 22–25 は 西友 DS が連携用 GCS へ書く → ProjectD が拉取・変換して自動発注 GCS へ置く → 既存の自動発注転送。
+- Hinemos の順序は 抽出 → 本機保存 → GCS 出力（ProjectD①）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路 22–25 は 西友 DS が連携用 GCS へ書く → ProjectD がプル・変換して自動発注 GCS へ置く → 既存の自動発注転送。
 - IF ID は `SEIYU-TRIALインターフェース管理台帳` の DSS 台帳から採番。プロジェクト名 = IF ID。トリガは `SEIYUCOM000X`。
 - GCS は TRIAL GCP 連携用プロジェクト（例 `seiyu-trial-data-exchange`）。接続名と IF ID 配下ディレクトリは台帳確定後に書く。
 - 詳細設計はサーバー待ちで止めない。開発・単体は DEV の DSS + GCS が必要。
@@ -232,5 +239,5 @@ IF クラウド機を別構築する場合、労働下限はもう +43。ライ�
 - 05 ケースバラ方針
 - 13/19 の締め時刻・対象 FLG の最終ソース内訳
 - 14/15 棚割開始日
-- 22–25 の自動発注 IF レイアウト確定（着地は基幹 OrdreSV。経路は連携用 GCS → クラウド機 → 自動発注 GCS → 既存転送。当日/翌日、担当者コードは残）
+- 店舗系 R（24/25）は `SIREJAN_RCMDORDER_LAST` 7 項目まで確定。残は店/仕入先桁・Ordertype・最終値化・当日翌日順。倉庫系 W（22/23）レイアウトは G01
 - 自動発注 GCS の正式プロジェクト ID / バケット契約（連携用 GCS との切り分け）
