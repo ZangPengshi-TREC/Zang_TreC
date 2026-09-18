@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataSpider 新人使用手册 · 西友 DSS</title>
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --paper: #fff;
+      --ink: #1c1c1a;
+      --muted: #5c5b56;
+      --line: #e4e2dc;
+      --accent: #1f4e79;
+      --info: #e8f0f6;
+      --warn: #f7efd8;
+      --danger: #f6e4e2;
+      --ok: #e5f2e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.55 "Hiragino Sans", "Noto Sans CJK SC", "PingFang SC", "Source Han Sans SC", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 32px 20px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 22px; font-weight: 650; }
+    header p { margin: 0; opacity: .88; font-size: 13px; max-width: 72rem; }
+    .meta { margin-top: 12px; font-size: 12px; opacity: .75; }
+    .langswitch { margin-top: 12px; font-size: 13px; opacity: 1; }
+    .langswitch a { color: #fff; text-underline-offset: 3px; }
+    nav {
+      position: sticky; top: 0; z-index: 5;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 24px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    nav button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    nav button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+    section { display: none; }
+    section.active { display: block; }
+    h2 { font-size: 18px; margin: 28px 0 12px; }
+    h3 { font-size: 15px; margin: 20px 0 8px; }
+    p { color: var(--muted); }
+    .lead { color: var(--ink); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+    .stat { background: var(--paper); border: 1px solid var(--line); padding: 12px 14px; }
+    .stat b { display: block; font-size: 16px; color: var(--accent); }
+    .stat span { font-size: 12px; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cards.three { grid-template-columns: 1fr 1fr 1fr; }
+    .card { background: var(--paper); border: 1px solid var(--line); padding: 14px 16px; }
+    .card h3 { margin-top: 0; }
+    .note { padding: 12px 14px; margin: 14px 0; border-left: 4px solid var(--accent); background: var(--info); }
+    .note.warn { border-color: #b8860b; background: var(--warn); }
+    .note.danger { border-color: #a33; background: var(--danger); }
+    .note.ok { border-color: #2e7d4f; background: var(--ok); }
+    .note b { display: block; margin-bottom: 4px; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; background: var(--paper); font-size: 13px; margin: 8px 0 16px; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+    th { background: #eef3f7; font-weight: 600; }
+    tr.ok td:first-child { box-shadow: inset 3px 0 0 #2e7d4f; }
+    tr.warn td:first-child { box-shadow: inset 3px 0 0 #b8860b; }
+    tr.bad td:first-child { box-shadow: inset 3px 0 0 #a33; }
+    code, pre { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+    pre {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      overflow-x: auto;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    ul, ol { color: var(--muted); }
+    li { margin: 4px 0; }
+    figure.shot {
+      margin: 12px 0 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 8px 8px 10px;
+    }
+    figure.shot img { width: 100%; height: auto; display: block; }
+    figure.shot figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; padding: 0 4px; }
+    .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .shots figure.shot { margin: 0; }
+    @media (max-width: 800px) { .shots { grid-template-columns: 1fr; } }
+    .check-list { list-style: none; padding: 0; margin: 8px 0 16px; }
+    .check-list li {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      margin: 6px 0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      color: var(--ink);
+    }
+    .check-list input { margin-top: 3px; }
+    .check-list label { cursor: pointer; flex: 1; }
+    footer { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 800px) {
+      .stats, .cards, .cards.three { grid-template-columns: 1fr; }
+    }
+    @media print {
+      nav { display: none; }
+      section { display: block !important; break-inside: avoid; }
+      figure.shot { break-inside: avoid; }
+      header { background: #fff; color: #000; border-bottom: 2px solid #000; }
+      .langswitch a { color: #000; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DataSpider Servista 新人使用手册</h1>
+    <p>西友 DSS 入门读本。按 2024 年三日「ツール活用トレーニング」录像整理，并接到现在实际开发方式。口令不写在本页，登录信息只看《DSS開発の流れ》或ガイドライン P.103 / P.115–118。</p>
+    <p class="meta">产品 4.4 (x64) AP3 · SP A00050 · Studio for Web · Day1 2024-11-22 · Day2 2024-11-28 · Day3 2024-12-05 · 讲师 セゾン / 延吉</p>
+    <p class="langswitch">中文 · <a href="DataSpider新人利用マニュアル.html">日本語</a></p>
+  </header>
+  <nav>
+    <button class="active" data-tab="howto">怎么学</button>
+    <button data-tab="day1">Day1 操作</button>
+    <button data-tab="day2">Day2 框架</button>
+    <button data-tab="day3">Day3 测试发布</button>
+    <button data-tab="real">真实接口</button>
+    <button data-tab="naming">命名规则</button>
+    <button data-tab="env">环境与禁则</button>
+    <button data-tab="drill">练习与样板</button>
+  </nav>
+  <main>
+
+    <section id="howto" class="active">
+      <div class="note warn">
+        <b>先记住一件事</b>
+        培训可以在 Designer 里直接跑 DEMO 脚本。西友正式接口不是这样：触发器永远调 <code>SEIYUCOM000X</code>，框架再调你的个别项目。第 6 章才是日常工作。
+      </div>
+      <div class="stats">
+        <div class="stat"><b>Day1 · 1:58</b><span>Studio、两条线、三个 CSV 演示</span></div>
+        <div class="stat"><b>Day2 · 1:57</b><span>框架四条收口 + SQL Server</span></div>
+        <div class="stat"><b>Day3 · 1:45</b><span>调试、zip 发布、改表备份</span></div>
+        <div class="stat"><b>正式路径</b><span>/seiyuroot/&lt;IF_ID&gt;/，不用 DEMO</span></div>
+      </div>
+      <h2>建议学习顺序</h2>
+      <table>
+        <thead><tr><th>章</th><th>对照录像</th><th>要学会什么</th></tr></thead>
+        <tbody>
+          <tr><td>Day1 操作</td><td>Day1 前半</td><td>登录、Designer、脚本 / 项目 / 服务、橙色数据流与黑色进程流</td></tr>
+          <tr><td>Day1 三个演示</td><td>Day1 后半</td><td>CSV 汇总、0 件报错、文件触发器</td></tr>
+          <tr class="warn"><td>Day2 框架</td><td>Day2（和教材差别最大）</td><td>SEIYUCOM000X、戻り値 0 / 1–254 / 255 / -1、if_master</td></tr>
+          <tr><td>Day3 测试</td><td>Day3 前半</td><td>调试、断点、测试引数，三条路径都跑到期望结果</td></tr>
+          <tr><td>Day3 发布</td><td>Day3 后半 + リリース手順書</td><td>指定最新版下载、上传后重新服务注册、差分导入</td></tr>
+          <tr class="ok"><td>真实接口</td><td>日常工作</td><td>台账取号 → 8 步。不要停在 DEMO</td></tr>
+          <tr class="ok"><td>命名规则</td><td>ガイドライン P.12</td><td>接口 ID / 项目 / 脚本 / 资源 / 触发器怎么起名</td></tr>
+        </tbody>
+      </table>
+      <div class="cards">
+        <div class="card">
+          <h3>培训练习场</h3>
+          <p class="lead">库 <code>SAMPLE_PROJECT</code></p>
+          <p>工作目录 <code>/data/DSSROOT/DEMO/</code>（Windows 上是 <code>F:\DSSROOT\DEMO\</code>）</p>
+        </div>
+        <div class="card">
+          <h3>卡住时</h3>
+          <p class="lead">选中组件按 <b>F1</b></p>
+          <p>帮助里有例外和限制 → HULFT FAQ → <a href="https://www.hulft.com/tech-support">セゾン技术支持</a>。产品名填 DataSpider Servista 4.4 (x64) AP3，SP A00050。序列号只在ガイドライン P.122。</p>
+        </div>
+      </div>
+      <h2>对照两份 PPT</h2>
+      <p>日常顺序以《DSS開発の流れ》为准。细则回ガイドライン页码。口令不抄进本页。</p>
+      <table>
+        <thead><tr><th>要查什么</th><th>ガイドライン</th><th>開発の流れ</th></tr></thead>
+        <tbody>
+          <tr><td>框架 / 戻り値 / 主数据</td><td>P.22–31、P.50–56</td><td>西友フレームワーク</td></tr>
+          <tr><td>if_master 列与登记 SQL</td><td>P.27、P.115–118</td><td>if_master登録</td></tr>
+          <tr><td>触发器 / 命名</td><td>P.12、P.31、P.112–114</td><td>トリガー作成</td></tr>
+          <tr><td>zip / 服务注册 / 共享</td><td>P.105–111</td><td>デプロイ</td></tr>
+          <tr><td>用户 / 全局资源 / Azure / SFTP</td><td>P.32–35、P.58–63</td><td>—</td></tr>
+          <tr><td>三套 URL、GCS 控制台</td><td>P.105</td><td>第 2 页</td></tr>
+        </tbody>
+      </table>
+      <p>配套：Day1/Day3 PDF、開発ガイドライン v3.2、《DSS開発の流れ》、リリース手順書 v1.0。Markdown 原文在同目录 <code>DataSpider新人使用手册.md</code>。截图来自セゾン教材 PDF（Studio 实操画面）；录像文件本机已不在，无法从 mp4 再抽帧。</p>
+    </section>
+
+    <section id="day1">
+      <p class="lead">DataSpider 是 GUI 的 EAI：Studio 里画脚本，Server 上编译成 Java 再跑。</p>
+      <h2>四块能力</h2>
+      <table>
+        <thead><tr><th>块</th><th>做什么</th></tr></thead>
+        <tbody>
+          <tr><td>Adapter</td><td>读/写 CSV、Excel、DB、FTP、REST、固定长等</td></tr>
+          <tr><td>Mapper / Converter</td><td>字段变换、过滤、日期、拼接（约 140 个逻辑图标）</td></tr>
+          <tr><td>Studio</td><td>开发、运维、看日志</td></tr>
+          <tr><td>Trigger</td><td>到点、文件落地、JP1 等自动启动</td></tr>
+        </tbody>
+      </table>
+      <h2>DSS 在西友数据联动里干什么</h2>
+      <p>DSS 是系统间 EAI/ETL，不是分析仓。选型见ガイドライン P.18。高 Tier 用 DataHub；分析积蓄用 Databricks；DSS 适合中低 Tier 的文件 / DB 联动。</p>
+      <table>
+        <thead><tr><th>方案</th><th>主要用途</th></tr></thead>
+        <tbody>
+          <tr><td>DataHub</td><td>高 Tier、要冗余的文件联动</td></tr>
+          <tr class="ok"><td>DataSpider</td><td>系统间文件 / DB</td></tr>
+          <tr><td>Databricks</td><td>积蓄、分析。写仓走 ADLS（MS0007）</td></tr>
+          <tr><td>Lakehouse Federation</td><td>只参照外部最新状态。注意源库负荷</td></tr>
+        </tbody>
+      </table>
+      <p>ADLS：一 IF 一容器，外部用 SFTP，约 30 天后自动删。数据质量：先约定编码、全角半角；乱码当损坏处理。</p>
+      <h2>三个名词不要混</h2>
+      <table>
+        <thead><tr><th>词</th><th>含义</th></tr></thead>
+        <tbody>
+          <tr><td>脚本</td><td>Designer 里画的源码</td></tr>
+          <tr><td>项目</td><td>相关脚本的打包；下载、上传、服务注册都以项目为单位</td></tr>
+          <tr><td>服务</td><td>项目登记到 Server 之后，才能被触发器、其他脚本、ScriptRunner 调用</td></tr>
+        </tbody>
+      </table>
+      <div class="note warn"><b>开发库 ≠ 运行库</b>只有「作为服务注册」的项目才能挂触发器。改过脚本必须重新注册服务。</div>
+      <div class="cards">
+        <div class="card">
+          <h3>Studio 窗口</h3>
+          <ul>
+            <li><b>Designer</b>：画脚本和 Mapper</li>
+            <li><b>Control Panel</b>：用户、任务、全局资源、挂载</li>
+            <li><b>Explorer</b>：逻辑文件系统（脚本写这里的路径，不是 <code>C:\</code>）</li>
+            <li><b>My Service / Trigger / Log</b>：已注册服务、触发器、日志</li>
+          </ul>
+          <p>绿三角 = 通常执行。虫子 = 调试执行。</p>
+        </div>
+        <div class="card">
+          <h3>两条线</h3>
+          <table>
+            <thead><tr><th>线</th><th>样子</th><th>规则</th></tr></thead>
+            <tbody>
+              <tr><td>数据流</td><td>橙色虚线</td><td>指定输入后自动出现，可一对多</td></tr>
+              <tr><td>进程流</td><td>黑色实线</td><td>必须手拉 Start→…→End；一个图标一条出线</td></tr>
+            </tbody>
+          </table>
+          <p>没拉到 End 的脚本不能当完整处理。</p>
+        </div>
+      </div>
+      <h3>登录后主画面</h3>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-login-url.jpg" alt="Studio for Web 登录，在浏览器输入 URL">
+          <figcaption>浏览器打开 WebStudio URL 后登录。西友现网地址见「环境与禁则」页，不要用教材示例主机。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-home.jpg" alt="登录完成后的 DataSpider 主画面">
+          <figcaption>登录完成：上方是 デザイナ / マイプロジェクト / マイトリガー / マイログ / マイサービス / エクスプローラ / コントロールパネル。</figcaption>
+        </figure>
+      </div>
+      <h3>新建 / 打开项目</h3>
+      <figure class="shot">
+        <img src="images/day1-new-project.jpg" alt="主画面新建项目、打开项目">
+        <figcaption>「新しいプロジェクト」新建，「プロジェクトを開く」打开已有项目。培训练习库是 SAMPLE_PROJECT；正式接口项目名 = 台账 IF ID。</figcaption>
+      </figure>
+      <h3>在 Designer 里画脚本</h3>
+      <figure class="shot">
+        <img src="images/day1-designer.jpg" alt="Designer：绿三角通常执行、虫子调试执行、右侧工具箱">
+        <figcaption>绿三角 = 通常执行，虫子 = 调试执行。右侧工具箱拖图标到画布。进程流必须手拉 Start → End。调试日志出现在画面下方。</figcaption>
+      </figure>
+      <h2>版本、共享、挂载</h2>
+      <ul>
+        <li>每次保存都留版本，可还原，可出版本比较报告。</li>
+        <li>没权限看不到别人的项目。共享：マイプロジェクト → プロパティ → 共有。</li>
+        <li>一般用户只能看到自己当「触发器所有者」的触发器。</li>
+        <li>OS 目录先挂到 DataSpider 文件系统，脚本才不绑盘符。</li>
+      </ul>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-share.jpg" alt="マイプロジェクト里设置项目共有">
+          <figcaption>マイプロジェクト → 右键 → プロパティ → 共有。没有权限就看不到别人的项目。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-mount.jpg" alt="把 OS 目录挂到 DataSpider 文件系统">
+          <figcaption>OS 的 <code>C:\Document\Sample</code> 先挂成 <code>/data/mount</code>，脚本只写 DataSpider 路径。</figcaption>
+        </figure>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-explorer.jpg" alt="Explorer 管理 DataSpider 文件">
+          <figcaption>エクスプローラ：管理逻辑文件系统上的目录和文件。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-mylog.jpg" alt="マイログ查看执行结果">
+          <figcaption>マイログ：按条件查脚本执行结果。DEBUG 被 Designer 截断时来这里看全文。</figcaption>
+        </figure>
+      </div>
+      <h2>本环境已确认的适配器</h2>
+      <table>
+        <thead><tr><th>状态</th><th>适配器</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>已购 ●</td><td>Salesforce、Microsoft Azure、SQL Server（选择式）、固定长、FTP、REST</td></tr>
+          <tr><td>标准 〇</td><td>JDBC、CSV、Excel、XML、HTML、文件操作、Mail、Thunderbus、HULFT</td></tr>
+        </tbody>
+      </table>
+      <p>表上没有 ●/〇 的（Oracle、GCP、Box、SAP 等）不要默认当成可用。HTML 读取走 Web Adapter。CSV：编码 <code>Windows-31J</code>，第一行当表头。</p>
+      <h2>Day1 三个演示</h2>
+      <div class="cards three">
+        <div class="card">
+          <h3>① CSV 转换集计</h3>
+          <p>输入 <code>OrderList.csv</code>（受注日、支店、ケース数、入り数、容量、商品名、受注_ID）。按支店汇总发注数，写出 <code>OrderList_total.csv</code>。变换放 Mapper，不要用 IF/循环逐行加工。</p>
+        </div>
+        <div class="card">
+          <h3>② 0 件当错误</h3>
+          <p>只有表头、没有数据行。不写输出文件，主动结束成错误。接到框架后，这就是警告或 255。</p>
+        </div>
+        <div class="card">
+          <h3>③ 文件触发器</h3>
+          <p>把 CSV 放到输入文件夹 → 自动跑① → 结果进输出文件夹。触发器挂的是已注册服务，不是未登记脚本。</p>
+        </div>
+      </div>
+      <p>服务注册：项目右键「プロジェクトをサービスとして登録」。画面会比较源项目和目标服务的脚本。</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-service-register.jpg" alt="项目右键注册为服务">
+          <figcaption>プロジェクトをサービスとして登録。改过脚本后必须重新做这一步，否则触发器还在跑旧版。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-trigger.jpg" alt="マイトリガー列表">
+          <figcaption>マイトリガー。教材示例是文件触发器；西友正式接口改为调 <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code>。</figcaption>
+        </figure>
+      </div>
+      <figure class="shot">
+        <img src="images/day1-myservice.jpg" alt="マイサービス确认已注册服务">
+        <figcaption>マイサービス：确认服务名 = 项目名，状态可用。</figcaption>
+      </figure>
+    </section>
+
+    <section id="day2">
+      <div class="note danger">
+        <b>正式开发必须按框架</b>
+        个别脚本只做事、设 End 戻り値，不要自己发邮件。触发器永远调 <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code>。
+      </div>
+      <h2>调用链</h2>
+      <pre>调度触发器 / JP1 / ScriptRunner
+        ↓
+SEIYUCOM000X / 01frameworkBatch     ← 只用，不改
+        ↓
+SEIYUCOM001X
+  01getInterfaceInfo   读 if_master、param_master
+  调个别项目（你的 IF）
+  02outputLog / 03sendMail
+        ↓
+个别项目 = 接口 ID，只写业务</pre>
+      <table>
+        <thead><tr><th>项目</th><th>角色</th><th>能改吗</th></tr></thead>
+        <tbody>
+          <tr><td><code>SEIYUCOM000X</code></td><td>入口 <code>01frameworkBatch</code></td><td>只用，不改</td></tr>
+          <tr class="warn"><td><code>SEIYUCOM001X</code></td><td>读主数据、调个别脚本、写日志、发邮件</td><td>禁止修改</td></tr>
+          <tr><td><code>SEIYUCOM002X</code></td><td>ADLS 路径切割</td><td>可用</td></tr>
+          <tr><td><code>SEIYUCOM003X</code></td><td>备份清理（每天 0 点）</td><td>了解即可</td></tr>
+          <tr><td>HOUSEKEEP</td><td>本地备份清理</td><td>非推荐。备份放 Blob <code>AZURE_STR_DSS</code></td></tr>
+          <tr class="ok"><td>接口 ID 项目</td><td>个别处理</td><td>这里写业务</td></tr>
+        </tbody>
+      </table>
+      <p>邮件由 <code>03sendMail</code> 发。发信以台账为准，常见 <code>no-reply-HR-EAI@seiyu.com</code> 或 <code>no-reply-Seiyu-EAI@seiyu.com</code>。JP1 用 <code>C:\Temp\scriptrunner.xml</code>，第一参数传 <code>if_id</code>。</p>
+      <h2>四条收口（Day2 核心）</h2>
+      <p class="lead">戻り値设在 <b>End 组件</b>的属性检查器里，不是脚本属性随便写一个数。</p>
+      <table>
+        <thead><tr><th>分支</th><th>你的脚本怎么结束</th><th>框架做什么</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>1 正常</td><td>End 戻り値 <b>0</b></td><td>记成功日志后结束</td></tr>
+          <tr class="warn"><td>2 警告</td><td>戻り値 <b>1–254</b>（演示：CSV 只有表头 / 0 件）</td><td>警告邮件 + 警告日志</td></tr>
+          <tr class="bad"><td>3 可控异常</td><td>戻り値 <b>255</b>，并且填了 <code>out_*</code></td><td>异常邮件 + 异常日志</td></tr>
+          <tr class="bad"><td>4 未捕获</td><td>Exception / 没 catch</td><td>框架 catch 后发异常邮件。戻り値实际是 <b>-1</b></td></tr>
+        </tbody>
+      </table>
+      <p>警告/异常用「警告变量设定」「异常变量设定」填 <code>out_component_name/type</code>、<code>out_message_*</code>、<code>out_error_*</code>。邮件后半段例如：</p>
+      <pre>FILE0001E|java.io.FileNotFoundException|/data/DSSROOT/DEMO/INPUT/OrderList.csv|CSV読取</pre>
+      <p>改写口径：正常 = 跑完（0）；警告 = 0 件（1–254）；异常 = 读或写失败（255 + out_*）。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>if_master</h3>
+          <p>库 <code>DSSSEIYU</code>。改前按手順书 3.1 备份。发版常用同 <code>if_id</code> DELETE 再 INSERT（P.117）。</p>
+          <p class="lead">列名用全称：if_id / if_name / service_name / script_name / from_mail_address / to_mail_address / cc_mail_address / bcc_mail_address / mail_title_header / tier</p>
+          <p><b>to_mail_address 必须含</b> <code>isd_support_desk@seiyu.com</code></p>
+          <p>DEV：<code>DHUB-DB-DEV:1433</code>，DBeaver 也可，账号见 P.103（口令不写本页）。STG/PROD：RDP + SSMS，<code>SeiyuServerStg.seiyu.com</code> / <code>SeiyuServerPro.seiyu.com</code>。</p>
+        </div>
+        <div class="card">
+          <h3>param_master</h3>
+          <p><code>IF_ID</code> + <code>param_no</code> + <code>param_value</code>，读入后到 <code>param1</code>–<code>param20</code>。</p>
+          <p>路径、文件名尽量用这些参数，不要写死在图标属性里。</p>
+        </div>
+      </div>
+      <h2>触发器怎么挂（三环境相同）</h2>
+      <table>
+        <thead><tr><th>字段</th><th>值</th></tr></thead>
+        <tbody>
+          <tr><td>服务</td><td><code>SEIYUCOM000X</code></td></tr>
+          <tr><td>脚本</td><td><code>01frameworkBatch</code></td></tr>
+          <tr><td>变量 if_id</td><td>本接口 ID</td></tr>
+          <tr><td>执行用户</td><td><code>exec_SY</code></td></tr>
+          <tr><td>状态</td><td>登録后应为「待機中」</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>不要</b>把触发器直接绑到个别脚本上。画面 P.112–114：マイトリガー → 服务 <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> / 变量 <code>if_id</code> → 一览「待機中」。执行用户 <code>exec_SY</code>。</div>
+      <h2>SQL Server（Day2 后半）</h2>
+      <p>表读/写、検索 SQL、更新 SQL（<code>?{列名}</code>）、ストアド、ローダ。连接例 <code>COM_SQLServer2022</code>。练习库 <code>DHUB-DB-DEV</code> / <code>DSSROOT</code>。</p>
+      <p class="lead">DBデモ1（CSV→表，带事务）</p>
+      <pre>Transaction → DELETE → csv_read → mapping → テーブル書き込み → COMMIT</pre>
+      <p><code>process_date</code> 用「現在日時」。大件数打开「大容量データ処理」，不要全进内存。跨多步回滚用事务图标。</p>
+    </section>
+
+    <section id="day3">
+      <h2>测试</h2>
+      <p class="lead">每条条件分支都要有期望结果（录像里的 ①②③），不要只跑通主路径。</p>
+      <table>
+        <thead><tr><th>手段</th><th>怎么用</th></tr></thead>
+        <tbody>
+          <tr><td>通常执行</td><td>绿三角。快，细节日志少</td></tr>
+          <tr><td>调试执行</td><td>虫子。有执行历史和日志，可逐步看</td></tr>
+          <tr><td>断点</td><td>图标右键「ブレークポイントを設定/解除」</td></tr>
+          <tr><td>测试引数</td><td>脚本右键 → 属性 → テスト実行</td></tr>
+          <tr><td>调试信息</td><td>看运行中的脚本变量</td></tr>
+          <tr><td>错误日志</td><td>用消息代码去 Help 搜</td></tr>
+        </tbody>
+      </table>
+      <p>DEBUG 日志在 Designer 里可能被截断，去 <b>My Log</b> 看全文。生产日志用 <b>INFO</b>。</p>
+      <figure class="shot">
+        <img src="images/day3-debug.jpg" alt="调试执行：虫子图标和画面下方执行日志">
+        <figcaption>点虫子做调试执行。下方「実行履歴 / 実行ログ」会出逐步结果。这张里 CSV 读取失败，消息码 FILE0001E。</figcaption>
+      </figure>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-breakpoint.jpg" alt="图标右键设置断点">
+          <figcaption>图标右键 → ブレークポイントを設定/解除。调试会停在该组件，再按虫子继续。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day3-test-args.jpg" alt="脚本属性里设置测试执行引数">
+          <figcaption>脚本右键 → プロパティ → テスト実行。给输入变量喂测试值，不必改图标属性。</figcaption>
+        </figure>
+      </div>
+      <h2>发布（リリース手順書 v1.0）</h2>
+      <div class="note warn">
+        <b>用资源管理员登录目标环境</b>
+        顺序：项目 → 非项目资材 → 系统表。STG/PROD 走 SDP；监视提前约 1 周找 ITSM。
+      </div>
+      <h3>5.1 项目 zip</h3>
+      <ol>
+        <li>マイプロジェクト → ローカルへダウンロード。勾选「バージョンを指定してダウンロード」，选数字最大的最新版。</li>
+        <li>目标：ローカルからアップロード。上書き = 作为现有项目最新版；换名 = 另起项目。</li>
+        <li>打开 → 服务注册（服务名 = 项目名）→ マイサービス确认。</li>
+        <li>zip <b>不带共享</b>。STG/PROD 上传后：共有 → SY 组读取。一览要能看到「共有」。</li>
+        <li>脚本写 Explorer 文件夹时，给 <code>exec_SY</code> 加写入组权限（P.110）。</li>
+      </ol>
+      <figure class="shot">
+        <img src="images/day3-download.jpg" alt="マイプロジェクト右键下载并指定最新版本">
+        <figcaption>右键 → ローカルへダウンロード。选「バージョンを指定してダウンロード」，拿数字最大的最新版（图中 45）。</figcaption>
+      </figure>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-upload-menu.jpg" alt="目标环境文件菜单本地上传">
+          <figcaption>目标环境：ファイル → ローカルからアップロード，选刚下载的 zip。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day3-upload-options.jpg" alt="上書きコミット或作为新项目上传">
+          <figcaption>同名上写选「既存プロジェクトにコミット」；换名选「新しいプロジェクトとしてアップロード」。</figcaption>
+        </figure>
+      </div>
+      <figure class="shot">
+        <img src="images/day3-service-register.jpg" alt="上传后重新服务注册">
+        <figcaption>打开上传后的项目 → プロジェクトをサービスとして登録。服务名做成与项目同名。</figcaption>
+      </figure>
+      <h3>5.2 非项目（サーバ移行）</h3>
+      <ol>
+        <li>コントロールパネル → DataSpiderServerの設定 → サーバ移行。</li>
+        <li>导出先「全て解除」，只勾本次要搬的。</li>
+        <li>导入<b>不要去掉</b>「プロジェクトの差分インポート」和「環境変数の差分更新」。去掉会整表覆盖。</li>
+        <li>导入后重启 Windows 服务 <code>DataSpiderServista</code>。</li>
+        <li>同名时：服务/触发器/全局资源覆盖；环境变量和项目文件可跳过。用户逻辑冲突会改成 <code>name_1</code>。</li>
+      </ol>
+      <figure class="shot">
+        <img src="images/day3-export-select.jpg" alt="サーバ移行导出先全部解除再勾选">
+        <figcaption>导出：先点「全て解除」，再只勾本次要搬的资材。不要整包全选。</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="images/day3-import-keep.jpg" alt="导入时保留差分选项">
+        <figcaption>导入时红框两项<b>不要去掉</b>：「プロジェクトの差分インポート」「環境変数の差分更新」。去掉会整表覆盖。</figcaption>
+      </figure>
+      <h3>5.3 系统表</h3>
+      <p>只搬项目不够。改 <code>if_master</code> 前必须备份。</p>
+      <table>
+        <thead><tr><th>方式</th><th>步骤</th></tr></thead>
+        <tbody>
+          <tr><td>CSV 备份</td><td>SELECT 对象表 → 結果に名前を付けて保存</td></tr>
+          <tr><td>脚本备份</td><td>スクリプトの生成，详细设定选「スキーマとデータ」</td></tr>
+          <tr><td>追加</td><td>上位200行の編集 → 末行 * → 再用 SQL 确认</td></tr>
+          <tr><td>修正 / 删除</td><td>先 WHERE 筛行，再改或删，最后 SQL 确认</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="real">
+      <div class="note danger">
+        <b>接口形态</b>
+        一个 IF = 一个处理单位（同一 IF 可传多个文件）。只做单体。ガイドライン还有バラマキ / 数珠繋ぎ / 複数，<b>西友只用単体。数珠つなぎ禁止。</b>不要从 Designer 直接调生产脚本。
+      </div>
+      <h2>申请、Owner、设计书</h2>
+      <p>AppG 申请 → DataG 受付并预审发 IF ID → 开发测试 → SDP リリース；监视约提前 1 周找 ITSM。台账记初回 / PRO / ITSM 运用开始 / 稼働日。监视要启动时刻、L3、重要度。</p>
+      <p>Owner 是<b>联动源侧</b>，负责脚本和数据内容。相关 IF 由起点 Owner 统筹。申请种类：インターフェース、IntakeForm（Databricks）、DSS 设定、全局资源、账号。设计书：シーケンス図 + マッピング定义书（P.10–11）。</p>
+      <h2>取号</h2>
+      <p>从 <code>SEIYU-TRIALインターフェース管理台帳.xlsx</code> → <code>DSSインターフェース台帳</code> 拿 IF ID（開発の流れ第一步）。格式 <code>FROM6_TO6_SEQ3</code>，例如 <code>AM0002_MS0007_001</code>。项目名 = 接口 ID。</p>
+      <h2>DEV → STG → PROD（8 步）</h2>
+      <p>复制现有个别项目来改，不要从空白重写框架调用。</p>
+      <table>
+        <thead><tr><th>步</th><th>做什么</th><th>硬性规则</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>IF ID</td><td>台账已取号</td></tr>
+          <tr><td>2</td><td>建项目</td><td>项目名 = 接口 ID</td></tr>
+          <tr><td>3</td><td>脚本</td><td>复制现有脚本再改。<code>01</code> + 驼峰，例如 <code>01updDelDate</code>。只写个别处理</td></tr>
+          <tr><td>4</td><td>Explorer</td><td><code>/seiyuroot/&lt;IF_ID&gt;/</code>，给组加访问权限</td></tr>
+          <tr><td>5</td><td>服务注册</td><td>服务名 = 项目名。改脚本后必须重新注册</td></tr>
+          <tr><td>6</td><td>触发器</td><td>只调 <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code>，参数 <code>if_id</code>，用户 <code>exec_SY</code></td></tr>
+          <tr><td>7</td><td>if_master</td><td><code>to_mail_address</code> 含支持台；改表前备份。P.115–118</td></tr>
+          <tr><td>8</td><td>测试后升环境</td><td>STG/PROD 走 SDP。画面 P.105–111</td></tr>
+        </tbody>
+      </table>
+      <p>资源申请 <code>mls_ISDDataPlatform@seiyu.com</code>（用户申请 CC Director）。件名例：<code>【Dataspider】ユーザー作成依頼</code> / <code>【Dataspider】グローバルリソース作成依頼</code> / <code>【Dataspider】Azureストレージ接続設定依頼</code>。SFTP 密钥路径 <code>/data/SSH/&lt;Intake&gt;/xxxxx.ppk</code>。DEV 全局资源可自建；STG/PROD 由 Data 团队建箱。</p>
+      <h2>个别脚本默认骨架</h2>
+      <p>抄 2026-05-13 实演 <code>CM0010_IF0079_006</code> / <code>01OutputData</code>：</p>
+      <pre>try/catch
+  → delete 工作区 /*                 # /seiyuroot/&lt;IF_ID&gt;/
+  → 源抽出（検索系 SQL / CSV / SFTP …）
+  → Mapper（日期、字段、过滤）
+  → 写出业务文件 + 完了文件（如 ORDER_${file_date}.END）
+  → 交件（GCS / ADLS / SFTP）
+  → End 戻り値 0
+catch → 异常变量设定 → End 255</pre>
+      <p>GCS 连接 <code>GCP_STR_DSS</code>，桶 <code>ods-seiyu-{dev|stg|prod}</code>。控制台 <code>console.cloud.google.com/storage/browser/</code> 下同名桶。路径常见 <code>/&lt;IF_ID&gt;/${folder_date}/</code>。备份用 Blob <code>AZURE_STR_DSS</code>，不要默认 <code>/data/backup</code>。</p>
+      <h2>读 / 转 / 写</h2>
+      <table>
+        <thead><tr><th>场景</th><th>用什么</th><th>注意</th></tr></thead>
+        <tbody>
+          <tr><td>DB 全表抽出</td><td>テーブル読み取り</td><td>全局资源可复用</td></tr>
+          <tr><td>带条件 / 复杂 SQL</td><td>検索系 SQL 実行</td><td>向导生成后若手改 SQL，向导不能再编</td></tr>
+          <tr><td>字段变换、过滤</td><td>Mapper</td><td>先定输出 schema</td></tr>
+          <tr><td>文件 JOIN</td><td>Merge</td><td>DB 侧优先用 SQL JOIN</td></tr>
+          <tr><td>大量写入</td><td>テーブル書き込み + 批处理</td><td>「キー一致行は更新」= upsert。86 万件批模式约快 30 倍</td></tr>
+          <tr><td>复杂更新</td><td>更新系 SQL 実行</td><td>不适配超大件数</td></tr>
+          <tr><td>固定长 EDI</td><td>固定长适配器 + 向导</td><td>定义进全局资源</td></tr>
+        </tbody>
+      </table>
+      <h2>命名规则</h2>
+      <p class="lead">完整表在「命名规则」页（ガイドライン P.12）。建项目前先对那一页：项目名 = 接口 ID，脚本 <code>01</code>+キャメル，触发器 <code>_SCHL</code>，ADLS 容器小写连字符。</p>
+    </section>
+
+    <section id="naming">
+      <div class="note ok">
+        <b>ガイドライン P.12</b>
+        标识符只用英语或ヘボン式罗马字。建项目、脚本、全局资源、触发器前先对这一页。
+      </div>
+      <h2>对象怎么起名</h2>
+      <table>
+        <thead><tr><th>对象</th><th>风格</th><th>规则</th><th>例子</th></tr></thead>
+        <tbody>
+          <tr><td>接口 ID</td><td>アッパースネーク</td><td><code>FROM系统(6位)_TO系统(6位)_序号(3位)</code>。系统 6 位用系统一览</td><td><code>AM0002_MS0007_001</code></td></tr>
+          <tr><td>项目名</td><td>同接口 ID</td><td>必须完全相同</td><td><code>AM0002_MS0007_001</code></td></tr>
+          <tr><td>脚本名</td><td>两位序号 + キャメル</td><td>同一项目内顺序编号 + 处理概要（英语或ヘボン式）</td><td><code>01updDelDate</code></td></tr>
+          <tr><td>常量</td><td>アッパースネーク</td><td>英语或ヘボン式</td><td><code>FILE_NAME</code></td></tr>
+          <tr><td>变量</td><td>スネーク（小写）</td><td>英语或ヘボン式</td><td><code>file_name</code></td></tr>
+          <tr><td>参数</td><td>スネーク + 型前缀</td><td>输入 <code>in_</code>、输出 <code>_out</code>、入出力 <code>io_</code></td><td><code>in_file_name</code></td></tr>
+          <tr><td>环境变量</td><td><code>ENV_</code> + アッパースネーク</td><td>英语</td><td><code>ENV_RETRY_COUNT</code></td></tr>
+          <tr><td>工作文件名</td><td>スネーク（小写）</td><td>脚本里普通文件</td><td><code>file_name</code></td></tr>
+          <tr><td>表名</td><td>前缀 + アッパースネーク</td><td>主数据 <code>M_</code>、事务 <code>T_</code></td><td><code>M_FILE_SEND</code></td></tr>
+          <tr><td>ADLS 容器</td><td>小写 + 连字符</td><td>只能小写、数字、<code>-</code></td><td><code>am0002-ms0007-001</code></td></tr>
+          <tr><td>固定长 / 可变长格式</td><td>アッパーキャメル</td><td><code>FIX</code>/<code>VAR</code> + <code>READ</code>/<code>WRITE</code> + 名称</td><td><code>FIX_READ_Time</code></td></tr>
+          <tr><td>全局资源（固定长定义）</td><td>格式名 + 系统</td><td>格式名 + 系统 ID + 名称 + <code>_01</code></td><td><code>FIX_READ_MS0007_Test_01</code></td></tr>
+          <tr><td>全局资源（其余）</td><td>协议_系统6位[_用户或 Intake]</td><td>Datalake 加 Intake。枝番可加 DB 名</td><td><code>SFTP_AM0002_用户ID</code></td></tr>
+          <tr><td>触发器</td><td>接口 ID + 种类</td><td>多种スケジュール：<code>_SCHL_</code> + 3 位序号</td><td><code>AM0002_MS0007_001_SCHL</code></td></tr>
+        </tbody>
+      </table>
+      <h2>全局资源协议前缀</h2>
+      <table>
+        <thead><tr><th>前缀</th><th>用途</th><th>例子</th></tr></thead>
+        <tbody>
+          <tr><td><code>SQL</code></td><td>SQL Server</td><td><code>SQL_DSS_SEIYU_DB</code></td></tr>
+          <tr><td><code>ORCL</code></td><td>Oracle</td><td><code>ORCL_CM0010_wknpsuser</code></td></tr>
+          <tr><td><code>JDBC</code></td><td>JDBC（含读 Databricks / MS0005）</td><td><code>JDBC_AM0002_用户ID</code></td></tr>
+          <tr><td><code>ODBC</code></td><td>ODBC</td><td><code>ODBC_AM0002_用户ID</code></td></tr>
+          <tr><td><code>FTP</code> / <code>SFTP</code></td><td>文件传输。SFTP 只用密钥</td><td><code>SFTP_AM0002_用户ID</code>、<code>SFTP_MS0007_&lt;Intake&gt;</code></td></tr>
+          <tr><td><code>REST</code></td><td>REST</td><td><code>REST_AM0002_用户ID</code></td></tr>
+          <tr><td><code>MAIL</code></td><td>邮件</td><td><code>MAIL_AM0002_用户ID</code></td></tr>
+          <tr><td><code>BLOB</code></td><td>Azure Blob</td><td><code>AZURE_STR_DSS</code></td></tr>
+        </tbody>
+      </table>
+      <p>同一源系统仍要拆全局资源 + 用户 ID。写 Databricks 走 ADLS（MS0007）；读走 JDBC（MS0005），不要开连接池。</p>
+      <h2>触发器种类</h2>
+      <table>
+        <thead><tr><th>识别子</th><th>种类</th><th>西友正式接口</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td><code>SCHL</code></td><td>スケジュール</td><td>常用。挂 <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code></td></tr>
+          <tr><td><code>FILE</code></td><td>ファイル</td><td>培训演示用；正式仍挂框架</td></tr>
+          <tr><td><code>HULF</code></td><td>HULFT</td><td>按台账</td></tr>
+          <tr><td><code>HTTP</code></td><td>HTTP</td><td>按台账</td></tr>
+          <tr><td><code>WSDL</code></td><td>WEB 服务</td><td>按台账</td></tr>
+        </tbody>
+      </table>
+      <p>路径：工作区 <code>/seiyuroot/&lt;IF_ID&gt;/</code>；SFTP 密钥 <code>/data/SSH/&lt;Intake&gt;/xxxxx.ppk</code>；GCS 常见 <code>/&lt;IF_ID&gt;/${folder_date}/</code>。</p>
+    </section>
+
+    <section id="env">
+      <h2>三套环境（2026）</h2>
+      <p>日常用独立三套 WebStudio，不要沿用 2024「Staging 里放开发机」。</p>
+      <table>
+        <thead><tr><th></th><th>DEV</th><th>STG</th><th>PROD</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>WebStudio</td>
+            <td><a href="https://dhub-dss-dev.seiyu.com:8443/WebStudio/">dhub-dss-dev</a></td>
+            <td><a href="https://dhub-dss-stg.seiyu.com:8443/WebStudio/">dhub-dss-stg</a></td>
+            <td><a href="https://dhub-dss-pro.seiyu.com:8443/WebStudio/">dhub-dss-pro</a></td>
+          </tr>
+          <tr><td>账号</td><td>个人账号</td><td><code>exec_SY</code></td><td><code>exec_SY</code></td></tr>
+          <tr><td>IP</td><td>10.22.214.244</td><td>10.22.214.164</td><td>10.22.212.164</td></tr>
+          <tr><td>DB</td><td>DHUB-DB-DEV / DSSSEIYU，DBeaver 也可</td><td>DHUB-DB-STG，RDP + SSMS</td><td>DHUB-DB-PRO，RDP + SSMS</td></tr>
+          <tr><td>GCS</td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-dev">ods-seiyu-dev</a></td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-stg">ods-seiyu-stg</a></td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-prod">ods-seiyu-prod</a></td></tr>
+        </tbody>
+      </table>
+      <p>当前单机，故障即停服。不定期 14:30–16:00 维护。高 Tier、窗口不能停的处理不要放 DSS。维护预告：Teams「データ利活用ポータル | Dataspider事務局からのお知らせ」。西日本 DR 不用于 DataSpider 切转。日常用 Studio for Web，不用 Desktop Studio。</p>
+      <h2>会拖垮整台 DSS</h2>
+      <div class="note danger">
+        <b>性能红线</b>
+        用 IF / 循环做行级加工（放 Mapper）；单脚本图标超过约 100 个；大件数不打开「大容量データ処理」（可能 OOM）。PSP 与大容量同时开时 PSP 优先。PSP 约 1000 件一块，块大小改不了。Designer「表示」里打开 PSP 数据流才能看见。
+      </div>
+      <h2>明确不要做</h2>
+      <ul>
+        <li>改 <code>SEIYUCOM000X</code> / <code>SEIYUCOM001X</code></li>
+        <li>脚本硬编码密码、API Key</li>
+        <li>数珠つなぎ / バラマキ；从 Designer 调生产脚本</li>
+        <li>Databricks 全局资源开连接池</li>
+        <li>SQL Express 当数据库文件系统</li>
+        <li>SFTP 密码认证（只用密钥）</li>
+        <li>生产日志 DEBUG / FINEST</li>
+        <li>把培训失败挂载 <code>/data/Shared_test</code> 写进新脚本</li>
+      </ul>
+      <p>PSP 约 1000 件一块并行。テーブル書き込み批模式 86 万件约快 30 倍。1 亿件级不要用 DSS 扛。卡住：My Log → コントロールパネル タスクマネージャ结束进程；不行就重启 <code>DataSpiderServista</code>。</p>
+    </section>
+
+    <section id="drill">
+      <div class="note ok"><b>勾选会记在本机浏览器里</b>方便对照录像自检，不会上传。</div>
+      <h2>Day1</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c1" data-key="c1"><label for="c1">能登录 DEV WebStudio，找到 Designer / Explorer / My Log</label></li>
+        <li><input type="checkbox" id="c2" data-key="c2"><label for="c2">分得清脚本、项目、服务</label></li>
+        <li><input type="checkbox" id="c3" data-key="c3"><label for="c3">分得清橙色数据流和黑色进程流，能手拉到 End</label></li>
+        <li><input type="checkbox" id="c4" data-key="c4"><label for="c4">CSV 用 Windows-31J、跳过表头，Mapper 做出按支店汇总</label></li>
+        <li><input type="checkbox" id="c5" data-key="c5"><label for="c5">项目注册为服务后再挂文件触发器</label></li>
+      </ul>
+      <h2>Day2</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c6" data-key="c6"><label for="c6">说得出触发器为什么必须调 SEIYUCOM000X</label></li>
+        <li><input type="checkbox" id="c7" data-key="c7"><label for="c7">End 上会设 0 / 1–254 / 255，catch 会填 out_*</label></li>
+        <li><input type="checkbox" id="c8" data-key="c8"><label for="c8">能在 if_master 对上 if_id / service_name / script_name / to_mail_address，TO 含支持台</label></li>
+        <li><input type="checkbox" id="c9" data-key="c9"><label for="c9">看过带 Transaction 的 CSV→表写入</label></li>
+      </ul>
+      <h2>Day3 + 真实接口</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c10" data-key="c10"><label for="c10">用调试 + 断点把正常 / 0 件 / 读失败三条都跑到期望结果</label></li>
+        <li><input type="checkbox" id="c11" data-key="c11"><label for="c11">能按手順书下载指定最新版本、上传后重新服务注册</label></li>
+        <li><input type="checkbox" id="c12" data-key="c12"><label for="c12">知道 zip 不带共享、STG/PROD 要给 SY 组读权限、导入不能去掉差分、改 if_master 前要备份</label></li>
+        <li><input type="checkbox" id="c13" data-key="c13"><label for="c13">能按命名规则页从 IF ID 写出项目名、脚本名、触发器名、ADLS 容器名和全局资源前缀</label></li>
+        <li><input type="checkbox" id="c14" data-key="c14"><label for="c14">能按真实接口章列出骨架，说得出只做单体</label></li>
+      </ul>
+      <h2>样板 IF：CM0010_IF0079_006</h2>
+      <p>2026-05-13 田村实演。FROM CM0010 若菜 新店舗 → TO IF0079 TRIAL 存储。</p>
+      <table>
+        <thead><tr><th>项</th><th>值</th></tr></thead>
+        <tbody>
+          <tr><td>脚本</td><td><code>01OutputData</code></td></tr>
+          <tr><td>Oracle</td><td><code>ORCL_CM0010_wknpsuser</code> / <code>WKNPSUSER</code> / 例 <code>WKNST_DAILYORDER</code></td></tr>
+          <tr><td>工作区</td><td><code>/seiyuroot/CM0010_IF0079_006/</code></td></tr>
+          <tr><td>顺序</td><td>try/catch → delete /* → 検索 SQL → Mapper（file_date / folder_date）→ csv_write → ORDER_${file_date}.END → gcs_put</td></tr>
+        </tbody>
+      </table>
+      <h2>资料来源</h2>
+      <ul>
+        <li>ワークショップ Day1/2/3 会议录像（2024-11/12）</li>
+        <li>ツール活用トレーニング Day1、Day3 PDF</li>
+        <li>開発ガイドライン v3.2、《DSS開発の流れ》、リリース手順書 v1.0</li>
+        <li>2026-05-13 Teams 实演（CM0010_IF0079_006）</li>
+      </ul>
+      <p>2026-07-22 Teams「DSSについて」约 3GB、无字幕，未能逐句转写；环境 URL 以《DSS開発の流れ》为准。</p>
+    </section>
+
+  </main>
+  <footer>
+    单文件网页，便于转发和打印。打印时会展开全部章节。操作截图来自セゾン「ツール活用トレーニング」Day1/Day3 PDF。口令不收录。Markdown 原文：DataSpider新人使用手册.md
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("nav button");
+    const sections = document.querySelectorAll("main section");
+    function showTab(id) {
+      buttons.forEach((b) => b.classList.toggle("active", b.dataset.tab === id));
+      sections.forEach((s) => s.classList.toggle("active", s.id === id));
+    }
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        showTab(btn.dataset.tab);
+        history.replaceState(null, "", "#" + btn.dataset.tab);
+      });
+    });
+    const hash = location.hash.slice(1);
+    if (hash && document.getElementById(hash)) showTab(hash);
+
+    const storeKey = "dss-newcomer-checklist";
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch (e) { saved = {}; }
+    document.querySelectorAll("input[data-key]").forEach((box) => {
+      box.checked = !!saved[box.dataset.key];
+      box.addEventListener("change", () => {
+        saved[box.dataset.key] = box.checked;
+        localStorage.setItem(storeKey, JSON.stringify(saved));
+      });
+    });
+  </script>
+</body>
+</html>

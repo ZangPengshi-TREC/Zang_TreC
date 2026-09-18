@@ -24,6 +24,8 @@ Step 3: End 戻り値 + if_master；升环境按リリース手順書
 - 命名 / 三套环境 / 发布步骤 → [naming-release.md](naming-release.md)
 - 样板脚本 CM0010_IF0079_006 与培训演示 → [examples.md](examples.md)
 - 可视化速查（Cursor Canvas）→ [DSS-开发速查.canvas.tsx](../../canvases/DSS-开发速查.canvas.tsx)
+- 新人使用手册（中文）→ [DataSpider新人使用手册.md](../../../docs/DataSpider新人使用手册.md)
+- 新人利用マニュアル（日本語）→ [DataSpider新人利用マニュアル.md](../../../docs/DataSpider新人利用マニュアル.md)
 
 ---
 

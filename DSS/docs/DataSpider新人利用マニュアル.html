@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataSpider 新人向け利用マニュアル · 西友 DSS</title>
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --paper: #fff;
+      --ink: #1c1c1a;
+      --muted: #5c5b56;
+      --line: #e4e2dc;
+      --accent: #1f4e79;
+      --info: #e8f0f6;
+      --warn: #f7efd8;
+      --danger: #f6e4e2;
+      --ok: #e5f2e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 15px/1.7 "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 28px 32px 20px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 22px; font-weight: 650; }
+    header p { margin: 0; opacity: .88; font-size: 13px; max-width: 72rem; }
+    .meta { margin-top: 12px; font-size: 12px; opacity: .75; }
+    .langswitch { margin-top: 12px; font-size: 13px; opacity: 1; }
+    .langswitch a { color: #fff; text-underline-offset: 3px; }
+    nav {
+      position: sticky; top: 0; z-index: 5;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 24px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    nav button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    nav button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+    section { display: none; }
+    section.active { display: block; }
+    h2 { font-size: 18px; margin: 28px 0 12px; }
+    h3 { font-size: 15px; margin: 20px 0 8px; }
+    p { color: var(--muted); }
+    .lead { color: var(--ink); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+    .stat { background: var(--paper); border: 1px solid var(--line); padding: 12px 14px; }
+    .stat b { display: block; font-size: 16px; color: var(--accent); }
+    .stat span { font-size: 12px; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cards.three { grid-template-columns: 1fr 1fr 1fr; }
+    .card { background: var(--paper); border: 1px solid var(--line); padding: 14px 16px; }
+    .card h3 { margin-top: 0; }
+    .note { padding: 12px 14px; margin: 14px 0; border-left: 4px solid var(--accent); background: var(--info); }
+    .note.warn { border-color: #b8860b; background: var(--warn); }
+    .note.danger { border-color: #a33; background: var(--danger); }
+    .note.ok { border-color: #2e7d4f; background: var(--ok); }
+    .note b { display: block; margin-bottom: 4px; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; background: var(--paper); font-size: 13px; margin: 8px 0 16px; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; word-break: keep-all; }
+    th { background: #eef3f7; font-weight: 600; }
+    tr.ok td:first-child { box-shadow: inset 3px 0 0 #2e7d4f; }
+    tr.warn td:first-child { box-shadow: inset 3px 0 0 #b8860b; }
+    tr.bad td:first-child { box-shadow: inset 3px 0 0 #a33; }
+    code, pre { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+    pre {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      overflow-x: auto;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    ul, ol { color: var(--muted); }
+    li { margin: 4px 0; }
+    figure.shot {
+      margin: 12px 0 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 8px 8px 10px;
+    }
+    figure.shot img { width: 100%; height: auto; display: block; }
+    figure.shot figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; padding: 0 4px; }
+    .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .shots figure.shot { margin: 0; }
+    @media (max-width: 800px) { .shots { grid-template-columns: 1fr; } }
+    .check-list { list-style: none; padding: 0; margin: 8px 0 16px; }
+    .check-list li {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      margin: 6px 0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      color: var(--ink);
+    }
+    .check-list input { margin-top: 3px; }
+    .check-list label { cursor: pointer; flex: 1; }
+    footer { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 800px) {
+      .stats, .cards, .cards.three { grid-template-columns: 1fr; }
+    }
+    @media print {
+      nav { display: none; }
+      section { display: block !important; break-inside: avoid; }
+      figure.shot { break-inside: avoid; }
+      header { background: #fff; color: #000; border-bottom: 2px solid #000; }
+      .langswitch a { color: #000; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DataSpider Servista 新人向け利用マニュアル</h1>
+    <p>西友 DSS の入門テキスト。2024 年三日間の「ツール活用トレーニング」録画を整理し、現行の開発手順につなげています。パスワードは本ページに書きません。ログイン情報は『DSS開発の流れ』またはガイドライン P.103 / P.115–118 を見てください。</p>
+    <p class="meta">製品 4.4 (x64) AP3 · SP A00050 · Studio for Web · Day1 2024-11-22 · Day2 2024-11-28 · Day3 2024-12-05 · 講師 セゾン / 延吉</p>
+    <p class="langswitch"><a href="DataSpider新人使用手册.html">中文</a> · 日本語</p>
+  </header>
+  <nav>
+    <button class="active" data-tab="howto">学び方</button>
+    <button data-tab="day1">Day1 操作</button>
+    <button data-tab="day2">Day2 フレームワーク</button>
+    <button data-tab="day3">Day3 テストとリリース</button>
+    <button data-tab="real">本番 IF</button>
+    <button data-tab="naming">命名規則</button>
+    <button data-tab="env">環境と禁止事項</button>
+    <button data-tab="drill">演習と見本</button>
+  </nav>
+  <main>
+
+    <section id="howto" class="active">
+      <div class="note warn">
+        <b>先に一事</b>
+        研修では Designer から DEMO スクリプトを直接実行できる。西友の本番 IF は違う。トリガーは常に <code>SEIYUCOM000X</code> を呼び、フレームワークが個別プロジェクトを呼ぶ。日常作業は「本番 IF」の章。
+      </div>
+      <div class="stats">
+        <div class="stat"><b>Day1 · 1:58</b><span>Studio、2 本の線、CSV デモ 3 つ</span></div>
+        <div class="stat"><b>Day2 · 1:57</b><span>フレームワーク 4 出口 + SQL Server</span></div>
+        <div class="stat"><b>Day3 · 1:45</b><span>デバッグ、zip リリース、表のバックアップ</span></div>
+        <div class="stat"><b>本番パス</b><span>/seiyuroot/&lt;IF_ID&gt;/。DEMO は使わない</span></div>
+      </div>
+      <h2>推奨学習順</h2>
+      <table>
+        <thead><tr><th>章</th><th>対照する録画</th><th>身につけること</th></tr></thead>
+        <tbody>
+          <tr><td>Day1 操作</td><td>Day1 前半</td><td>ログイン、Designer、スクリプト / プロジェクト / サービス、オレンジのデータフローと黒いプロセスフロー</td></tr>
+          <tr><td>Day1 の 3 デモ</td><td>Day1 後半</td><td>CSV 集計、0 件エラー、ファイルトリガー</td></tr>
+          <tr class="warn"><td>Day2 フレームワーク</td><td>Day2（教材との差が最大）</td><td>SEIYUCOM000X、戻り値 0 / 1–254 / 255 / -1、if_master</td></tr>
+          <tr><td>Day3 テスト</td><td>Day3 前半</td><td>デバッグ、ブレークポイント、テスト引数。3 経路を期待結果まで</td></tr>
+          <tr><td>Day3 リリース</td><td>Day3 後半 + リリース手順書</td><td>最新版指定ダウンロード、アップロード後のサービス再登録、差分インポート</td></tr>
+          <tr class="ok"><td>本番 IF</td><td>日常作業</td><td>台帳で採番 → 8 ステップ。DEMO で止めない</td></tr>
+          <tr class="ok"><td>命名規則</td><td>ガイドライン P.12</td><td>IF ID / プロジェクト / スクリプト / リソース / トリガーの名前</td></tr>
+        </tbody>
+      </table>
+      <div class="cards">
+        <div class="card">
+          <h3>研修の練習場</h3>
+          <p class="lead">プロジェクト <code>SAMPLE_PROJECT</code></p>
+          <p>作業ディレクトリ <code>/data/DSSROOT/DEMO/</code>（Windows では <code>F:\DSSROOT\DEMO\</code>）</p>
+        </div>
+        <div class="card">
+          <h3>詰まったら</h3>
+          <p class="lead">コンポーネントを選んで <b>F1</b></p>
+          <p>ヘルプに例外と制限 → HULFT FAQ → <a href="https://www.hulft.com/tech-support">セゾン技術サポート</a>。製品名は DataSpider Servista 4.4 (x64) AP3、SP A00050。シリアルはガイドライン P.122。</p>
+        </div>
+      </div>
+      <h2>2 つの PPT との対照</h2>
+      <p>日常の順は『DSS開発の流れ』を正とする。細部はガイドラインの頁。パスワードは本頁に書かない。</p>
+      <table>
+        <thead><tr><th>調べること</th><th>ガイドライン</th><th>開発の流れ</th></tr></thead>
+        <tbody>
+          <tr><td>フレームワーク / 戻り値 / マスタ</td><td>P.22–31、P.50–56</td><td>西友フレームワーク</td></tr>
+          <tr><td>if_master の列と登録 SQL</td><td>P.27、P.115–118</td><td>if_master登録</td></tr>
+          <tr><td>トリガー / 命名</td><td>P.12、P.31、P.112–114</td><td>トリガー作成</td></tr>
+          <tr><td>zip / サービス登録 / 共有</td><td>P.105–111</td><td>デプロイ</td></tr>
+          <tr><td>ユーザ / グローバルリソース / Azure / SFTP</td><td>P.32–35、P.58–63</td><td>—</td></tr>
+          <tr><td>3 環境 URL、GCS コンソール</td><td>P.105</td><td>2 ページ目</td></tr>
+        </tbody>
+      </table>
+      <p>付属：Day1/Day3 PDF、開発ガイドライン v3.2、『DSS開発の流れ』、リリース手順書 v1.0。Markdown 原文は同ディレクトリ <code>DataSpider新人利用マニュアル.md</code>。画面はセゾン教材 PDF（Studio 実操作画面）。録画ファイルは手元に残っておらず、mp4 からの再切り出しはできない。</p>
+    </section>
+
+    <section id="day1">
+      <p class="lead">DataSpider は GUI の EAI。Studio でスクリプトを描き、Server 上で Java にコンパイルして実行する。</p>
+      <h2>4 つの構成</h2>
+      <table>
+        <thead><tr><th>構成</th><th>役割</th></tr></thead>
+        <tbody>
+          <tr><td>Adapter</td><td>CSV、Excel、DB、FTP、REST、固定長などの読み書き</td></tr>
+          <tr><td>Mapper / Converter</td><td>項目変換、フィルタ、日付、結合（論理アイコン約 140）</td></tr>
+          <tr><td>Studio</td><td>開発、運用、ログ確認</td></tr>
+          <tr><td>Trigger</td><td>定時、ファイル着地、JP1 などで自動起動</td></tr>
+        </tbody>
+      </table>
+      <h2>西友データ連携での DSS の位置</h2>
+      <p>DSS はシステム間 EAI/ETL であり、分析基盤ではない。選定はガイドライン P.18。高 Tier は DataHub。分析蓄積は Databricks。DSS は中低 Tier のファイル / DB 連携向き。</p>
+      <table>
+        <thead><tr><th>方式</th><th>主な用途</th></tr></thead>
+        <tbody>
+          <tr><td>DataHub</td><td>高 Tier、冗長が要るファイル連携</td></tr>
+          <tr class="ok"><td>DataSpider</td><td>システム間のファイル / DB</td></tr>
+          <tr><td>Databricks</td><td>蓄積、分析。書き込みは ADLS（MS0007）</td></tr>
+          <tr><td>Lakehouse Federation</td><td>外部の最新状態を参照するだけ。参照元負荷に配慮</td></tr>
+        </tbody>
+      </table>
+      <p>ADLS：IF ごとに 1 コンテナ。外部は SFTP。約 30 日で自動削除。データ品質：文字コードと全角半角を先に決める。文字化けは破損として扱う。</p>
+      <h2>3 つの言葉を混ぜない</h2>
+      <table>
+        <thead><tr><th>語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td>スクリプト</td><td>Designer で描くソース</td></tr>
+          <tr><td>プロジェクト</td><td>関連スクリプトのまとまり。ダウンロード、アップロード、サービス登録はプロジェクト単位</td></tr>
+          <tr><td>サービス</td><td>プロジェクトを Server に登録したあと、トリガー・他スクリプト・ScriptRunner から呼べる</td></tr>
+        </tbody>
+      </table>
+      <div class="note warn"><b>開発リポジトリ ≠ 実行リポジトリ</b>「サービスとして登録」したプロジェクトだけがトリガーに掛けられる。スクリプトを直したら必ずサービスを再登録する。</div>
+      <div class="cards">
+        <div class="card">
+          <h3>Studio の画面</h3>
+          <ul>
+            <li><b>Designer</b>：スクリプトと Mapper を描く</li>
+            <li><b>Control Panel</b>：ユーザ、タスク、グローバルリソース、マウント</li>
+            <li><b>Explorer</b>：論理ファイルシステム（スクリプトに書くのはここ。<code>C:\</code> ではない）</li>
+            <li><b>My Service / Trigger / Log</b>：登録済みサービス、トリガー、ログ</li>
+          </ul>
+          <p>緑三角 = 通常実行。虫 = デバッグ実行。</p>
+        </div>
+        <div class="card">
+          <h3>2 本の線</h3>
+          <table>
+            <thead><tr><th>線</th><th>見た目</th><th>規則</th></tr></thead>
+            <tbody>
+              <tr><td>データフロー</td><td>オレンジの破線</td><td>入力指定後に自動。一対多可</td></tr>
+              <tr><td>プロセスフロー</td><td>黒い実線</td><td>必ず手で Start→…→End。1 アイコン 1 本</td></tr>
+            </tbody>
+          </table>
+          <p>End までつながっていないスクリプトは完結した処理にならない。</p>
+        </div>
+      </div>
+      <h3>ログイン後のメイン画面</h3>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-login-url.jpg" alt="Studio for Web のログイン。ブラウザに URL を入力">
+          <figcaption>ブラウザで WebStudio URL を開いてログイン。西友本番のアドレスは「環境と禁止事項」ページ。教材のサンプルホストは使わない。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-home.jpg" alt="ログイン後の DataSpider メイン画面">
+          <figcaption>ログイン後、上段は デザイナ / マイプロジェクト / マイトリガー / マイログ / マイサービス / エクスプローラ / コントロールパネル。</figcaption>
+        </figure>
+      </div>
+      <h3>新しいプロジェクト / 開く</h3>
+      <figure class="shot">
+        <img src="images/day1-new-project.jpg" alt="メイン画面の新しいプロジェクト、プロジェクトを開く">
+        <figcaption>「新しいプロジェクト」で新規、「プロジェクトを開く」で既存。研修は SAMPLE_PROJECT。本番 IF のプロジェクト名は台帳の IF ID。</figcaption>
+      </figure>
+      <h3>Designer でスクリプトを描く</h3>
+      <figure class="shot">
+        <img src="images/day1-designer.jpg" alt="Designer：緑三角が通常実行、虫がデバッグ、右側がツールボックス">
+        <figcaption>緑三角 = 通常実行、虫 = デバッグ実行。右側のツールボックスからキャンバスへ。プロセスフローは必ず Start → End まで手でつなぐ。デバッグログは画面下。</figcaption>
+      </figure>
+      <h2>バージョン、共有、マウント</h2>
+      <ul>
+        <li>保存のたびにバージョンが残る。復元できる。バージョン比較レポートも出せる。</li>
+        <li>権限がなければ他人のプロジェクトは見えない。共有：マイプロジェクト → プロパティ → 共有。</li>
+        <li>一般ユーザが見られるトリガーは、自分が「トリガー所有者」のものだけ。</li>
+        <li>OS ディレクトリは先に DataSpider ファイルシステムへマウントする。スクリプトをドライブ文字に縛らない。</li>
+      </ul>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-share.jpg" alt="マイプロジェクトで共有を設定">
+          <figcaption>マイプロジェクト → 右クリック → プロパティ → 共有。権限がなければ他人のプロジェクトは見えない。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-mount.jpg" alt="OS ディレクトリを DataSpider ファイルシステムへマウント">
+          <figcaption>OS の <code>C:\Document\Sample</code> を <code>/data/mount</code> に掛ける。スクリプトには DataSpider パスだけ書く。</figcaption>
+        </figure>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day1-explorer.jpg" alt="Explorer で DataSpider ファイルを管理">
+          <figcaption>エクスプローラ：論理ファイルシステムのディレクトリとファイルを管理する。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-mylog.jpg" alt="マイログで実行結果を確認">
+          <figcaption>マイログ：条件を付けてスクリプト実行結果を見る。DEBUG が Designer で切れたときはここで全文を見る。</figcaption>
+        </figure>
+      </div>
+      <h2>本環境で確認済みのアダプタ</h2>
+      <table>
+        <thead><tr><th>状態</th><th>アダプタ</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>購入済 ●</td><td>Salesforce、Microsoft Azure、SQL Server（選択式）、固定長、FTP、REST</td></tr>
+          <tr><td>標準 〇</td><td>JDBC、CSV、Excel、XML、HTML、ファイル操作、Mail、Thunderbus、HULFT</td></tr>
+        </tbody>
+      </table>
+      <p>表に ●/〇 がないもの（Oracle、GCP、Box、SAP など）は使えると思い込まない。HTML 読み取りは Web Adapter。CSV：文字コード <code>Windows-31J</code>、1 行目をヘッダにする。</p>
+      <h2>Day1 の 3 つのデモ</h2>
+      <div class="cards three">
+        <div class="card">
+          <h3>① CSV 変換集計</h3>
+          <p>入力 <code>OrderList.csv</code>（受注日、支店、ケース数、入り数、容量、商品名、受注_ID）。支店別に発注数を集計し <code>OrderList_total.csv</code> を出す。変換は Mapper。IF / ループで行単位に加工しない。</p>
+        </div>
+        <div class="card">
+          <h3>② 0 件をエラーにする</h3>
+          <p>ヘッダだけでデータ行がない。出力ファイルを書かず、自らエラー終了。フレームワーク接続後は警告または 255。</p>
+        </div>
+        <div class="card">
+          <h3>③ ファイルトリガー</h3>
+          <p>CSV を入力フォルダへ置く → ①が自動実行 → 結果が出力フォルダへ。トリガーが掛けるのは登録済みサービス。未登録スクリプトではない。</p>
+        </div>
+      </div>
+      <p>サービス登録：プロジェクト右クリック「プロジェクトをサービスとして登録」。画面で元プロジェクトと対象サービスのスクリプトを比較する。</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-service-register.jpg" alt="プロジェクトを右クリックしてサービス登録">
+          <figcaption>プロジェクトをサービスとして登録。スクリプトを直したら必ずやり直す。しないとトリガーは古い版を動かし続ける。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day1-trigger.jpg" alt="マイトリガー一覧">
+          <figcaption>マイトリガー。教材例はファイルトリガー。西友の本番 IF は <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> を呼ぶ。</figcaption>
+        </figure>
+      </div>
+      <figure class="shot">
+        <img src="images/day1-myservice.jpg" alt="マイサービスで登録済みサービスを確認">
+        <figcaption>マイサービス：サービス名 = プロジェクト名、状態が利用可能であること。</figcaption>
+      </figure>
+    </section>
+
+    <section id="day2">
+      <div class="note danger">
+        <b>本番開発はフレームワーク必須</b>
+        個別スクリプトは処理と End 戻り値だけ。メールは自分で送らない。トリガーは常に <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> を呼ぶ。
+      </div>
+      <h2>呼び出しチェーン</h2>
+      <pre>スケジュールトリガー / JP1 / ScriptRunner
+        ↓
+SEIYUCOM000X / 01frameworkBatch     ← 使うだけ。改修しない
+        ↓
+SEIYUCOM001X
+  01getInterfaceInfo   if_master、param_master を読む
+  個別プロジェクトを呼ぶ（あなたの IF）
+  02outputLog / 03sendMail
+        ↓
+個別プロジェクト = インターフェース ID。業務だけ書く</pre>
+      <table>
+        <thead><tr><th>プロジェクト</th><th>役割</th><th>改修してよいか</th></tr></thead>
+        <tbody>
+          <tr><td><code>SEIYUCOM000X</code></td><td>入口 <code>01frameworkBatch</code></td><td>使うだけ。改修しない</td></tr>
+          <tr class="warn"><td><code>SEIYUCOM001X</code></td><td>マスタ読込、個別スクリプト呼出、ログ、メール</td><td>改修禁止</td></tr>
+          <tr><td><code>SEIYUCOM002X</code></td><td>ADLS パス分割</td><td>利用可</td></tr>
+          <tr><td><code>SEIYUCOM003X</code></td><td>バックアップ掃除（毎日 0 時）</td><td>知っておけばよい</td></tr>
+          <tr><td>HOUSEKEEP</td><td>ローカルバックアップ掃除</td><td>非推奨。バックアップは Blob <code>AZURE_STR_DSS</code></td></tr>
+          <tr class="ok"><td>インターフェース ID プロジェクト</td><td>個別処理</td><td>ここに業務を書く</td></tr>
+        </tbody>
+      </table>
+      <p>メールは <code>03sendMail</code> が送る。送信元は台帳を正とする。よくあるのは <code>no-reply-HR-EAI@seiyu.com</code> または <code>no-reply-Seiyu-EAI@seiyu.com</code>。JP1 は <code>C:\Temp\scriptrunner.xml</code>。第 1 引数に <code>if_id</code>。</p>
+      <h2>4 つの出口（Day2 の核心）</h2>
+      <p class="lead">戻り値は <b>End コンポーネント</b>のプロパティインスペクタに置く。スクリプト属性に適当な数字を書いてはいけない。</p>
+      <table>
+        <thead><tr><th>分岐</th><th>あなたのスクリプトの終わり方</th><th>フレームワークの動き</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td>1 正常</td><td>End 戻り値 <b>0</b></td><td>成功ログを書いて終了</td></tr>
+          <tr class="warn"><td>2 警告</td><td>戻り値 <b>1–254</b>（デモ：CSV がヘッダのみ / 0 件）</td><td>警告メール + 警告ログ</td></tr>
+          <tr class="bad"><td>3 制御可能な例外</td><td>戻り値 <b>255</b>、かつ <code>out_*</code> を埋めた</td><td>異常メール + 異常ログ</td></tr>
+          <tr class="bad"><td>4 キャッチ漏れ</td><td>Exception / catch なし</td><td>フレームワークが catch して異常メール。戻り値は実際 <b>-1</b></td></tr>
+        </tbody>
+      </table>
+      <p>警告/異常は「警告変数設定」「異常変数設定」で <code>out_component_name/type</code>、<code>out_message_*</code>、<code>out_error_*</code> を埋める。メール後半の例：</p>
+      <pre>FILE0001E|java.io.FileNotFoundException|/data/DSSROOT/DEMO/INPUT/OrderList.csv|CSV読取</pre>
+      <p>読み替え：正常 = 最後まで走った（0）；警告 = 0 件（1–254）；異常 = 読みまたは書き失敗（255 + out_*）。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>if_master</h3>
+          <p>DB <code>DSSSEIYU</code>。直す前に手順書 3.1 でバックアップ。リリースでは同じ <code>if_id</code> を DELETE してから INSERT することが多い（P.117）。</p>
+          <p class="lead">正式列名：if_id / if_name / service_name / script_name / from_mail_address / to_mail_address / cc_mail_address / bcc_mail_address / mail_title_header / tier</p>
+          <p><b>to_mail_address には必ず</b> <code>isd_support_desk@seiyu.com</code></p>
+          <p>DEV：<code>DHUB-DB-DEV:1433</code>。DBeaver 可。アカウントは P.103（パスワードは本頁に書かない）。STG/PROD：RDP + SSMS。<code>SeiyuServerStg.seiyu.com</code> / <code>SeiyuServerPro.seiyu.com</code>。</p>
+        </div>
+        <div class="card">
+          <h3>param_master</h3>
+          <p><code>IF_ID</code> + <code>param_no</code> + <code>param_value</code>。読んで <code>param1</code>–<code>param20</code> に置く。</p>
+          <p>パスやファイル名はできるだけこれらのパラメータにする。アイコン属性に直書きしない。</p>
+        </div>
+      </div>
+      <h2>トリガーの掛け方（3 環境とも同じ）</h2>
+      <table>
+        <thead><tr><th>項目</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td>サービス</td><td><code>SEIYUCOM000X</code></td></tr>
+          <tr><td>スクリプト</td><td><code>01frameworkBatch</code></td></tr>
+          <tr><td>変数 if_id</td><td>当該 IF ID</td></tr>
+          <tr><td>実行ユーザ</td><td><code>exec_SY</code></td></tr>
+          <tr><td>状態</td><td>登録後は「待機中」であること</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><b>しない</b>トリガーを個別スクリプトに直接掛けない。画面 P.112–114：マイトリガー → サービス <code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> / 変数 <code>if_id</code> → 一覧「待機中」。実行ユーザ <code>exec_SY</code>。</div>
+      <h2>SQL Server（Day2 後半）</h2>
+      <p>テーブル読取/書込、検索 SQL、更新 SQL（<code>?{列名}</code>）、ストアド、ローダ。接続例 <code>COM_SQLServer2022</code>。演習 DB <code>DHUB-DB-DEV</code> / <code>DSSROOT</code>。</p>
+      <p class="lead">DBデモ1（CSV→テーブル。トランザクション付き）</p>
+      <pre>Transaction → DELETE → csv_read → mapping → テーブル書き込み → COMMIT</pre>
+      <p><code>process_date</code> は「現在日時」。大件数は「大容量データ処理」を付ける。メモリに載せ切らない。複数ステップのロールバックはトランザクションアイコン。</p>
+    </section>
+
+    <section id="day3">
+      <h2>テスト</h2>
+      <p class="lead">条件分岐のそれぞれに期待結果を置く（録画の ①②③）。主経路だけ通して終わりにしない。</p>
+      <table>
+        <thead><tr><th>手段</th><th>使い方</th></tr></thead>
+        <tbody>
+          <tr><td>通常実行</td><td>緑三角。速い。詳細ログは少ない</td></tr>
+          <tr><td>デバッグ実行</td><td>虫。実行履歴とログがあり、ステップで見られる</td></tr>
+          <tr><td>ブレークポイント</td><td>アイコン右クリック「ブレークポイントを設定/解除」</td></tr>
+          <tr><td>テスト引数</td><td>スクリプト右クリック → プロパティ → テスト実行</td></tr>
+          <tr><td>デバッグ情報</td><td>実行中のスクリプト変数を見る</td></tr>
+          <tr><td>エラーログ</td><td>メッセージコードで Help を検索</td></tr>
+        </tbody>
+      </table>
+      <p>DEBUG ログは Designer で切れることがある。全文は <b>My Log</b>。本番ログは <b>INFO</b>。</p>
+      <figure class="shot">
+        <img src="images/day3-debug.jpg" alt="デバッグ実行：虫アイコンと画面下の実行ログ">
+        <figcaption>虫をクリックしてデバッグ実行。下の「実行履歴 / 実行ログ」にステップ結果が出る。この画面は CSV 読取失敗。メッセージコード FILE0001E。</figcaption>
+      </figure>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-breakpoint.jpg" alt="アイコン右クリックでブレークポイント">
+          <figcaption>アイコン右クリック → ブレークポイントを設定/解除。デバッグはそのコンポーネントで止まる。虫で再開する。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day3-test-args.jpg" alt="スクリプトプロパティでテスト実行引数">
+          <figcaption>スクリプト右クリック → プロパティ → テスト実行。入力変数にテスト値を入れる。アイコン属性を直さなくてよい。</figcaption>
+        </figure>
+      </div>
+      <h2>リリース（リリース手順書 v1.0）</h2>
+      <div class="note warn">
+        <b>リソース管理者で移行先にログイン</b>
+        順：プロジェクト → 非プロジェクト資材 → システム表。STG/PROD は SDP。監視は約 1 週間前に ITSM。
+      </div>
+      <h3>5.1 プロジェクト zip</h3>
+      <ol>
+        <li>マイプロジェクト → ローカルへダウンロード。「バージョンを指定してダウンロード」を付け、数字が最大の最新版を選ぶ。</li>
+        <li>移行先：ローカルからアップロード。上書き = 既存プロジェクトの最新版。別名 = 新しいプロジェクト。</li>
+        <li>開く → サービス登録（サービス名 = プロジェクト名）→ マイサービスで確認。</li>
+        <li>zip は<b>共有を持たない</b>。STG/PROD アップロード後：共有 → SY グループに読み取り。一覧に「共有」と出ること。</li>
+        <li>スクリプトが Explorer フォルダを書くなら、<code>exec_SY</code> に書き込みグループを付ける（P.110）。</li>
+      </ol>
+      <figure class="shot">
+        <img src="images/day3-download.jpg" alt="マイプロジェクト右クリックで最新バージョンを指定してダウンロード">
+        <figcaption>右クリック → ローカルへダウンロード。「バージョンを指定してダウンロード」を選び、数字が最大の最新版を取る（図では 45）。</figcaption>
+      </figure>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/day3-upload-menu.jpg" alt="移行先のファイルメニューからローカルアップロード">
+          <figcaption>移行先：ファイル → ローカルからアップロード。今ダウンロードした zip を選ぶ。</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/day3-upload-options.jpg" alt="上書きコミット、または新規プロジェクトとしてアップロード">
+          <figcaption>同名の上書きは「既存プロジェクトにコミット」。別名なら「新しいプロジェクトとしてアップロード」。</figcaption>
+        </figure>
+      </div>
+      <figure class="shot">
+        <img src="images/day3-service-register.jpg" alt="アップロード後にサービス再登録">
+        <figcaption>アップロードしたプロジェクトを開く → プロジェクトをサービスとして登録。サービス名はプロジェクトと同名にする。</figcaption>
+      </figure>
+      <h3>5.2 非プロジェクト（サーバ移行）</h3>
+      <ol>
+        <li>コントロールパネル → DataSpiderServerの設定 → サーバ移行。</li>
+        <li>エクスポートは先に「全て解除」。今回運ぶものだけチェックする。</li>
+        <li>インポートは<b>外さない</b>「プロジェクトの差分インポート」と「環境変数の差分更新」。外すと全表上書きになる。</li>
+        <li>インポート後、Windows サービス <code>DataSpiderServista</code> を再起動する。</li>
+        <li>同名のとき：サービス/トリガー/グローバルリソースは上書き。環境変数とプロジェクトファイルはスキップできる。ユーザロジックの衝突は <code>name_1</code> になる。</li>
+      </ol>
+      <figure class="shot">
+        <img src="images/day3-export-select.jpg" alt="サーバ移行のエクスポートは先に全て解除してからチェック">
+        <figcaption>エクスポート：先に「全て解除」し、今回運ぶ資材だけチェックする。丸ごと全選択しない。</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="images/day3-import-keep.jpg" alt="インポート時は差分オプションを残す">
+        <figcaption>インポート時、赤枠の 2 つは<b>外さない</b>。「プロジェクトの差分インポート」「環境変数の差分更新」。外すと全表上書きになる。</figcaption>
+      </figure>
+      <h3>5.3 システム表</h3>
+      <p>プロジェクトだけでは足りない。<code>if_master</code> を直す前に必ずバックアップする。</p>
+      <table>
+        <thead><tr><th>方法</th><th>手順</th></tr></thead>
+        <tbody>
+          <tr><td>CSV バックアップ</td><td>SELECT 対象表 → 結果に名前を付けて保存</td></tr>
+          <tr><td>スクリプトバックアップ</td><td>スクリプトの生成。詳細設定は「スキーマとデータ」</td></tr>
+          <tr><td>追加</td><td>上位200行の編集 → 最終行 * → SQL で確認</td></tr>
+          <tr><td>修正 / 削除</td><td>先に WHERE で絞り、直すか消す。最後に SQL で確認</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="real">
+      <div class="note danger">
+        <b>IF の形</b>
+        1 IF = 1 処理単位（同一 IF で複数ファイル可）。単体のみ。ガイドラインのバラマキ / 数珠繋ぎ / 複数は使わない。<b>数珠つなぎ禁止。</b>Designer から本番スクリプトを直接呼ばない。
+      </div>
+      <h2>申請、Owner、設計書</h2>
+      <p>AppG が申請 → DataG が受付・事前レビュー・IF ID 連絡 → 開発テスト → SDP でリリース。監視は約 1 週間前に ITSM。台帳に初回 / PRO / ITSM 運用開始 / 稼働日。監視には起動時刻、L3、重要度。</p>
+      <p>Owner は<b>連携元側</b>。スクリプトとデータ内容の責任を持つ。関連 IF は起点 Owner がまとめる。申請の種類：インターフェース、IntakeForm（Databricks）、DSS 設定、グローバルリソース、アカウント。設計書：シーケンス図 + マッピング定義書（P.10–11）。</p>
+      <h2>採番</h2>
+      <p><code>SEIYU-TRIALインターフェース管理台帳.xlsx</code> → <code>DSSインターフェース台帳</code> から IF ID を取る（開発の流れの第 1 歩）。形式 <code>FROM6_TO6_SEQ3</code>。例 <code>AM0002_MS0007_001</code>。プロジェクト名 = インターフェース ID。</p>
+      <h2>DEV → STG → PROD（8 ステップ）</h2>
+      <p>既存の個別プロジェクトを複製して直す。空からフレームワーク呼出を書き直さない。</p>
+      <table>
+        <thead><tr><th>歩</th><th>すること</th><th>必須ルール</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>IF ID</td><td>台帳で採番済み</td></tr>
+          <tr><td>2</td><td>プロジェクト作成</td><td>プロジェクト名 = インターフェース ID</td></tr>
+          <tr><td>3</td><td>スクリプト</td><td>既存をコピーして直す。<code>01</code> + キャメル。例 <code>01updDelDate</code>。個別処理だけ書く</td></tr>
+          <tr><td>4</td><td>Explorer</td><td><code>/seiyuroot/&lt;IF_ID&gt;/</code>。グループにアクセス権</td></tr>
+          <tr><td>5</td><td>サービス登録</td><td>サービス名 = プロジェクト名。スクリプト変更後は必ず再登録</td></tr>
+          <tr><td>6</td><td>トリガー</td><td><code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> だけ。パラメータ <code>if_id</code>、ユーザ <code>exec_SY</code></td></tr>
+          <tr><td>7</td><td>if_master</td><td><code>to_mail_address</code> にサポートデスク。表を直す前にバックアップ。P.115–118</td></tr>
+          <tr><td>8</td><td>テスト後に昇格</td><td>STG/PROD は SDP。画面 P.105–111</td></tr>
+        </tbody>
+      </table>
+      <p>リソース申請 <code>mls_ISDDataPlatform@seiyu.com</code>（ユーザ申請は Director を CC）。件名例：<code>【Dataspider】ユーザー作成依頼</code> / <code>【Dataspider】グローバルリソース作成依頼</code> / <code>【Dataspider】Azureストレージ接続設定依頼</code>。SFTP 鍵のパス <code>/data/SSH/&lt;Intake&gt;/xxxxx.ppk</code>。DEV のグローバルリソースは自作可。STG/PROD は Data チームが箱を作る。</p>
+      <h2>個別スクリプトの既定スケルトン</h2>
+      <p>2026-05-13 実演 <code>CM0010_IF0079_006</code> / <code>01OutputData</code> を写す：</p>
+      <pre>try/catch
+  → 作業領域 /* を delete                 # /seiyuroot/&lt;IF_ID&gt;/
+  → ソース抽出（検索系 SQL / CSV / SFTP …）
+  → Mapper（日付、項目、フィルタ）
+  → 業務ファイル + 完了ファイルを書く（例 ORDER_${file_date}.END）
+  → 引き渡し（GCS / ADLS / SFTP）
+  → End 戻り値 0
+catch → 異常変数設定 → End 255</pre>
+      <p>GCS 接続 <code>GCP_STR_DSS</code>、バケット <code>ods-seiyu-{dev|stg|prod}</code>。コンソールは <code>console.cloud.google.com/storage/browser/</code> 配下の同名バケット。パスはよく <code>/&lt;IF_ID&gt;/${folder_date}/</code>。バックアップは Blob <code>AZURE_STR_DSS</code>。<code>/data/backup</code> はオプション。</p>
+      <h2>読 / 変換 / 書</h2>
+      <table>
+        <thead><tr><th>場面</th><th>使うもの</th><th>注意</th></tr></thead>
+        <tbody>
+          <tr><td>DB 全表抽出</td><td>テーブル読み取り</td><td>グローバルリソースは再利用可</td></tr>
+          <tr><td>条件付き / 複雑な SQL</td><td>検索系 SQL 実行</td><td>ウィザード生成後に SQL を手直しすると再編集できない</td></tr>
+          <tr><td>項目変換、フィルタ</td><td>Mapper</td><td>先に出力 schema を決める</td></tr>
+          <tr><td>ファイル JOIN</td><td>Merge</td><td>DB 側は SQL JOIN を優先</td></tr>
+          <tr><td>大量書込</td><td>テーブル書き込み + バッチ処理</td><td>「キー一致行は更新」= upsert。86 万件ではバッチが約 30 倍</td></tr>
+          <tr><td>複雑な更新</td><td>更新系 SQL 実行</td><td>超大件数には向かない</td></tr>
+          <tr><td>固定長 EDI</td><td>固定長アダプタ + ウィザード</td><td>定義はグローバルリソースへ</td></tr>
+        </tbody>
+      </table>
+      <h2>命名規則</h2>
+      <p class="lead">全表は「命名規則」ページ（ガイドライン P.12）。プロジェクト作成前に照合する。プロジェクト名 = インターフェース ID、スクリプトは <code>01</code>+キャメル、トリガーは <code>_SCHL</code>、ADLS コンテナは小文字ハイフン。</p>
+    </section>
+
+    <section id="naming">
+      <div class="note ok">
+        <b>ガイドライン P.12</b>
+        識別子は英語またはヘボン式ローマ字のみ。プロジェクト、スクリプト、グローバルリソース、トリガーを付ける前にこの頁を見る。
+      </div>
+      <h2>対象の名前</h2>
+      <table>
+        <thead><tr><th>対象</th><th>表記</th><th>規則</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><td>インターフェース ID</td><td>アッパースネーク</td><td><code>FROMシステム(6桁)_TOシステム(6桁)_連番(3桁)</code>。システム 6 桁はシステム一覧</td><td><code>AM0002_MS0007_001</code></td></tr>
+          <tr><td>プロジェクト名</td><td>インターフェース ID と同じ</td><td>完全一致</td><td><code>AM0002_MS0007_001</code></td></tr>
+          <tr><td>スクリプト名</td><td>2 桁連番 + キャメル</td><td>同一プロジェクト内の連番 + 処理概要（英語またはヘボン式）</td><td><code>01updDelDate</code></td></tr>
+          <tr><td>定数</td><td>アッパースネーク</td><td>英語またはヘボン式</td><td><code>FILE_NAME</code></td></tr>
+          <tr><td>変数</td><td>スネーク（小文字）</td><td>英語またはヘボン式</td><td><code>file_name</code></td></tr>
+          <tr><td>パラメータ</td><td>スネーク + 型接頭辞</td><td>入力 <code>in_</code>、出力 <code>_out</code>、入出力 <code>io_</code></td><td><code>in_file_name</code></td></tr>
+          <tr><td>環境変数</td><td><code>ENV_</code> + アッパースネーク</td><td>英語</td><td><code>ENV_RETRY_COUNT</code></td></tr>
+          <tr><td>作業ファイル名</td><td>スネーク（小文字）</td><td>スクリプト内の通常ファイル</td><td><code>file_name</code></td></tr>
+          <tr><td>テーブル名</td><td>接頭辞 + アッパースネーク</td><td>マスタ <code>M_</code>、トランザクション <code>T_</code></td><td><code>M_FILE_SEND</code></td></tr>
+          <tr><td>ADLS コンテナ</td><td>小文字 + ハイフン</td><td>小文字・数字・<code>-</code> のみ</td><td><code>am0002-ms0007-001</code></td></tr>
+          <tr><td>固定長 / 可変長フォーマット</td><td>アッパーキャメル</td><td><code>FIX</code>/<code>VAR</code> + <code>READ</code>/<code>WRITE</code> + 名称</td><td><code>FIX_READ_Time</code></td></tr>
+          <tr><td>グローバルリソース（固定長定義）</td><td>フォーマット名 + システム</td><td>フォーマット名 + システム ID + 名前 + <code>_01</code></td><td><code>FIX_READ_MS0007_Test_01</code></td></tr>
+          <tr><td>グローバルリソース（それ以外）</td><td>プロトコル_システム6桁[_ユーザまたは Intake]</td><td>Datalake なら Intake。枝番に DB 名可</td><td><code>SFTP_AM0002_ユーザID</code></td></tr>
+          <tr><td>トリガー</td><td>インターフェース ID + 種類</td><td>スケジュールが複数なら <code>_SCHL_</code> + 3 桁</td><td><code>AM0002_MS0007_001_SCHL</code></td></tr>
+        </tbody>
+      </table>
+      <h2>グローバルリソースのプロトコル接頭辞</h2>
+      <table>
+        <thead><tr><th>接頭辞</th><th>用途</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><td><code>SQL</code></td><td>SQL Server</td><td><code>SQL_DSS_SEIYU_DB</code></td></tr>
+          <tr><td><code>ORCL</code></td><td>Oracle</td><td><code>ORCL_CM0010_wknpsuser</code></td></tr>
+          <tr><td><code>JDBC</code></td><td>JDBC（Databricks 読み / MS0005 を含む）</td><td><code>JDBC_AM0002_ユーザID</code></td></tr>
+          <tr><td><code>ODBC</code></td><td>ODBC</td><td><code>ODBC_AM0002_ユーザID</code></td></tr>
+          <tr><td><code>FTP</code> / <code>SFTP</code></td><td>ファイル転送。SFTP は鍵のみ</td><td><code>SFTP_AM0002_ユーザID</code>、<code>SFTP_MS0007_&lt;Intake&gt;</code></td></tr>
+          <tr><td><code>REST</code></td><td>REST</td><td><code>REST_AM0002_ユーザID</code></td></tr>
+          <tr><td><code>MAIL</code></td><td>メール</td><td><code>MAIL_AM0002_ユーザID</code></td></tr>
+          <tr><td><code>BLOB</code></td><td>Azure Blob</td><td><code>AZURE_STR_DSS</code></td></tr>
+        </tbody>
+      </table>
+      <p>同一ソースでもグローバルリソース + ユーザ ID を分ける。Databricks への書きは ADLS（MS0007）。読みは JDBC（MS0005）。接続プールは付けない。</p>
+      <h2>トリガーの種類</h2>
+      <table>
+        <thead><tr><th>識別子</th><th>種類</th><th>西友の本番 IF</th></tr></thead>
+        <tbody>
+          <tr class="ok"><td><code>SCHL</code></td><td>スケジュール</td><td>常用。<code>SEIYUCOM000X</code> / <code>01frameworkBatch</code> に掛ける</td></tr>
+          <tr><td><code>FILE</code></td><td>ファイル</td><td>研修デモ用。本番でもフレームワークに掛ける</td></tr>
+          <tr><td><code>HULF</code></td><td>HULFT</td><td>台帳どおり</td></tr>
+          <tr><td><code>HTTP</code></td><td>HTTP</td><td>台帳どおり</td></tr>
+          <tr><td><code>WSDL</code></td><td>WEB サービス</td><td>台帳どおり</td></tr>
+        </tbody>
+      </table>
+      <p>パス：作業領域 <code>/seiyuroot/&lt;IF_ID&gt;/</code>；SFTP 鍵 <code>/data/SSH/&lt;Intake&gt;/xxxxx.ppk</code>；GCS はよく <code>/&lt;IF_ID&gt;/${folder_date}/</code>。</p>
+    </section>
+
+    <section id="env">
+      <h2>3 環境（2026）</h2>
+      <p>日常は独立した 3 つの WebStudio。2024 の「Staging に開発機を置く」は使わない。</p>
+      <table>
+        <thead><tr><th></th><th>DEV</th><th>STG</th><th>PROD</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>WebStudio</td>
+            <td><a href="https://dhub-dss-dev.seiyu.com:8443/WebStudio/">dhub-dss-dev</a></td>
+            <td><a href="https://dhub-dss-stg.seiyu.com:8443/WebStudio/">dhub-dss-stg</a></td>
+            <td><a href="https://dhub-dss-pro.seiyu.com:8443/WebStudio/">dhub-dss-pro</a></td>
+          </tr>
+          <tr><td>アカウント</td><td>個人アカウント</td><td><code>exec_SY</code></td><td><code>exec_SY</code></td></tr>
+          <tr><td>IP</td><td>10.22.214.244</td><td>10.22.214.164</td><td>10.22.212.164</td></tr>
+          <tr><td>DB</td><td>DHUB-DB-DEV / DSSSEIYU。DBeaver 可</td><td>DHUB-DB-STG。RDP + SSMS</td><td>DHUB-DB-PRO。RDP + SSMS</td></tr>
+          <tr><td>GCS</td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-dev">ods-seiyu-dev</a></td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-stg">ods-seiyu-stg</a></td><td><a href="https://console.cloud.google.com/storage/browser/ods-seiyu-prod">ods-seiyu-prod</a></td></tr>
+        </tbody>
+      </table>
+      <p>現状は単機。障害は即停止。不定期 14:30–16:00 にメンテナンス。高 Tier、窓で止められない処理は DSS に置かない。メンテ予告は Teams「データ利活用ポータル | Dataspider事務局からのお知らせ」。西日本 DR は DataSpider 切替に使わない。日常は Studio for Web。Desktop Studio は使わない。</p>
+      <h2>DSS 全体を落とす</h2>
+      <div class="note danger">
+        <b>性能の赤線</b>
+        IF / ループで行単位加工（Mapper に入れる）。1 スクリプトのアイコンが約 100 を超える。大件数で「大容量データ処理」を付けない（OOM）。PSP と大容量を同時に付けると PSP が優先。PSP は約 1000 件ずつ。塊サイズは変更不可。Designer「表示」で PSP データフローを付けると見える。
+      </div>
+      <h2>やってはいけないこと</h2>
+      <ul>
+        <li><code>SEIYUCOM000X</code> / <code>SEIYUCOM001X</code> を改修する</li>
+        <li>スクリプトにパスワード、API Key を直書きする</li>
+        <li>数珠つなぎ / バラマキ。Designer から本番スクリプトを呼ぶ</li>
+        <li>Databricks グローバルリソースで接続プールを付ける</li>
+        <li>SQL Express をデータベースファイルシステムにする</li>
+        <li>SFTP のパスワード認証（鍵のみ）</li>
+        <li>本番ログを DEBUG / FINEST にする</li>
+        <li>研修で失敗したマウント <code>/data/Shared_test</code> を新規スクリプトに書く</li>
+      </ul>
+      <p>PSP はおよそ 1000 件を一塊に並列。テーブル書き込みのバッチは 86 万件で約 30 倍。1 億件級は DSS で担がない。止まったら：My Log → コントロールパネル タスクマネージャでプロセス終了。だめなら <code>DataSpiderServista</code> を再起動。</p>
+    </section>
+
+    <section id="drill">
+      <div class="note ok"><b>チェックは本機ブラウザに残る</b>録画と照合するためのもの。アップロードしない。</div>
+      <h2>Day1</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c1" data-key="c1"><label for="c1">DEV WebStudio にログインし、Designer / Explorer / My Log を見つけられる</label></li>
+        <li><input type="checkbox" id="c2" data-key="c2"><label for="c2">スクリプト、プロジェクト、サービスを区別できる</label></li>
+        <li><input type="checkbox" id="c3" data-key="c3"><label for="c3">オレンジのデータフローと黒いプロセスフローを区別し、End まで手でつなげる</label></li>
+        <li><input type="checkbox" id="c4" data-key="c4"><label for="c4">CSV は Windows-31J、ヘッダを飛ばし、Mapper で支店集計ができる</label></li>
+        <li><input type="checkbox" id="c5" data-key="c5"><label for="c5">プロジェクトをサービス登録してからファイルトリガーを掛ける</label></li>
+      </ul>
+      <h2>Day2</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c6" data-key="c6"><label for="c6">トリガーがなぜ SEIYUCOM000X を呼ばねばならないか説明できる</label></li>
+        <li><input type="checkbox" id="c7" data-key="c7"><label for="c7">End に 0 / 1–254 / 255 を置け、catch で out_* を埋められる</label></li>
+        <li><input type="checkbox" id="c8" data-key="c8"><label for="c8">if_master で if_id / service_name / script_name / to_mail_address を対応付けられ、TO にサポートデスクが必須だと知っている</label></li>
+        <li><input type="checkbox" id="c9" data-key="c9"><label for="c9">Transaction 付きの CSV→テーブル書込を見た</label></li>
+      </ul>
+      <h2>Day3 + 本番 IF</h2>
+      <ul class="check-list">
+        <li><input type="checkbox" id="c10" data-key="c10"><label for="c10">デバッグ + ブレークポイントで正常 / 0 件 / 読取失敗の 3 本を期待結果まで走らせられる</label></li>
+        <li><input type="checkbox" id="c11" data-key="c11"><label for="c11">手順書どおり最新バージョン指定でダウンロードし、アップロード後にサービス再登録できる</label></li>
+        <li><input type="checkbox" id="c12" data-key="c12"><label for="c12">zip が共有を持たないこと、STG/PROD では SY グループに読み取りを付けること、インポートで差分オプションを外さないこと、if_master 変更前にバックアップすることを知っている</label></li>
+        <li><input type="checkbox" id="c13" data-key="c13"><label for="c13">命名規則ページどおり IF ID からプロジェクト名、スクリプト名、トリガー名、ADLS コンテナ名、グローバルリソース接頭辞を書ける</label></li>
+        <li><input type="checkbox" id="c14" data-key="c14"><label for="c14">本番 IF の章どおりスケルトンを列挙でき、単体のみだと説明できる</label></li>
+      </ul>
+      <h2>見本 IF：CM0010_IF0079_006</h2>
+      <p>2026-05-13 田村実演。FROM CM0010 若菜 新店舗 → TO IF0079 TRIAL ストレージ。</p>
+      <table>
+        <thead><tr><th>項目</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td>スクリプト</td><td><code>01OutputData</code></td></tr>
+          <tr><td>Oracle</td><td><code>ORCL_CM0010_wknpsuser</code> / <code>WKNPSUSER</code> / 例 <code>WKNST_DAILYORDER</code></td></tr>
+          <tr><td>作業領域</td><td><code>/seiyuroot/CM0010_IF0079_006/</code></td></tr>
+          <tr><td>順</td><td>try/catch → delete /* → 検索 SQL → Mapper（file_date / folder_date）→ csv_write → ORDER_${file_date}.END → gcs_put</td></tr>
+        </tbody>
+      </table>
+      <h2>出典</h2>
+      <ul>
+        <li>ワークショップ Day1/2/3 会議録画（2024-11/12）</li>
+        <li>ツール活用トレーニング Day1、Day3 PDF</li>
+        <li>開発ガイドライン v3.2、『DSS開発の流れ』、リリース手順書 v1.0</li>
+        <li>2026-05-13 Teams 実演（CM0010_IF0079_006）</li>
+      </ul>
+      <p>2026-07-22 Teams「DSSについて」は約 3GB、字幕なし。逐語起こしはできていない。環境 URL は『DSS開発の流れ』を正とする。</p>
+    </section>
+
+  </main>
+  <footer>
+    単一 HTML。転送と印刷向け。印刷時は全章を展開する。操作画面はセゾン「ツール活用トレーニング」Day1/Day3 PDF。パスワードは収録しない。Markdown 原文：DataSpider新人利用マニュアル.md
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("nav button");
+    const sections = document.querySelectorAll("main section");
+    function showTab(id) {
+      buttons.forEach((b) => b.classList.toggle("active", b.dataset.tab === id));
+      sections.forEach((s) => s.classList.toggle("active", s.id === id));
+    }
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        showTab(btn.dataset.tab);
+        history.replaceState(null, "", "#" + btn.dataset.tab);
+      });
+    });
+    const hash = location.hash.slice(1);
+    if (hash && document.getElementById(hash)) showTab(hash);
+
+    const storeKey = "dss-newcomer-checklist-ja";
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch (e) { saved = {}; }
+    document.querySelectorAll("input[data-key]").forEach((box) => {
+      box.checked = !!saved[box.dataset.key];
+      box.addEventListener("change", () => {
+        saved[box.dataset.key] = box.checked;
+        localStorage.setItem(storeKey, JSON.stringify(saved));
+      });
+    });
+  </script>
+</body>
+</html>
