@@ -8,7 +8,7 @@
         <mxCell id="title" value="TRIAL 范围：データセンタ + ProjectD + GCS。与西友的唯一通道是連携用 GCS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=18;fontColor=#222222;" vertex="1" parent="1">
           <mxGeometry x="40" y="16" width="1300" height="28" as="geometry"/>
         </mxCell>
-        <mxCell id="sub" value="往路走实线（左→右→下）。复路走虚线（上沿プル / 写自动发注，右槽回写 GCS，顶边送到 OrderSV）。西友 DSS 不直连 OrderSV。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+        <mxCell id="sub" value="往路走实线（左→右→下）。复路走虚线。云机不落本机持久化，成果物は連携用GCS／自动发注GCSへプッシュ。西友 DSS 不直连 OrderSV。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="40" y="44" width="1480" height="20" as="geometry"/>
         </mxCell>
 
@@ -63,16 +63,13 @@
         <mxCell id="gcp" value="TRIAL GCP" style="swimlane;startSize=28;fillColor=#FFFFFF;strokeColor=#C8C8C8;fontStyle=1;fontSize=12;fontColor=#333333;html=1;whiteSpace=wrap;rounded=1;arcSize=8;" vertex="1" parent="trialscope">
           <mxGeometry x="242" y="48" width="1262" height="328" as="geometry"/>
         </mxCell>
-        <mxCell id="ifcloud" value="Layer①　ProjectD · IF 云机" style="swimlane;startSize=28;fillColor=#FFFCF7;strokeColor=#C45C5C;strokeWidth=1.5;fontStyle=1;fontSize=13;fontColor=#C45C5C;html=1;whiteSpace=wrap;rounded=1;arcSize=8;" vertex="1" parent="gcp">
+        <mxCell id="ifcloud" value="Layer①　ProjectD · IF 云机　本机无持久化" style="swimlane;startSize=28;fillColor=#FFFCF7;strokeColor=#C45C5C;strokeWidth=1.5;fontStyle=1;fontSize=13;fontColor=#C45C5C;html=1;whiteSpace=wrap;rounded=1;arcSize=8;" vertex="1" parent="gcp">
           <mxGeometry x="16" y="52" width="388" height="252" as="geometry"/>
         </mxCell>
-        <mxCell id="proc" value="外部IF&lt;br&gt;&lt;font color='#C45C5C'&gt;Layer①　抽出 · プル · 转换&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C45C5C;strokeWidth=1.5;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;arcSize=8;" vertex="1" parent="ifcloud">
-          <mxGeometry x="14" y="40" width="360" height="80" as="geometry"/>
+        <mxCell id="proc" value="外部IF&lt;br&gt;&lt;font color='#C45C5C'&gt;Layer①　抽出 · プル · 转换 · プッシュ&lt;/font&gt;&lt;br&gt;&lt;font color='#888888'&gt;无本机ステージング。正本在 GCS&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C45C5C;strokeWidth=1.5;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;arcSize=8;" vertex="1" parent="ifcloud">
+          <mxGeometry x="14" y="48" width="360" height="180" as="geometry"/>
         </mxCell>
-        <mxCell id="store" value="本机保存&lt;br&gt;&lt;font color='#C45C5C'&gt;Layer①　ステージング&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C45C5C;strokeWidth=1.5;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;arcSize=8;" vertex="1" parent="ifcloud">
-          <mxGeometry x="14" y="140" width="360" height="88" as="geometry"/>
-        </mxCell>
-        <mxCell id="gcs" value="連携用 GCS&lt;br&gt;seiyu-trial-data-exchange&lt;br&gt;&lt;font color='#C45C5C'&gt;Layer① 文件着地 · TRIAL↔西友唯一通道&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4FBF6;strokeColor=#C45C5C;strokeWidth=1.5;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;arcSize=8;" vertex="1" parent="gcp">
+        <mxCell id="gcs" value="連携用 GCS&lt;br&gt;seiyu-trial-data-exchange&lt;br&gt;&lt;font color='#C45C5C'&gt;Layer① 文件正本 · TRIAL↔西友唯一通道&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4FBF6;strokeColor=#C45C5C;strokeWidth=1.5;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;arcSize=8;" vertex="1" parent="gcp">
           <mxGeometry x="420" y="52" width="396" height="252" as="geometry"/>
         </mxCell>
         <mxCell id="auto" value="TRIAL 自动发注　既存 · 不是 Layer①②③" style="swimlane;startSize=28;fillColor=#FAFAFA;strokeColor=#888888;strokeWidth=1.5;fontStyle=1;fontSize=12;fontColor=#333333;html=1;whiteSpace=wrap;rounded=1;arcSize=8;" vertex="1" parent="gcp">
@@ -107,17 +104,14 @@
           <mxGeometry x="1120" y="220" width="352" height="160" as="geometry"/>
         </mxCell>
 
-        <mxCell id="foot" value="往路　集计SV → ProjectD → 連携用GCS → 西友 DS → MDSCM　　复路　MDSCM → 西友 DS → 連携用GCS → 云机プル → 自动发注GCS → 传送 → OrderSV" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+        <mxCell id="foot" value="往路　集计SV → ProjectD（转换）→ 連携用GCSへプッシュ → 西友 DS → MDSCM　　复路　MDSCM → 西友 DS → 連携用GCS → 云机プル・转换 → 自动发注GCSへプッシュ → 传送 → OrderSV　　※云机无本机持久化" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="40" y="1020" width="1520" height="24" as="geometry"/>
         </mxCell>
 
         <mxCell id="e-sv-proc" value="Layer① 抽出" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=24;html=1;strokeColor=#C45C5C;strokeWidth=2;endArrow=blockThin;endFill=1;startArrow=none;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sv" target="proc">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e-ext-store" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=16;html=1;strokeColor=#C45C5C;strokeWidth=2;endArrow=blockThin;endFill=1;startArrow=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="proc" target="store">
-          <mxGeometry relative="1" as="geometry"/>
-        </mxCell>
-        <mxCell id="e-1f" value="Layer① 输出" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=24;html=1;strokeColor=#C45C5C;strokeWidth=2;endArrow=blockThin;endFill=1;startArrow=none;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.72;entryDx=0;entryDy=0;" edge="1" parent="1" source="store" target="gcs">
+        <mxCell id="e-1f" value="Layer① プッシュ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=24;html=1;strokeColor=#C45C5C;strokeWidth=2;endArrow=blockThin;endFill=1;startArrow=none;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="proc" target="gcs">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
         <mxCell id="e-2" value="Layer②" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=16;html=1;strokeColor=#2E79B5;strokeWidth=2;endArrow=blockThin;endFill=1;startArrow=none;fontSize=11;fontColor=#2E79B5;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=0.12;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gcs" target="ds2">
@@ -149,7 +143,7 @@
         <mxCell id="e-pull" value="Layer① プル" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;strokeColor=#C45C5C;strokeWidth=1.5;endArrow=blockThin;endFill=1;startArrow=none;dashed=1;dashPattern=8 6;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.22;exitDx=0;exitDy=0;entryX=1;entryY=0.22;entryDx=0;entryDy=0;" edge="1" parent="1" source="gcs" target="proc">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e-ao" value="Layer① 处理后上传自动发注GCS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=12;html=1;strokeColor=#C45C5C;strokeWidth=1.5;endArrow=blockThin;endFill=1;startArrow=none;dashed=1;dashPattern=8 6;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.2;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="store" target="ao-gcs">
+        <mxCell id="e-ao" value="Layer① 转换后自动发注GCSへプッシュ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=12;html=1;strokeColor=#C45C5C;strokeWidth=1.5;endArrow=blockThin;endFill=1;startArrow=none;dashed=1;dashPattern=8 6;fontSize=11;fontColor=#C45C5C;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.35;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="proc" target="ao-gcs">
           <mxGeometry relative="1" x="0.35" y="-8" as="geometry">
             <Array as="points">
               <mxPoint x="274" y="370"/>

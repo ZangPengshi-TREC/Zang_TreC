@@ -1,6 +1,6 @@
 # SCM 統一 IF クラウド機アーキテクチャ（日本語版）
 
-基準日: 2026-09-15  
+基準日: 2026-09-15（方針更新 2026-09-21：本機永続ストレージを使わず、成果物は連携用 GCS へプッシュ）  
 対象: 西友 MD 基幹統合 / 自動補充 Sinops 系 第2段階  
 位置づけ: 詳細設計の Job 前提。DSS スクリプトそのものではない。
 
@@ -14,10 +14,11 @@
 
 ## 1. 結論
 
-申請する **IF クラウド機** は TRIAL GCP の **1 Project** である。作業名は **ProjectD（Seiyu_Order）**。中身は図の **外部IF** だけ（集計SV抽出、本機保存、GCS へファイル出力）。
+申請する **IF クラウド機** は TRIAL GCP の **1 Project** である。作業名は **ProjectD（Seiyu_Order）**。中身は図の **外部IF** だけ（集計SV抽出・変換・**連携用 GCS へプッシュ**。復路は連携用 GCS からプルして変換し、**自動発注 GCS へプッシュ**）。
 
+- **本機に永続ストレージ（ステージング領域）を持たない。** ジョブ成果物の正は連携用 GCS（復路の発注IF成果は自動発注 GCS）。処理中の一時作業領域（/tmp 等）は可、設計上の「本機保存」ステップは置かない。
 - **GCS** は同じ TRIAL GCP の **連携用プロジェクト**（例 `seiyu-trial-data-exchange`、担当 末松）。クラウド機（ProjectD）ではない。
-- **DataSpider** は **西友 Azure** にある。② Intake と ③ 転送。二次加工しない。ProjectD に入れない。
+- **DataSpider** は **西友 Azure** にある。② Intake と ③ 転送。**原則として型変換・フィールド選別はしない（全フィールド通過）。型変換・項目選別・コード変換・編集は Layer①。** ProjectD に入れない。
 - 西友 DataSpider から GCS へは、西友データセンタ NAT ↔ TRIAL データセンタ NAT。スライド注記は西友起点。
 - **Hinemos** は共通基盤。① は ProjectD、②③ は西友 DataSpider を起動する。
 - IF クラウド機を課題ごとに別 Project にすると、SCM 統一連携面が割れる。
@@ -48,17 +49,15 @@ flowchart LR
 
   subgraph GCP[TRIAL GCP]
     subgraph PD[Layer① ProjectD · IFクラウド機]
-      EXT[Layer① 外部IF]
-      STORE[Layer① 本機保存]
-      EXT --> STORE
+      EXT[Layer① 外部IF 抽出・変換・プッシュ]
     end
-    FILE[連携用GCS Layer① 着地]
+    FILE[連携用GCS Layer① 着地・正本]
     AOGCS[自動発注 GCS]
     AOX[自動発注 転送]
   end
 
   SV -->|Layer① 抽出| EXT
-  STORE -->|Layer① 出力| FILE
+  EXT -->|Layer① プッシュ| FILE
   FILE -->|Layer②| DS2
   FILE -->|Layer③ 直送| DS3
   DS2 -->|Layer②| DWH
@@ -67,7 +66,7 @@ flowchart LR
   SN -.->|Layer③ 復路受信| DS3
   DS3 -.->|Layer③ GCSへ| FILE
   FILE -.->|Layer① プル| EXT
-  STORE -.->|Layer① 自動発注GCSへ| AOGCS
+  EXT -.->|Layer① プッシュ| AOGCS
   AOGCS -.-> AOX
   AOX -.->|既存転送| OS
   DS3 -.->|Layer③-BO| BO
@@ -119,10 +118,9 @@ flowchart LR
 ### 往路（Sinops 向け）
 
 1. TRMD 基幹は集計SVへ出す。IF クラウド機の外部IFが集計SVから抽出（①）
-2. 外部IFで共通化・型変換し、**本機に保存**する（①）
-3. ファイル出力で GCS 連携用ファイルへ置く。GCS はクラウド機ではない（① 297 人日）
-4. 必要なマスタのみ DSS が DWH へ Intake（② 31 人日。実績は多くが 0）
-5. DSS が GCS 上のファイルを Sinops へ転送（③）
+2. 外部IFで共通化・型変換し、**本機へ永続保存せず、連携用 GCS へプッシュ**する（①）。GCS はクラウド機ではない
+3. 必要なマスタのみ DSS が DWH へ Intake（② 31 人日。実績は多くが 0）
+4. DSS が GCS 上のファイルを Sinops へ転送（③）
 
 ### 復路（発注勧告 R：Layer③ と Layer①）
 
@@ -138,7 +136,7 @@ TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ
 1. Layer③：DataSpider が Sinops の発注勧告（当日・翌日以降）を処理し、**連携用 GCS** へ出す
 2. Layer①：IFクラウド機が連携用 GCS から **当日と昨日の翌日以降** をプルする
 3. Layer①：採用判定（STEP20）。当日が指定時刻までに作成済なら当日。障害または未作成なら昨日の翌日以降。2 本は重ねない
-4. Layer①：採用した 1 本を発注IF `SIREJAN_RCMDORDER_LAST` へ変換して本機保存し、**TRIAL 自動発注の GCS** へアップロード。連携用 GCS とは別用途
+4. Layer①：採用した 1 本を発注IF `SIREJAN_RCMDORDER_LAST` へ変換し、**本機保存せず TRIAL 自動発注 GCS へプッシュ**。連携用 GCS とは別用途
 5. **TRIAL 自動発注の転送機能** が自動発注 GCS から OrdreSV へ渡す（既存機能。西友 DSS ではない。403 の③送信ではない）
 6. OrdreSV が自動確定したあと、CoreSaver へ同期（基幹内。403 の IF 加工には入れない）
 
@@ -159,9 +157,9 @@ TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ
 
 | 層 | 範囲 | 対象 IF | Sinops 人日 | 内容 |
 |---|---|---|---|---|
-| ① | TRIAL↔GCS（外部IFプログラム開発） | **01–25 全件**。10 は店舗/センターを 2 行 | 297 | ProjectD 外部IF。往路：集計SV抽出・共通化・本機保存・連携用 GCS 出力。復路 22–25：連携用 GCS からプルし、店舗系 R は発注IF `SIREJAN_RCMDORDER_LAST` へ変換して自動発注 GCS へ出力。倉庫系 W は G01 |
-| ② | GCS→DWH（DataSpider 取込） | **01–05、13、14、16–19** の 11 本のみ | 31 | 西友 Azure DataSpider。GCS ファイルをそのまま Intake。06–12、15、20–25 は 0 |
-| ③ | DWH・GCS↔業務システム（連携） | **01–25。10 センターは表上なし（店舗分に内包）** | 75 | 西友 Azure DataSpider。往路は Sinops / sinops-W。14 は受信 GCS→Sinops と送信 DWH→GCS。22–25 は勧告受信して連携用 GCS へ書く。OrdreSV へは送らない |
+| ① | TRIAL↔GCS（外部IFプログラム開発） | **01–25 全件**。10 は店舗/センターを 2 行 | 297 | ProjectD 外部IF。往路：集計SV抽出・共通化・**連携用 GCS へプッシュ**（本機永続保存なし）。復路 22–25：連携用 GCS からプルし、店舗系 R は発注IF `SIREJAN_RCMDORDER_LAST` へ変換して自動発注 GCS へプッシュ。倉庫系 W は G01 |
+| ② | GCS→DWH（DataSpider 取込） | **01–05、13、14、16–19** の 11 本のみ | 31 | 西友 Azure DataSpider。**全フィールドのまま Intake**（型変換・項目選別なし）。06–12、15、20–25 は 0 |
+| ③ | DWH・GCS↔業務システム（連携） | **01–25。10 センターは表上なし（店舗分に内包）** | 75 | 西友 Azure DataSpider。**転送・配置のみ（全フィールド）。型変換・選別・コード編集は Layer①。** 往路は Sinops / sinops-W。14 は受信 GCS→Sinops と送信 DWH→GCS。22–25 は勧告を連携用 GCS へ書く。OrdreSV へは送らない |
 
 ### IF 別
 
@@ -229,8 +227,8 @@ IF クラウド機を別構築する場合、労働下限はもう +43。ライ�
 
 ## 8. 詳細設計への落とし方
 
-- Job は「集計SVは出数、ProjectD 外部IFで抽出・保存、連携用 GCS へファイル出力、西友 DataSpider は転送」で書く。
-- Hinemos の順序は 抽出 → 本機保存 → GCS 出力（ProjectD①）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路 22–25 は 西友 DS が連携用 GCS へ書く → ProjectD がプル・変換して自動発注 GCS へ置く → 既存の自動発注転送。
+- Job は「集計SVは出数、ProjectD 外部IFで抽出・変換し連携用 GCS へプッシュ、西友 DataSpider は転送」で書く。**本機ステージングを Job ステップにしない。**
+- Hinemos の順序は 抽出・変換 → 連携用 GCS へプッシュ（ProjectD①）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路 22–25 は 西友 DS が連携用 GCS へ書く → ProjectD がプル・変換して自動発注 GCS へプッシュ → 既存の自動発注転送。
 - IF ID は `SEIYU-TRIALインターフェース管理台帳` の DSS 台帳から採番。プロジェクト名 = IF ID。トリガは `SEIYUCOM000X`。
 - GCS は TRIAL GCP 連携用プロジェクト（例 `seiyu-trial-data-exchange`）。接続名と IF ID 配下ディレクトリは台帳確定後に書く。
 - 詳細設計はサーバー待ちで止めない。開発・単体は DEV の DSS + GCS が必要。
