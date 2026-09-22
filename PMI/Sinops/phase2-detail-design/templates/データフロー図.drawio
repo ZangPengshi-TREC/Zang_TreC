@@ -1,0 +1,486 @@
+<mxfile host="app.diagrams.net" pages="7">
+  <diagram name="Sinops-IF-004_仕入先マスタ" id="ewswNuGR6WGfOAwk3OfK">
+    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="&lt;span style=&quot;color: rgb(51, 153, 255);&quot;&gt;TRIAL&lt;/span&gt;" mermaidId="n:TRIAL" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRIAL" id="AsqKD0Eqk3w4hjgB6cN0-4">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#dae8fc;strokeColor=#FFFFFF;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=22;align=left;fontStyle=1;container=0;" vertex="1">
+            <mxGeometry height="300" width="1230" x="15" y="30" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="集計用GCS&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="_3z6DHx1NefLNUYZRnhj-3">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="680" y="95" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-6" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;MST_TORIHIKI 取引マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="719.5" y="167.25" as="geometry" />
+        </mxCell>
+        <UserObject label="md-data-integration-prod" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="_3z6DHx1NefLNUYZRnhj-7">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="995" y="95" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;font style=&quot;font-size: 22px; color: rgb(255, 0, 0);&quot;&gt;SEIYU&lt;/font&gt;" mermaidId="n:SEIYU" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="SEIYU" id="AsqKD0Eqk3w4hjgB6cN0-12">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=light-dark(#eee8e8, #d7817e);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;container=0;" vertex="1">
+            <mxGeometry height="435" width="1620" x="15" y="360" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;font color=&quot;#009600&quot;&gt;西友連携用GCS&lt;/font&gt;" mermaidId="n:TRIAL" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRIAL" id="AsqKD0Eqk3w4hjgB6cN0-22">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#d5e8d4;strokeColor=none;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=22;align=left;fontStyle=1;container=0;" vertex="1">
+            <mxGeometry height="297" width="350" x="1285" y="33" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica;&quot;&gt;&lt;font&gt;ods-seiyu-prod（dev/stg）&lt;/font&gt;&lt;/span&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="_3z6DHx1NefLNUYZRnhj-15">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="1359.5" y="95" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="AsqKD0Eqk3w4hjgB6cN0-21" parent="1" style="text;whiteSpace=wrap;html=1;" value="&lt;b style=&quot;font-weight:normal;&quot; id=&quot;docs-internal-guid-e0ae07fa-7fff-5950-4ab1-6f2930839093&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#FF0000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer①&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 集計SVからGCSまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#3035FC;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer②&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; GCSからDWHまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#00B050;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer③-MDSCM&amp;nbsp; DWH・GCS→MDSCM系システムまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:10.5pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;※実績系は本ルートの逆となる&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#9900CC;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer③-BO 　　　　DWH・GCS→BO系システムまでの連携&lt;/span&gt;&lt;/p&gt;&lt;/b&gt;&lt;br class=&quot;Apple-interchange-newline&quot;&gt;" vertex="1">
+          <mxGeometry height="190" width="490" x="25" y="800" as="geometry" />
+        </mxCell>
+        <UserObject label="TRMD基幹&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:A" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRMD基幹" id="AsqKD0Eqk3w4hjgB6cN0-5">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;verticalAlign=top;" vertex="1">
+            <mxGeometry height="220" width="200" x="50" y="94.5" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="集計SV6&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="AsqKD0Eqk3w4hjgB6cN0-6">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="365" y="95" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-2" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;MST_TORIHIKI 取引マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="403.5" y="167.25" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-10" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontColor=#FF0000;fontSize=16;strokeColor=#FF0000;strokeWidth=4;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="_3z6DHx1NefLNUYZRnhj-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-26" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;" target="_3z6DHx1NefLNUYZRnhj-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-4" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;取引マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="87.5" y="167.25" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-8" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=16;" value="IF処理" vertex="1">
+          <mxGeometry height="60" width="120" x="1035.5" y="177.25" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-12" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;Supplier_mst_&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;YYYYMMDD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;hhmmss.txt&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="1392.5" y="167.25" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-13" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#FF0000;fontSize=16;strokeColor=#FF0000;strokeWidth=4;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="_3z6DHx1NefLNUYZRnhj-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="945" y="200" as="sourcePoint" />
+            <mxPoint x="1024" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-20" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#0000FF;fontSize=16;strokeColor=#0000FF;strokeWidth=4;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.515;exitY=0.865;exitDx=0;exitDy=0;entryPerimeter=0;exitPerimeter=0;" target="_3z6DHx1NefLNUYZRnhj-19" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1462" y="229" as="sourcePoint" />
+            <mxPoint x="1463" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-19" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;DataSpider&lt;/span&gt;&lt;br style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;連携ジョブ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="1373.5" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-21" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;DataSpider&lt;/span&gt;&lt;br style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;連携ジョブ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="943" y="607" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-33" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(255, 0, 0); font-family: Arial, sans-serif; font-size: 16px; text-align: left; white-space: pre-wrap;&quot;&gt;Layer①&amp;nbsp; &lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="915" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-34" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(255, 0, 0); font-family: Arial, sans-serif; font-size: 16px; text-align: left; white-space: pre-wrap;&quot;&gt;Layer①&amp;nbsp; &lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1235" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-35" parent="1" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=none;" value="&lt;span style=&quot;color: rgb(48, 53, 252); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer②&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1465" y="281" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-37" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="50" y="539" as="geometry" />
+        </mxCell>
+        <UserObject label="Sinops-R6&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:F" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="Datalake/DWH&#xa;INTAKE_SINOPS04_SHIIRESAKI&#xa;※仮置き TBD-52" id="_3z6DHx1NefLNUYZRnhj-27">
+          <mxCell parent="_3z6DHx1NefLNUYZRnhj-37" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-29" parent="_3z6DHx1NefLNUYZRnhj-37" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;仕入先マスタ&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="90" x="51" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-38" connectable="0" parent="1" style="group;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="487" y="539" as="geometry" />
+        </mxCell>
+        <UserObject label="Sinops連携用STORAGE&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:F" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="Datalake/DWH&#xa;INTAKE_SINOPS04_SHIIRESAKI&#xa;※仮置き TBD-52" id="_3z6DHx1NefLNUYZRnhj-22">
+          <mxCell parent="_3z6DHx1NefLNUYZRnhj-38" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-23" parent="_3z6DHx1NefLNUYZRnhj-38" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;supplier_mst.txt&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="40" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-39" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="1359.5" y="539" as="geometry" />
+        </mxCell>
+        <UserObject label="&lt;font color=&quot;#000000&quot; face=&quot;Helvetica&quot;&gt;DWH&lt;/font&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="_3z6DHx1NefLNUYZRnhj-31">
+          <mxCell parent="_3z6DHx1NefLNUYZRnhj-39" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-16" parent="_3z6DHx1NefLNUYZRnhj-39" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;supplier_mst&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="90" x="52.5" y="47" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-25" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.001;entryY=0.403;entryDx=0;entryDy=0;strokeColor=#00FF80;strokeWidth=4;entryPerimeter=0;" target="_3z6DHx1NefLNUYZRnhj-23">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1054" y="807" as="sourcePoint" />
+            <mxPoint x="675" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-30" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;" target="_3z6DHx1NefLNUYZRnhj-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-40" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=none;labelBackgroundColor=none;fontColor=#009900;" value="&lt;span style=&quot;font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer③&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="785" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-41" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=none;labelBackgroundColor=none;fontColor=#009900;" value="&lt;span style=&quot;font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer③&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1205" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-36" parent="1" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=none;" value="&lt;span style=&quot;color: rgb(48, 53, 252); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer②&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1465" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-17" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#0000FF;fontSize=16;strokeColor=#0000FF;strokeWidth=4;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="_3z6DHx1NefLNUYZRnhj-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1456.5" y="472.56" as="sourcePoint" />
+            <mxPoint x="1500" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-42" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#FF0000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="911" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-43" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#FF0000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1241" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-44" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#0000FF;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1395" y="283" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-45" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#0000FF;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1398" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-46" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#009900;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1205" y="657" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-47" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#009900;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="779.5" y="659" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-48" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="333" y="659" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-49" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ取り込み&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="321" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-51" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="277" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-52" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ吐き出し&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="261" y="177.25" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-53" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ吐き出し&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="576" y="181" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-24" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#00FF80;strokeWidth=4;" target="_3z6DHx1NefLNUYZRnhj-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-50" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="596" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="_3z6DHx1NefLNUYZRnhj-9" edge="1" parent="1" source="_3z6DHx1NefLNUYZRnhj-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;" target="_3z6DHx1NefLNUYZRnhj-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="csiX-BsOD-w2H4-eUKGc" name="Sinops-IF-010_在庫修正">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="&lt;span style=&quot;color: rgb(51, 153, 255);&quot;&gt;TRIAL&lt;/span&gt;" mermaidId="n:TRIAL" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRIAL" id="53VceTX4w2HLRTEOZkR2-1">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#dae8fc;strokeColor=#FFFFFF;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=22;align=left;fontStyle=1;container=0;" vertex="1">
+            <mxGeometry height="469" width="1230" x="10" y="20" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Shinise用GCS&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:A" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRMD基幹" id="53VceTX4w2HLRTEOZkR2-2">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;verticalAlign=top;" vertex="1">
+            <mxGeometry height="142.75" width="200" x="678" y="242" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="集計用GCS&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-3">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="145" width="200" x="675" y="85" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-4" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;MST_TORIHIKI 取引マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="714.5" y="125.25" as="geometry" />
+        </mxCell>
+        <UserObject label="md-data-integration-prod" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-5">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="990" y="85" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;font style=&quot;font-size: 22px; color: rgb(255, 0, 0);&quot;&gt;SEIYU&lt;/font&gt;" mermaidId="n:SEIYU" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="SEIYU" id="53VceTX4w2HLRTEOZkR2-6">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=light-dark(#eee8e8, #d7817e);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;container=0;" vertex="1">
+            <mxGeometry height="435" width="1620" x="10" y="503" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;font color=&quot;#009600&quot;&gt;西友連携用GCS&lt;/font&gt;" mermaidId="n:TRIAL" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=light-dark(#ffffde,#1f2020);strokeColor=light-dark(#aaaa33,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRIAL" id="53VceTX4w2HLRTEOZkR2-7">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;verticalAlign=top;fillColor=#d5e8d4;strokeColor=none;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=22;align=left;fontStyle=1;container=0;" vertex="1">
+            <mxGeometry height="463" width="350" x="1280" y="23" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica;&quot;&gt;&lt;font&gt;ods-seiyu-prod（dev/stg）&lt;/font&gt;&lt;/span&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-8">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" x="1354.5" y="85" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-9" parent="1" style="text;whiteSpace=wrap;html=1;" value="&lt;b style=&quot;font-weight:normal;&quot; id=&quot;docs-internal-guid-e0ae07fa-7fff-5950-4ab1-6f2930839093&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#FF0000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer①&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 集計SVからGCSまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#3035FC;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer②&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; GCSからDWHまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#00B050;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer③-MDSCM&amp;nbsp; DWH・GCS→MDSCM系システムまでの連携&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:10.5pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;※実績系は本ルートの逆となる&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height:1.2;margin-top:0pt;margin-bottom:0pt;&quot;&gt;&lt;span style=&quot;font-size:12pt;font-family:Arial,sans-serif;color:#9900CC;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;&quot;&gt;Layer③-BO 　　　　DWH・GCS→BO系システムまでの連携&lt;/span&gt;&lt;/p&gt;&lt;/b&gt;&lt;br class=&quot;Apple-interchange-newline&quot;&gt;" vertex="1">
+          <mxGeometry height="190" width="490" x="20" y="943" as="geometry" />
+        </mxCell>
+        <UserObject label="TRMD基幹（Coresaver）&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:A" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRMD基幹" id="53VceTX4w2HLRTEOZkR2-10">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;verticalAlign=top;" vertex="1">
+            <mxGeometry height="142.75" width="200" x="45" y="84.5" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="集計SV6&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-11">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="145" width="200" x="360" y="85" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-12" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;MST_TORIHIKI 取引マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="398.5" y="125.25" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-13" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontColor=#FF0000;fontSize=16;strokeColor=#FF0000;strokeWidth=4;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="53VceTX4w2HLRTEOZkR2-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-14" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;" target="53VceTX4w2HLRTEOZkR2-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-15" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;バンドルマスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="82.5" y="125.25" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-16" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=16;" value="IF処理" vertex="1">
+          <mxGeometry height="60" width="120" x="1030.5" y="167.25" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-17" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;Supplier_mst_&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;YYYYMMDD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;hhmmss.txt&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="1387.5" y="157.25" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-18" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#FF0000;fontSize=16;strokeColor=#FF0000;strokeWidth=4;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="53VceTX4w2HLRTEOZkR2-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="940" y="190" as="sourcePoint" />
+            <mxPoint x="1019" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-19" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#0000FF;fontSize=16;strokeColor=#0000FF;strokeWidth=4;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.515;exitY=0.865;exitDx=0;exitDy=0;entryPerimeter=0;exitPerimeter=0;" target="53VceTX4w2HLRTEOZkR2-20" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1457" y="219" as="sourcePoint" />
+            <mxPoint x="1458" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-20" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;DataSpider&lt;/span&gt;&lt;br style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;連携ジョブ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="1368.5" y="533" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-21" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;DataSpider&lt;/span&gt;&lt;br style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px;&quot;&gt;連携ジョブ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="938" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(255, 0, 0); font-family: Arial, sans-serif; font-size: 16px; text-align: left; white-space: pre-wrap;&quot;&gt;Layer①&amp;nbsp; &lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="910" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(255, 0, 0); font-family: Arial, sans-serif; font-size: 16px; text-align: left; white-space: pre-wrap;&quot;&gt;Layer①&amp;nbsp; &lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1230" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-24" parent="1" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=none;" value="&lt;span style=&quot;color: rgb(48, 53, 252); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer②&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1460" y="271" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-25" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="45" y="682" as="geometry" />
+        </mxCell>
+        <UserObject label="Sinops-R6&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:F" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="Datalake/DWH&#xa;INTAKE_SINOPS04_SHIIRESAKI&#xa;※仮置き TBD-52" id="53VceTX4w2HLRTEOZkR2-26">
+          <mxCell parent="53VceTX4w2HLRTEOZkR2-25" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-27" parent="53VceTX4w2HLRTEOZkR2-25" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;仕入先マスタ&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="90" x="51" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-28" connectable="0" parent="1" style="group;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="482" y="682" as="geometry" />
+        </mxCell>
+        <UserObject label="Sinops連携用STORAGE&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:F" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="Datalake/DWH&#xa;INTAKE_SINOPS04_SHIIRESAKI&#xa;※仮置き TBD-52" id="53VceTX4w2HLRTEOZkR2-29">
+          <mxCell parent="53VceTX4w2HLRTEOZkR2-28" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-30" parent="53VceTX4w2HLRTEOZkR2-28" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;supplier_mst.txt&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="40" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-31" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="220" width="200" x="1354.5" y="682" as="geometry" />
+        </mxCell>
+        <UserObject label="&lt;font color=&quot;#000000&quot; face=&quot;Helvetica&quot;&gt;DWH&lt;/font&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-32">
+          <mxCell parent="53VceTX4w2HLRTEOZkR2-31" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="220" width="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-33" parent="53VceTX4w2HLRTEOZkR2-31" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;supplier_mst&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="90" x="52.5" y="47" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-34" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.001;entryY=0.403;entryDx=0;entryDy=0;strokeColor=#00FF80;strokeWidth=4;entryPerimeter=0;" target="53VceTX4w2HLRTEOZkR2-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1049" y="950" as="sourcePoint" />
+            <mxPoint x="670" y="953" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-35" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;" target="53VceTX4w2HLRTEOZkR2-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-36" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=none;labelBackgroundColor=none;fontColor=#009900;" value="&lt;span style=&quot;font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer③&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="780" y="758" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-37" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=none;labelBackgroundColor=none;fontColor=#009900;" value="&lt;span style=&quot;font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer③&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1200" y="758" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-38" parent="1" style="text;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=none;" value="&lt;span style=&quot;color: rgb(48, 53, 252); font-family: Arial, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: pre-wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Layer②&amp;nbsp;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="90" x="1460" y="638" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-39" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#0000FF;fontSize=16;strokeColor=#0000FF;strokeWidth=4;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="53VceTX4w2HLRTEOZkR2-33">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1451.5" y="615.56" as="sourcePoint" />
+            <mxPoint x="1495" y="333" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-40" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#FF0000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="906" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-41" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#FF0000;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1236" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-42" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#0000FF;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1390" y="273" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-43" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#0000FF;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1393" y="638" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-44" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#009900;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="1200" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-45" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#009900;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;新規&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="774.5" y="802" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-46" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="328" y="802" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-47" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ取り込み&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="316" y="763" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-48" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="268" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-49" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ吐き出し&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="250" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-50" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ吐き出し&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="565" y="127.25" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-51" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#00FF80;strokeWidth=4;" target="53VceTX4w2HLRTEOZkR2-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-52" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;既存&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="591" y="169" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-53" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;" target="53VceTX4w2HLRTEOZkR2-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <UserObject label="TRMD基幹（Shinise）&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:A" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="TRMD基幹" id="53VceTX4w2HLRTEOZkR2-54">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;align=left;verticalAlign=top;" vertex="1">
+            <mxGeometry height="142.75" width="405" x="47" y="243" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-55" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;strokeWidth=3;" target="53VceTX4w2HLRTEOZkR2-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-56" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#333333&quot; face=&quot;Trebuchet MS, Verdana, Arial, sans-serif&quot;&gt;&lt;span style=&quot;background-color: transparent; text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;current_stock_data&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(51, 51, 51), rgb(193, 193, 193)); font-size: 16px;&quot;&gt;営業在庫&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="85" width="123.5" x="79" y="291" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-57" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=12;" value="スナップショット取得処理" vertex="1">
+          <mxGeometry height="60" width="115" x="299" y="283.38" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-58" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;" target="53VceTX4w2HLRTEOZkR2-60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-59" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="90" width="157" x="702" y="273.75" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-60" parent="53VceTX4w2HLRTEOZkR2-59" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="151" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-61" parent="53VceTX4w2HLRTEOZkR2-59" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; background-color: transparent; text-align: center;&quot;&gt;stock_店CD&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(51, 51, 51), rgb(193, 193, 193)); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; background-color: transparent; text-align: center; font-size: 16px;&quot;&gt;_YYYYMMDD.gz&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(51, 51, 51), rgb(193, 193, 193)); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; background-color: transparent; font-size: 16px;&quot;&gt;店別在庫&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="151" x="6" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-62" edge="1" parent="1" source="53VceTX4w2HLRTEOZkR2-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontColor=#FF0000;fontSize=16;strokeColor=#FF0000;strokeWidth=4;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="53VceTX4w2HLRTEOZkR2-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="878.5" y="323.75" as="sourcePoint" />
+            <mxPoint x="1074.5" y="355.75" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-63" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;データ吐き出し&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="104" x="510" y="266" as="geometry" />
+        </mxCell>
+        <UserObject label="INUNAKI&lt;div&gt;&lt;br&gt;&lt;/div&gt;" mermaidId="n:B" mermaidBaseStyle="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;" mermaidBaseValue="集計SV&#xa;MST_TORIHIKI 取引マスタ（F083）" id="53VceTX4w2HLRTEOZkR2-64">
+          <mxCell parent="1" style="html=1;whiteSpace=wrap;strokeWidth=1;fillColor=light-dark(#ECECFF,#1f2020);strokeColor=light-dark(#9370DB,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=16;verticalAlign=top;align=left;" vertex="1">
+            <mxGeometry height="112.5" width="200" x="675" y="391" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="53VceTX4w2HLRTEOZkR2-65" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" value="&lt;span style=&quot;color: rgb(51, 51, 51); font-family: &amp;quot;Trebuchet MS&amp;quot;, Verdana, Arial, sans-serif; font-size: 16px; text-align: left;&quot;&gt;西友店舗マスタ&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="718" y="419" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D3Y7cm9AIP10yROmp_19" name="ページ-3">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="NzzO3feapZQ34-LnPZI7" name="ページ-4">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="7652BHDf77PDPkPew0-v" name="ページ-5">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cTHkifkopvoJc15l_ZET" name="ページ-6">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="e-jkwUCipQz9yXNaLeOS" name="ページ-7">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

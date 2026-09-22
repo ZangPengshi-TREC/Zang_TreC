@@ -4,7 +4,7 @@
 日文对照: `SCM-IFクラウド機_申請話術.md`  
 依据: `SCM-IFクラウド機アーキテクチャ.md` / 同名 draw.io  
 名称: 口头用 **SCM連携クラウド機**。见积 Layer①。不只是文件 IF，共通化、型转换和一部分生成逻辑也在本机。  
-假称: **ProjectD / Seiyu_Order 只是资料上的例子**，不是正式 GCP 项目名。口头上要说「暂称」「举例」。也可以不提这个名字。
+假称／ID: **GCP 项目 ID（暂定）=`md-data-integration-prod`。** 旧资料里的 ProjectD / Seiyu_Order 是指向该 ID 的说明用别名。口头可说暂定 ID，或直接说「SCM連携クラウド機」。
 
 ---
 
@@ -12,20 +12,20 @@
 
 | 申请 | 不申请（本次云机 Spec 外） |
 |---|---|
-| TRIAL GCP **新建 1 个项目**（SCM連携クラウド機） | **GKE**（不需要常设集群） |
-| 执行基盤用 **Cloud Run Jobs**（无状态批处理，Hinemos 启动） | 本机**持久化磁盘／ステージング** |
-| （另行）連携用 GCS → 松尾 | DataSpider（西友 Azure。②③） |
-| | 自动发注 GCS（TRIAL 既存。不是云机项目） |
+| TRIAL GCP **新建 1 个项目**（SCM連携クラウド機。暂定 ID: **`md-data-integration-prod`**） | **GKE**（不需要常设集群） |
+| 执行基盤用 **Cloud Run Jobs**（东京。4 vCPU / 16 GiB 案） | 本机（VM）**持久化磁盘／ステージング** |
+| **`md-data-integration-prod` 附带 GCS（集计保存）** 与 **西友连携 GCS（处理结果）**（均在东京） | DataSpider（西友 Azure。②③） |
+| （桶契约需对账） | 自动发注 GCS（TRIAL 既存。不是云机项目） |
 
-要点: 本机是 **文件 IF 批处理转换机**。启动→抽出・转换→GCS プッシュ／プル→结束。不是常驻微服务平台，所以用 **Cloud Run Jobs**，**不申请 GKE**。
+要点: 本机是 **文件 IF 批处理转换机**。集计数据保存在 **`md-data-integration-prod` 附带 GCS** → Cloud Run 等处理后 → **结果反映到西友连携 GCS** → 西友DS。**无二次プッシュ。** 启动 TBD。不申请 GKE。
 
 ### 为什么用 Cloud Run、不用 GKE（对比·口头用）
 
 | 観点 | **Cloud Run Jobs（采用）** | **GKE（不采用）** |
 |---|---|---|
-| 运行方式 | Hinemos 启动 → 处理 → 结束；空闲可停 | 集群／节点容易常设 |
+| 运行方式 | 按时启动 → 处理 → 结束；空闲可停 | 集群／节点容易常设 |
 | 本机工作 | 抽出・转换・GCS プッシュ／プル的**批处理** | 更适合微服务／常驻 API |
-| 存储 | 无状态；正本在 GCS；与设计一致 | 往往要节点／持久卷运维 |
+| 存储 | 无状态；landing/output・正本在 **GCS**；与设计一致 | 往往要节点／持久卷运维 |
 | 运维・费用 | 申请与运维轻；按批处理计费 | 运维重、固定成本高；对本案过重 |
 | 结论 | **适合 IF 连携机** | **本次范围不需要** |
 
@@ -35,7 +35,7 @@
 
 ## 时间不够时（15 秒）
 
-> 申请的是 TRIAL GCP 上新建的 1 个项目，SCM連携クラウド機。执行用 **Cloud Run Jobs**（批处理）。抽出、共通化、型转换、一部分生成，并**プッシュ到連携用 GCS**。**本机不设持久化存储。不申请 GKE——不需要常设集群，因为是需要时才跑的批处理。** GCS 和 DataSpider 不进这次 Spec。連携用 GCS 向松尾另行申请。
+> 申请的是 TRIAL GCP 上新建的 1 个项目，SCM連携クラウド機。暂定 ID 是 **`md-data-integration-prod`**。执行用 **东京的 Cloud Run Jobs**。从 **集计SV GCS（大阪）** 同步到 **本项目附带 GCS**，处理后把结果反映到 **西友连携 GCS**。**无二次プッシュ。** 不申请 GKE。启动方式还在调整。
 
 ---
 
@@ -43,19 +43,19 @@
 
 今天说明 SCM連携クラウド機 的申请范围。分四点：申请什么、为什么选这个执行基盤、往路和复路做什么、哪些不进本次 Spec。
 
-先说申请对象。在 TRIAL GCP 上新建 **1 个项目**。资料里的 ProjectD、Seiyu_Order 只是说明用的暂称，不是正式项目 ID。定位上，和现有的惣菜、MD-Link、Inunaki 并列，是一台 **SCM 連携机**。如果按课题拆成多个项目，Hinemos 的启动对象和文件落点会变成两套，所以 **收敛为 1 个项目**。
+先说申请对象。在 TRIAL GCP 上新建 **1 个项目**。**暂定项目 ID 是 `md-data-integration-prod`。** 资料里的 ProjectD、Seiyu_Order 是指向这个暂定 ID 的说明用叫法。定位上，和现有的惣菜、MD-Link、Inunaki 并列，是一台 **SCM 連携机**。如果按课题拆成多个项目，启动对象和文件落点会变成两套，所以 **收敛为 1 个项目**。环境设计图（gcp環境設計）就是 **这个项目的申请图**。
 
-再说执行基盤。采用 **Cloud Run Jobs**。本机的工作不是常驻等待的 API 服务，而是 **由 Hinemos 按时刻启动的批处理**：启动 → 从集计 SV 等抽出 → 共通化・型转换 → プッシュ到連携用 GCS，或从連携用 GCS プル并转换 → 结束。空闲时不必一直养着节点。相对地，**GKE** 更偏常设集群和节点，运维负担和固定成本都大。本次是文件 IF 转换机，不是微服务平台，因此 **不申请 GKE**。同时，本机 **不设持久化ステージング**；成果物正本在 GCS，作业运行中的临时目录可以有。
+再说执行基盤。采用 **Cloud Run Jobs**（东京 `asia-northeast1`，申请图为 4 vCPU / 16 GiB）。流程：**集计SV GCS（大阪）** 输入确认 → Storage Transfer 同步到 **本项目（`md-data-integration-prod`）附带 GCS** → Cloud Run 转换 → **结果反映到西友连携 GCS**（公司间正本）→ 西友 DataSpider。**本项目附带 GCS 与西友连携 GCS 是两套；无二次プッシュ。** **启动主体是 Hinemos 还是 Scheduler+Workflows，尚未完全确定。** 不申请 GKE。不做 VM／本机持久化ステージング。
 
 负责范围是见积的 **Layer①**。不只是文件进出，还要做吸收西友与 TRIAL 差异的 **共通化・型转换**，以及一部分生成逻辑。  
-往路：主要从集计 SV 抽出，转换后 **直接プッシュ到連携用 GCS**。公司间唯一通道就是这套連携用 GCS。  
-复路发注劝告：先由西友 Azure 的 **Layer③ DataSpider** 从 Sinops 处理到連携用 GCS；再由 **Layer① 云机** プル、转成发注 IF 后 **プッシュ到 TRIAL 自动发注 GCS**。送到 OrdreSV 的是既存自动发注传送，云机不直连 OrdreSV。自动发注 GCS 是 TRIAL 内既存受け皿，不纳入本次云机项目。
+往路：从 **集计SV GCS（大阪）** 同步到 **`md-data-integration-prod` 附带 GCS**，经 Cloud Run 处理后把结果反映到 **西友连携 GCS**。公司间唯一通道就是西友连携 GCS。  
+复路发注劝告：西友 Azure 的 **Layer③ DataSpider** 写到同 GCS；**Layer① Cloud Run** プル后转成发注 IF，再 **プッシュ到自动发注 GCS**。
 
-Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；③ 往路送到 Sinops／BO，复路把劝告写到連携用 GCS。**DataSpider 和 GCS 本体不进本次云机 Spec**；但連携用 GCS 本身仍要向松尾 **另行申请**。BO 程序本阶段不做，但会共用同一套云机与 DataSpider 面。
+Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；③ 往路送到 Sinops／BO，复路把劝告写到西友连携 GCS。**DataSpider 和西友连携 GCS 本体不进本次云机 Spec**；但西友连携 GCS 本身仍要向松尾 **另行申请**。BO 程序本阶段不做，但会共用同一套云机与 DataSpider 面。
 
 最后是计划。本周内继续固化 SCM連携クラウド機 的功能范围。到下周为止，由中国侧团队确认架构，并算出 Spec 与费用，再交给岩濑先生提出。
 
-以上。收束五点：「1 个项目的連携机」「Cloud Run Jobs 批处理、不上 GKE」「持久化在 GCS、本机无状态」「往路プッシュ連携用 GCS、复路プル后到自动发注 GCS」「DSS 与 GCS 另案／另 Spec」。
+以上。收束：「1 个项目的連携机」「东京 Cloud Run Jobs、不上 GKE」「集计在本项目附带 GCS、结果到西友连携 GCS、无本机磁盘」「启动 TBD」「往路反映到西友连携 GCS、复路プル后到自动发注 GCS」「DSS 与西友连携 GCS 另案／另 Spec」。
 
 ---
 
@@ -71,22 +71,28 @@ Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；�
 原则上不做。DSS（Layer②／③）只做 **全字段通过／转发**。类型转换、字段筛选、代码转换、编辑都在 **Layer①（本云机）**。
 
 **往路都从集计 SV 取吗。**  
-不是。多数往路从集计 SV。新商品在库在云机用西友 DWH 棚割 × TRMD マスタ生成。仕入先休日的源是 TRIAL 自动发注连携。发注劝告是 Layer③ DataSpider 从 Sinops 处理到連携用 GCS，再由 Layer① 云机プル、转换后 TRIAL 自动发注 GCS へプッシュ。
+不是。多数往路从集计 SV。新商品在库在云机用西友 DWH 棚割 × TRMD マスタ生成。仕入先休日的源是 TRIAL 自动发注连携。发注劝告是 Layer③ DataSpider 从 Sinops 处理到西友连携 GCS，再由 Layer① 云机プル、转换后 TRIAL 自动发注 GCS へプッシュ。
 
 **本机要带磁盘做落地吗。**  
-不做持久化ステージング。成果物正本在連携用 GCS（复路发注IF在自动发注 GCS）。作业运行中的临时目录可以有。
+不做 VM／本机持久化。**集计数据在 `md-data-integration-prod` 附带 GCS、处理结果在西友连携 GCS（均在东京）。** 自动发注 GCS 是复路专用、另一套。
+
+**本项目附带 GCS 和西友连携 GCS 是两套吗。**  
+**是两套。** 集计数据放在 **`md-data-integration-prod` 附带 GCS**；处理后只把结果反映到 **西友连携 GCS**。无二次プッシュ。
+
+**启动是 Hinemos 还是 Scheduler。**  
+**尚未完全确定。** 候选：继续 Hinemos、Cloud Scheduler＋Workflows、或 Hinemos 调用 Workflows。DSS（②③）暂仍按 Hinemos。
 
 **GCS 不进 Spec，是不是不用申请。**  
-这次 Spec 只申请云机。連携用 GCS 不是云机项目，但仍要向松尾另行申请。DataSpider 也不进这次 Spec。
+这次 Spec 申请云机（`md-data-integration-prod`：Cloud Run 与 **本项目附带 GCS** 等）。**西友连携 GCS** 不是云机项目，但仍要向松尾另行申请。DataSpider 也不进这次 Spec。
 
-**連携用 GCS 和自动发注 GCS 是两套吗。**  
-是两套。連携用 GCS 是 TRIAL 侧和西友侧之间的唯一通道。自动发注 GCS 是 TRIAL 内的既存功能，用来把劝告交给 OrdreSV。两套都不是云机这个项目。
+**西友连携 GCS 和自动发注 GCS 是两套吗。**  
+是两套。西友连携 GCS 是 TRIAL 侧和西友侧之间的唯一通道。自动发注 GCS 是 TRIAL 内的既存功能，用来把劝告交给 OrdreSV。本项目附带 GCS（集计保存）也要分开写。
 
 **为什么必须是 1 个项目。**  
-为了不把 SCM 统一联动面拆开。按课题各开一个项目，Hinemos 的启动对象和文件落点就会变成两套。
+为了不把 SCM 统一联动面拆开。按课题各开一个项目，启动对象和文件落点就会变成两套。
 
-**资料里的 ProjectD 是正式名吗。**  
-不是。只是为了和现有的 A 惣菜 / B MD-Link / C Inunaki 并列说明，用的暂称。正式项目 ID 还没定。
+**资料里的 ProjectD 或 md-data-integration-prod 是正式名吗。**  
+**`md-data-integration-prod` 是暂定项目 ID**，正式采番仍可能调整。ProjectD / Seiyu_Order 是旧资料说明用别名，现在都指同一台机。环境设计 pptx 当作本项目申请图用。
 
 **BO 和共通基盤呢。**  
 BO 程序本阶段不做，但会用同一套云机和 DataSpider。共通基盤的启动是枢纽侧，不是云机上的連携・转换本身。

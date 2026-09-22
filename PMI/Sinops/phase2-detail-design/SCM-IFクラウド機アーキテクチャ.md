@@ -1,6 +1,6 @@
 # SCM 統一 IF クラウド機アーキテクチャ（日本語版）
 
-基準日: 2026-09-15（方針更新 2026-09-21：本機永続ストレージを使わず、成果物は連携用 GCS へプッシュ）  
+基準日: 2026-09-15（方針更新 2026-09-22：PJ ID 暫定 `md-data-integration-prod`、**landing＝本PJ附帯GCS／output＝西友連携GCS**、起動 TBD）  
 対象: 西友 MD 基幹統合 / 自動補充 Sinops 系 第2段階  
 位置づけ: 詳細設計の Job 前提。DSS スクリプトそのものではない。
 
@@ -9,21 +9,33 @@
 - `【概算見積もり】西友MD基幹統合_外部IF開発見積_BO系・自動補充Sinops系_20260903.xlsx`
 - 既存 DSS: 西友 Azure 上の DataSpider。GCS 連携用プロジェクト例 `seiyu-trial-data-exchange`
 - `sources/20260915-データ連携経路-データ活用連携_小峰資料_松尾加筆.md`
+- `sources/20260922-gcp環境設計/`（**本 PJ 申請図**。集計SV GCS（大阪）→本PJ附帯GCS（landing）→Cloud Run→西友連携 GCS（output））
+- 構成図（draw.io）: `SCM-IFクラウド機アーキテクチャ.drawio`（日）／`SCM-统一IF机架构.drawio`（中）※2026-09-22 再作成
 
 ---
 
 ## 1. 結論
 
-申請する **IF クラウド機** は TRIAL GCP の **1 Project** である。作業名は **ProjectD（Seiyu_Order）**。中身は図の **外部IF** だけ（集計SV抽出・変換・**連携用 GCS へプッシュ**。復路は連携用 GCS からプルして変換し、**自動発注 GCS へプッシュ**）。
+申請する **IF クラウド機** は TRIAL GCP の **1 Project** である。  
+**GCP プロジェクト ID（暫定 2026-09-22）: `md-data-integration-prod`。**  
+資料上の旧称 **ProjectD / Seiyu_Order** は説明用エイリアス（この暫定 ID を指す）。中身は図の **外部IF** だけ（集計系データの取得・変換・**西友連携 GCS への配置**。復路は同 GCS からプルして変換し、**自動発注 GCS へプッシュ**）。
 
-- **本機に永続ストレージ（ステージング領域）を持たない。** ジョブ成果物の正は連携用 GCS（復路の発注IF成果は自動発注 GCS）。処理中の一時作業領域（/tmp 等）は可、設計上の「本機保存」ステップは置かない。
-- **GCS** は同じ TRIAL GCP の **連携用プロジェクト**（例 `seiyu-trial-data-exchange`、担当 末松）。クラウド機（ProjectD）ではない。
-- **DataSpider** は **西友 Azure** にある。② Intake と ③ 転送。**原則として型変換・フィールド選別はしない（全フィールド通過）。型変換・項目選別・コード変換・編集は Layer①。** ProjectD に入れない。
-- 西友 DataSpider から GCS へは、西友データセンタ NAT ↔ TRIAL データセンタ NAT。スライド注記は西友起点。
-- **Hinemos** は共通基盤。① は ProjectD、②③ は西友 DataSpider を起動する。
+**GCP 環境申請図（2026-09-22 CONFIRMED、12:51 版でラベル更新）:** `sources/20260922-gcp環境設計/gcp環境設計.pptx` は **本プロジェクト（`md-data-integration-prod`）の申請図**である。流れは **集計SV GCS（大阪 asia-northeast2）→ Storage Transfer → 本PJ附帯GCS（landing）→ Cloud Run Job → 西友連携 GCS（output）**。
+
+- **Layer① は一体:** 新規申請環境 **`md-data-integration-prod`** ＝ **附帯 GCS（landing）＋ Cloud Run**。どちらも Layer①。
+- **landing ＝ 本 PJ（`md-data-integration-prod`）附帯 GCS（東京）。** 大阪から同期した **集計系データ（TBL/MAT/DM/TANA 等）の保存先**。日付 `YYYYMMDD`。
+- **output ＝ 西友連携 GCS（東京）。** Layer① の外。会社間の正本・唯一通路。日付 `YYYYMMDD`、完了印 `_SUCCESS`。西友 DataSpider はここを読む／書く。
+- **処理流れ:** Layer① 内で集計を附帯 GCS に保存し Cloud Run で処理したあと、**結果を西友連携 GCS（output）へ反映**。output 後の二次プッシュは置かない。
+- **本機（VM／永続ディスク）にステージングを持たない。** 永続は GCS のみ。処理中の一時作業領域（/tmp 等）は可。
+- **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
+- **GCS 上のファイル名は必ず末尾 `_YYYYMMDDhhmmss`。** 形式 `{論理ベース}_{YYYYMMDDhhmmss}.{拡張子}`。日付ディレクトリ `YYYYMMDD`（landing/output）と両立。本PJ附帯GCS・西友連携 GCS・自動発注 GCS とも同じ。
+- **自動発注 GCS** は TRIAL 内既存（復路の発注IF着地）。西友連携 GCS とは別用途。
+- **本PJ附帯 GCS** の桶は `md-data-integration-prod` 配下。**西友連携 GCS** の正式桶名（例 `seiyu-trial-data-exchange` / `ods-seiyu-*`）は別契約・要突合（TBD）。
+- **DataSpider** は **西友 Azure**。② Intake と ③ 転送。**全フィールド通過。型変換・選別・編集は Layer①（`md-data-integration-prod` の Cloud Run）。**
+- **起動方式は TBD。** 候補: Hinemos ／ Cloud Scheduler + Workflows ／ Hinemos→Workflows。DSS②③は当面 Hinemos。
 - IF クラウド機を課題ごとに別 Project にすると、SCM 統一連携面が割れる。
 
-第2段階の Sinops 見積は **403 人日**（詳細設計 136 + 開発 144 + 単体 123）。共通基盤 **43 人日** はハブ立上げであり、403 に按分しない。BO 系 53.5 人日のプログラムは本段階の対象外だが、**同一の ProjectD + 西友 DataSpider は使う**。
+第2段階の Sinops 見積は **403 人日**（詳細設計 136 + 開発 144 + 単体 123）。共通基盤 **43 人日** はハブ立上げであり、403 に按分しない。BO 系 53.5 人日のプログラムは本段階の対象外だが、**同一の `md-data-integration-prod` + 西友 DataSpider は使う**。
 
 ---
 
@@ -37,59 +49,59 @@ flowchart LR
     DWH[Layer② 着地 DWH]
     SN[Layer③ 着地 MDSCM]
     BO[BO系]
-    NATL[データセンタ 西友 NAT]
   end
 
   subgraph TDC[TRIAL データセンタ]
     CS[TRMD / CoreSaver]
     OS[OrdreSV]
-    SV[集計 SV]
-    CS --> SV
   end
 
   subgraph GCP[TRIAL GCP]
-    subgraph PD[Layer① ProjectD · IFクラウド機]
-      EXT[Layer① 外部IF 抽出・変換・プッシュ]
+    OSKGCS[集計SV GCS\n大阪 asia-northeast2]
+    subgraph L1[Layer① md-data-integration-prod]
+      APPGCS[附帯 GCS landing\n集計データ保存]
+      CRJ[Cloud Run Job]
     end
-    FILE[連携用GCS Layer① 着地・正本]
+    LINK[西友連携 GCS\n処理結果反映\noutput YYYYMMDD _SUCCESS]
     AOGCS[自動発注 GCS]
     AOX[自動発注 転送]
   end
 
-  SV -->|Layer① 抽出| EXT
-  EXT -->|Layer① プッシュ| FILE
-  FILE -->|Layer②| DS2
-  FILE -->|Layer③ 直送| DS3
-  DS2 -->|Layer②| DWH
-  DWH -->|Layer③ 再送| DS3
-  DS3 -->|Layer③ 往路| SN
-  SN -.->|Layer③ 復路受信| DS3
-  DS3 -.->|Layer③ GCSへ| FILE
-  FILE -.->|Layer① プル| EXT
-  EXT -.->|Layer① プッシュ| AOGCS
-  AOGCS -.-> AOX
-  AOX -.->|既存転送| OS
-  DS3 -.->|Layer③-BO| BO
-  OS -->|同期| CS
-  NATL --- FILE
-  H[Hinemos] -.->|起動 Layer①| EXT
-  H -.->|起動 Layer②③| DS2
+  OSKGCS -->|STS 同期| APPGCS
+  APPGCS --> CRJ
+  CRJ --> LINK
+  LINK -->|Layer②| DS2
+  LINK -->|Layer③ 直送| DS3
+  DS2 --> DWH
+  DWH -->|再送| DS3
+  DS3 -->|往路| SN
+  SN -.->|復路| DS3
+  DS3 -.->|勧告配置| LINK
+  LINK -.->|Layer① プル| CRJ
+  CRJ -.->|発注IF| AOGCS
+  AOGCS --> AOX
+  AOX -.-> OS
+  DS3 -.-> BO
+  ORCH[起動 TBD] -.-> CRJ
+  H[Hinemos] -.-> DS2
   H -.-> DS3
 ```
 
-凡例（見積「前提条件・注記」準拠）:
+凡例:
 
-- **Layer①** TRIAL↔GCS（外部IFプログラム開発）。**クラウド機 = TRIAL GCP ProjectD（Seiyu_Order）の外部IF**。297 人日。GCS は別連携用プロジェクト
-- **Layer②** GCS→DWH（DataSpider 取込ジョブ）。**西友 Azure の DataSpider**。31 人日
-- **Layer③** DWH・GCS↔業務システム（DataSpider 連携ジョブ）。**西友 Azure の DataSpider**。75 人日
-- Hinemos は Layer ではない。①は ProjectD、②③は西友 DataSpider を起動する。
+- **Layer①** `md-data-integration-prod` 一体（**附帯 GCS ＋ Cloud Run**）。集計保存→変換→西友連携 GCS へ結果反映。297 人日
+- **本PJ附帯 GCS** ＝ Layer① 内の集計保存先（landing）。西友連携 GCS ではない
+- **西友連携 GCS** ＝ Layer① 外。処理結果の反映先（output）。会社間の唯一通路
+- **Layer②／③** 西友 Azure DataSpider。西友連携 GCS を Intake／転送
+- **自動発注 GCS** は復路専用。連携用 GCS ではない
+- **起動** Layer① は TBD。②③は当面 Hinemos
 
 直結しないもの:
 
 - 集計 SV / CoreSaver / 統合マスタ / 自動発注 → Sinops
 - Sinops → Shinise
 - Sinops → OrdreSV / CoreSaver
-- 西友 DataSpider → OrdreSV（TRIAL と西友の唯一の交互通路は GCS）
+- 西友 DataSpider → OrdreSV（TRIAL と西友の唯一の交互通路は **西友連携 GCS（output）**）
 
 ---
 
@@ -100,7 +112,7 @@ flowchart LR
 | CoreSaver | TRIAL **基幹データ**。発注勧告の同期先 | 往路：TRMD→集計SV。クラウド機は集計SVから抽出。復路：OrdreSV 自動確定後に同期で戻る |
 | OrdreSV | **基幹の発注サーバ群**。TRIAL 自動発注サーバそのものではない | 復路着地。西友 DSS からは受け取らない。TRIAL 自動発注の転送機能経由で自動確定する |
 | 統合マスタ | **基幹の一部**（西友×TRIAL 統合後のマスタ IF） | 商品・店舗商品・カテゴリ・仕入先等（01–05、16–17）。TRIAL 枠の外ではない |
-| 集計 SV | 基幹から出力する **各種共用データ**。クラウド機の抽出元 | マスタ系は TRMD→集計SV→外部IF。第二の基幹ではない |
+| 集計 SV | 基幹から出力する **各種共用データ**。出力先 GCS が **大阪（asia-northeast2）** の桶 | クラウド機は **集計SV GCS** を STS で同期して取り込む。第二の基幹ではない |
 | 自動発注 | 同じ基幹を使う TRIAL 側機能。**自動発注 GCS + 転送**を持つ | 往路：仕入先休日等（18）。復路：IF クラウド機が勧告を自動発注 GCS へ置き、既存の転送機能が OrdreSV へ渡す |
 | Shinise | TRIAL の **新基幹** | 発注勧告の着地ではない。便区分等は Shinise 側前提のまま |
 
@@ -117,28 +129,31 @@ flowchart LR
 
 ### 往路（Sinops 向け）
 
-1. TRMD 基幹は集計SVへ出す。IF クラウド機の外部IFが集計SVから抽出（①）
-2. 外部IFで共通化・型変換し、**本機へ永続保存せず、連携用 GCS へプッシュ**する（①）。GCS はクラウド機ではない
-3. 必要なマスタのみ DSS が DWH へ Intake（② 31 人日。実績は多くが 0）
-4. DSS が GCS 上のファイルを Sinops へ転送（③）
+1. **集計SV GCS（大阪）** に集計データ（TBL/MAT/DM/TANA 等）の `_READY` が出たら、Storage Transfer で **本PJ附帯 GCS（landing）**（日付 `YYYYMMDD`）へ同期する（①・申請図）
+2. 東京 **Cloud Run Job**（`md-data-integration-prod`）が landing を読み、共通化・型変換し、**西友連携 GCS の output** に書く（①）。完了印 `_SUCCESS`
+3. **西友連携 GCS（output）** が会社間の正本。output 後に別桶へ載せ替える二次プッシュはしない
+4. 必要なマスタのみ DSS が DWH へ Intake（②）
+5. DSS が西友連携 GCS（output 等）上のファイルを Sinops へ転送（③）
+
+※ 往路の入力元は **集計SV GCS（大阪）**。直抽出ではなく STS 同期。正経路は **集計SV GCS → 本PJ附帯GCS（landing）→ Cloud Run → 西友連携 GCS（output）**。
 
 ### 復路（発注勧告 R：Layer③ と Layer①）
 
-TRIAL と西友の **唯一の交互通路は GCS**。西友 DSS は OrdreSV へ直送しない。
+TRIAL と西友の **唯一の交互通路は西友連携 GCS（output）**。西友 DSS は OrdreSV へ直送しない。
 
 発注勧告 R の層分担:
 
-- **Layer③** Sinops → DSS 処理 → **連携用 GCS**（当日 `kankoku.txt` と翌日以降 `subkankoku.txt` を毎日出す）
-- **Layer①** 連携用 GCS → IFクラウド機で処理 → **TRIAL 自動発注 GCS** へアップロード。**24/25 は共通 1 ジョブ。** プル後に採用判定し、当日または昨日の翌日以降を **1 本だけ** 発注IFへ変換する
+- **Layer③** Sinops → DSS 処理 → **西友連携 GCS**（当日／翌日以降。物理名 `_YYYYMMDDhhmmss`）
+- **Layer①** 同 GCS → Cloud Run で処理 → **TRIAL 自動発注 GCS** へアップロード。**24/25 は共通 1 ジョブ**
 
 手順:
 
-1. Layer③：DataSpider が Sinops の発注勧告（当日・翌日以降）を処理し、**連携用 GCS** へ出す
-2. Layer①：IFクラウド機が連携用 GCS から **当日と昨日の翌日以降** をプルする
-3. Layer①：採用判定（STEP20）。当日が指定時刻までに作成済なら当日。障害または未作成なら昨日の翌日以降。2 本は重ねない
-4. Layer①：採用した 1 本を発注IF `SIREJAN_RCMDORDER_LAST` へ変換し、**本機保存せず TRIAL 自動発注 GCS へプッシュ**。連携用 GCS とは別用途
-5. **TRIAL 自動発注の転送機能** が自動発注 GCS から OrdreSV へ渡す（既存機能。西友 DSS ではない。403 の③送信ではない）
-6. OrdreSV が自動確定したあと、CoreSaver へ同期（基幹内。403 の IF 加工には入れない）
+1. Layer③：DataSpider が勧告を **西友連携 GCS** へ出す
+2. Layer①：Cloud Run が同 GCS から当日と昨日の翌日以降をプルする
+3. Layer①：採用判定（STEP20）
+4. Layer①：発注IF `SIREJAN_RCMDORDER_LAST` へ変換し、**自動発注 GCS** へプッシュ（連携用 GCS とは別）
+5. 既存の自動発注転送 → OrdreSV
+6. OrdreSV 自動確定後 CoreSaver 同期（403 外）
 
 見積 22–25 の「CORESAVER連携→SHINISE連携」は次のとおり読む。
 
@@ -227,16 +242,18 @@ IF クラウド機を別構築する場合、労働下限はもう +43。ライ�
 
 ## 8. 詳細設計への落とし方
 
-- Job は「集計SVは出数、ProjectD 外部IFで抽出・変換し連携用 GCS へプッシュ、西友 DataSpider は転送」で書く。**本機ステージングを Job ステップにしない。**
-- Hinemos の順序は 抽出・変換 → 連携用 GCS へプッシュ（ProjectD①）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路 22–25 は 西友 DS が連携用 GCS へ書く → ProjectD がプル・変換して自動発注 GCS へプッシュ → 既存の自動発注転送。
-- IF ID は `SEIYU-TRIALインターフェース管理台帳` の DSS 台帳から採番。プロジェクト名 = IF ID。トリガは `SEIYUCOM000X`。
-- GCS は TRIAL GCP 連携用プロジェクト（例 `seiyu-trial-data-exchange`）。接続名と IF ID 配下ディレクトリは台帳確定後に書く。
-- 詳細設計はサーバー待ちで止めない。開発・単体は DEV の DSS + GCS が必要。
+- Job は「集計SV GCS（大阪）→本PJ附帯GCS（landing）→Cloud Run 変換→西友連携 GCS（output）→西友 DataSpider 転送」で書く。**VM／本機ディスクのステージングを置かない。landing≠output（本PJ附帯／西友連携）。二次プッシュなし。**
+- 起動順序（①の主体は TBD）: 同期完了 → Cloud Run → output（西友連携 GCS）→（必要なら西友 DS Intake②）→ 西友 DS 送信③。復路は 西友 DS が西友連携 GCS へ書く → Cloud Run がプル・変換して自動発注 GCS へプッシュ。
+- IF ID は `SEIYU-TRIALインターフェース管理台帳` から採番。
+- **GCS オブジェクト名は `{論理ベース}_YYYYMMDDhhmmss.{拡張子}`。** 日付 DIR `YYYYMMDD` と併用。
+- バケット正式 PJ／桶名と `md-data-integration-prod` の切り分けは要突合。
 
 未決（本資料では経路だけ固定）:
 
+- **Layer① 起動方式（Hinemos ／ Scheduler+Workflows ／ 併用）**
+- 本PJ附帯GCS／西友連携 GCS の正式バケット PJ／桶名（例 `seiyu-trial-data-exchange`）と Cloud Run PJ の契約
 - 05 ケースバラ方針
 - 13/19 の締め時刻・対象 FLG の最終ソース内訳
 - 14/15 棚割開始日
-- 店舗系 R（24/25）は `SIREJAN_RCMDORDER_LAST` 7 項目。数量は **×1000 しない**（発注単位の整数倍であれば可、倍数へ丸めない）。Layer① は **共通 1 ジョブ**（STEP20 で当日／昨日の翌日以降を 1 本採用）。Ordertype は勧告ファイルの西友中分類（西友ライン＝部門）→自動発注GCS `JIHA.BUMON_ZONE`→`JIHA.ZONE_LOGIC`（01→0、02日配/03生鮮→1）。**TRIAL 商品マスタは見ない。** 店CD・仕入先・商品の紐付けは西友（Sinops）と TRIAL のマスタ統合で解決（本IFは独自変換しない）。残は最終値化・締切時刻 TBD-19。倉庫系 W（22/23）は G01
-- 自動発注 GCS の正式プロジェクト ID / バケット契約（連携用 GCS との切り分け）
+- 店舗系 R（24/25）は `SIREJAN_RCMDORDER_LAST` 7 項目。数量は **×1000 しない**。Layer① 共通 1 ジョブ。Ordertype：西友ライン→ZONE。残は最終値化・TBD-19。倉庫系 W は G01
+- 自動発注 GCS の正式プロジェクト ID / バケット契約

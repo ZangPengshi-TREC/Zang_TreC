@@ -1,7 +1,7 @@
 # DD-00 Common Interface Design
 
-Version: 0.2 draft
-基準日: 2026-09-11（方針更新 2026-09-21：DSS 全フィールド／変換は Layer①）
+Version: 0.4 draft
+基準日: 2026-09-11（方針更新 2026-09-22：申請図・landing＝本PJ附帯GCS／output＝西友連携GCS・起動 TBD）
 適用範囲: 自動補充 Sinops-01〜25
 対象外: BO 系、Hitluster/WMS、棚割システム本体
 
@@ -47,7 +47,14 @@ Phase 1 の IF ごとの Mapping / GAP / 変換ルールを、実装・単体テ
 | 日付 | `YYYYMMDD` を基本とする。処理日と業務日を分けて記載 | ASSUMPTION。ファイルレイアウトの実値を確認 |
 | 時刻 | 発注締め時刻は `HHmm` を基本候補とする | TBD: Master の発注締番号 1〜10 の意味、CoreSaver/MT type の供給元、15 時締め追加方法、欠損時処理 |
 | 文字コード | 各 IF の最新レイアウト記載値を採用 | TBD: 最新レイアウトで IF ごとに確認 |
-| ファイル名 | `item_mst.txt`、`store_item_mst.txt` 等の固定名を基本候補とする | ASSUMPTION。業務ルール合意 No.0 の書面確定が必要 |
+| ファイル名（論理） | `item_mst.txt`、`store_item_mst.txt`、`kankoku.txt` 等。IF一覧・レイアウト上の論理名 | ASSUMPTION。業務ルール合意 No.0 の書面確定が必要 |
+| ファイル名（GCS 物理） | **GCS 上のオブジェクト名は必ず末尾に `_YYYYMMDDhhmmss` を付ける。** 形式: `{論理ベース}_{YYYYMMDDhhmmss}.{拡張子}`。本PJ附帯 GCS（landing）・西友連携 GCS（output）・自動発注 GCS とも同じ。日付ディレクトリ `YYYYMMDD` と併用可 | **CONFIRMED: 2026-09-21** |
+| ProjectD 作業領域 | **landing ＝ `md-data-integration-prod` 附帯 GCS（集計データ保存）。output ＝ 西友連携 GCS（処理結果反映）。** いずれも東京。VM／本機ディスクなし。/tmp 可。output 後の二次プッシュなし | **CONFIRMED: 2026-09-22** |
+| 集計SV GCS | **大阪 `asia-northeast2`。** 申請図の大阪 GCS。TBL/MAT/DM/TANA、`_READY`+manifest。Layer① の入力元 | **CONFIRMED: 2026-09-22** |
+| 本PJ附帯 GCS | **`md-data-integration-prod` 配下の GCS。** 集計系データの保存先（landing）。「申請クラウドGCS」とは呼ばない | **CONFIRMED: 2026-09-22** |
+| 西友連携 GCS | **処理結果の反映先（output）。** 会社間の唯一通路 | **CONFIRMED: 2026-09-22** |
+| GCP プロジェクト ID | **暫定: `md-data-integration-prod`（Cloud Run 側）。** 旧称 ProjectD / Seiyu_Order | **ASSUMPTION（暫定）。** バケット正式 PJ は要突合 |
+| Layer① 起動 | Hinemos ／ Cloud Scheduler+Workflows ／ Hinemos→Workflows | **TBD**。DSS②③は当面 Hinemos |
 | 更新方式 | IF ごとに全件洗い替え、差分更新、日次スナップショットを明示 | CONFIRMED/ASSUMPTION を IF 仕様へ展開 |
 | エラー単位 | ファイル受信、レコード検証、項目変換、出力、取込結果を分けて記録 | ASSUMPTION。運用担当と監視項目を確定 |
 | 再送 | 同一業務日・同一ファイル識別子の二重取込を防止し、再送時の上書き/差分を IF ごとに定義 | TBD: 各 Sinops プラグインの再送仕様 |
