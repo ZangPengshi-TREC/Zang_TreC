@@ -1,6 +1,6 @@
 # SCM 統一 IF クラウド機アーキテクチャ（日本語版）
 
-基準日: 2026-09-15（方針更新 2026-09-22：PJ ID 暫定 `md-data-integration-prod`、**landing＝本PJ附帯GCS／output＝西友連携GCS**、起動 TBD）  
+基準日: 2026-09-15（方針更新 2026-09-22：PJ ID 暫定 `md-data-integration-prod`、**landing＝本PJ附帯GCS／output＝西友連携GCS**、源データ隔離・単方向納品、起動 TBD）  
 対象: 西友 MD 基幹統合 / 自動補充 Sinops 系 第2段階  
 位置づけ: 詳細設計の Job 前提。DSS スクリプトそのものではない。
 
@@ -10,6 +10,7 @@
 - 既存 DSS: 西友 Azure 上の DataSpider。GCS 連携用プロジェクト例 `seiyu-trial-data-exchange`
 - `sources/20260915-データ連携経路-データ活用連携_小峰資料_松尾加筆.md`
 - `sources/20260922-gcp環境設計/`（**本 PJ 申請図**。集計SV GCS（大阪）→本PJ附帯GCS（landing）→Cloud Run→西友連携 GCS（output））
+- `sources/20260922-current-architecture-flow/`（**申請構成クリーン版**。源データ隔離・最終 TXT のみ Seiyu 交付・権限／費用前提）
 - 構成図（draw.io）: `SCM-IFクラウド機アーキテクチャ.drawio`（日）／`SCM-统一IF机架构.drawio`（中）※2026-09-22 再作成
 
 ---
@@ -20,19 +21,26 @@
 **GCP プロジェクト ID（暫定 2026-09-22）: `md-data-integration-prod`。**  
 資料上の旧称 **ProjectD / Seiyu_Order** は説明用エイリアス（この暫定 ID を指す）。中身は図の **外部IF** だけ（集計系データの取得・変換・**西友連携 GCS への配置**。復路は同 GCS からプルして変換し、**自動発注 GCS へプッシュ**）。
 
-**GCP 環境申請図（2026-09-22 CONFIRMED、12:51 版でラベル更新）:** `sources/20260922-gcp環境設計/gcp環境設計.pptx` は **本プロジェクト（`md-data-integration-prod`）の申請図**である。流れは **集計SV GCS（大阪 asia-northeast2）→ Storage Transfer → 本PJ附帯GCS（landing）→ Cloud Run Job → 西友連携 GCS（output）**。
+**GCP 環境申請図（2026-09-22 CONFIRMED）:**  
+- `sources/20260922-gcp環境設計/gcp環境設計.pptx`（12:51）  
+- `sources/20260922-current-architecture-flow/current-architecture-flow-ja-clean.pptx`（クリーン版・隔離／権限／費用）  
+
+流れは **集計SV GCS（大阪 asia-northeast2）→ Storage Transfer → 本PJ附帯GCS（landing／`source-landing/`）→ Cloud Run Job（SMART）→ 西友連携 GCS（output／`result/`・最終 TXT のみ）**。
 
 - **Layer① は一体:** 新規申請環境 **`md-data-integration-prod`** ＝ **附帯 GCS（landing）＋ Cloud Run**。どちらも Layer①。
-- **landing ＝ 本 PJ（`md-data-integration-prod`）附帯 GCS（東京）。** 大阪から同期した **集計系データ（TBL/MAT/DM/TANA 等）の保存先**。日付 `YYYYMMDD`。
-- **output ＝ 西友連携 GCS（東京）。** Layer① の外。会社間の正本・唯一通路。日付 `YYYYMMDD`、完了印 `_SUCCESS`。西友 DataSpider はここを読む／書く。
-- **処理流れ:** Layer① 内で集計を附帯 GCS に保存し Cloud Run で処理したあと、**結果を西友連携 GCS（output）へ反映**。output 後の二次プッシュは置かない。
-- **本機（VM／永続ディスク）にステージングを持たない。** 永続は GCS のみ。処理中の一時作業領域（/tmp 等）は可。
-- **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
+- **landing ＝ 本 PJ（`md-data-integration-prod`）附帯 GCS（東京）＝ PPT「自有 GCS」。** 大阪から同期した **集計系データ（TBL/MAT/DM/TANA 等）の保存先**。パス例 `source-landing/YYYYMMDD/`。**源データ 7日保管。**
+- **output ＝ 西友連携 GCS（東京）＝ PPT「Seiyu 専用 GCS」。** Layer① の外。会社間の正本・唯一通路。パス例 `result/YYYYMMDD/final.txt`、完了印 `_SUCCESS`。西友 DataSpider はここを読む／書く。
+- **安全境界（CONFIRMED）:** **源データは西友連携 GCS に入らない。** Seiyu 側権限は **objectCreator のみ**。結果を自有 GCS に重複保存しない。単方向納品（最終 TXT のみ）。
+- **処理流れ:** Layer① 内で集計を附帯 GCS に保存し Cloud Run で SMART 処理したあと、**最終 TXT のみ西友連携 GCS（output）へ upload**。output 後の二次プッシュは置かない。
+- **本機（VM／永続ディスク）にステージングを持たない。** 永続は GCS のみ。大容量はストリーム + resumable upload；必要時のみ ephemeral disk 外排。処理中の一時作業領域（/tmp 等）は可。**新規 GKE は作らない。**
+- **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB（流式処理の初期値）。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
+- **権限（申請図）:** STS＝大阪 read→自有 write；Job＝自有 objectViewer→Seiyu objectCreator；Scheduler＝Workflows invoker のみ。
+- **容量前提（申請図入力値）:** 自有 GCS 源データ約 251.6 GiB（7日）；大阪→東京転送約 1,078.4 GiB/月。
 - **GCS 上のファイル名は必ず末尾 `_YYYYMMDDhhmmss`。** 形式 `{論理ベース}_{YYYYMMDDhhmmss}.{拡張子}`。日付ディレクトリ `YYYYMMDD`（landing/output）と両立。本PJ附帯GCS・西友連携 GCS・自動発注 GCS とも同じ。
 - **自動発注 GCS** は TRIAL 内既存（復路の発注IF着地）。西友連携 GCS とは別用途。
 - **本PJ附帯 GCS** の桶は `md-data-integration-prod` 配下。**西友連携 GCS** の正式桶名（例 `seiyu-trial-data-exchange` / `ods-seiyu-*`）は別契約・要突合（TBD）。
 - **DataSpider** は **西友 Azure**。② Intake と ③ 転送。**全フィールド通過。型変換・選別・編集は Layer①（`md-data-integration-prod` の Cloud Run）。**
-- **起動方式は TBD。** 候補: Hinemos ／ Cloud Scheduler + Workflows ／ Hinemos→Workflows。DSS②③は当面 Hinemos。
+- **起動方式:** 申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）。Hinemos との役割分担（特に DSS②③）は **TBD**。DSS②③は当面 Hinemos。
 - IF クラウド機を課題ごとに別 Project にすると、SCM 統一連携面が割れる。
 
 第2段階の Sinops 見積は **403 人日**（詳細設計 136 + 開発 144 + 単体 123）。共通基盤 **43 人日** はハブ立上げであり、403 に按分しない。BO 系 53.5 人日のプログラムは本段階の対象外だが、**同一の `md-data-integration-prod` + 西友 DataSpider は使う**。

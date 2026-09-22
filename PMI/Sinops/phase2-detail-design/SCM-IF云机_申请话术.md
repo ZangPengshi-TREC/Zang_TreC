@@ -17,7 +17,7 @@
 | **`md-data-integration-prod` 附带 GCS（集计保存）** 与 **西友连携 GCS（处理结果）**（均在东京） | DataSpider（西友 Azure。②③） |
 | （桶契约需对账） | 自动发注 GCS（TRIAL 既存。不是云机项目） |
 
-要点: 本机是 **文件 IF 批处理转换机**。集计数据保存在 **`md-data-integration-prod` 附带 GCS** → Cloud Run 等处理后 → **结果反映到西友连携 GCS** → 西友DS。**无二次プッシュ。** 启动 TBD。不申请 GKE。
+要点: 本机是 **文件 IF 批处理转换机**。集计数据保存在 **`md-data-integration-prod` 附带 GCS** → Cloud Run（SMART）处理后 → **仅最终 TXT 交付到西友连携 GCS** → 西友DS。**源数据不进西友连携 GCS。无二次プッシュ。** 申请构成图上控制流为 Scheduler+Workflows；与 Hinemos 的分工 TBD。不申请 GKE。
 
 ### 为什么用 Cloud Run、不用 GKE（对比·口头用）
 
@@ -35,7 +35,7 @@
 
 ## 时间不够时（15 秒）
 
-> 申请的是 TRIAL GCP 上新建的 1 个项目，SCM連携クラウド機。暂定 ID 是 **`md-data-integration-prod`**。执行用 **东京的 Cloud Run Jobs**。从 **集计SV GCS（大阪）** 同步到 **本项目附带 GCS**，处理后把结果反映到 **西友连携 GCS**。**无二次プッシュ。** 不申请 GKE。启动方式还在调整。
+> 申请的是 TRIAL GCP 上新建的 1 个项目，SCM連携クラウド機。暂定 ID 是 **`md-data-integration-prod`**。执行用 **东京的 Cloud Run Jobs**。从 **集计SV GCS（大阪）** 同步到 **本项目附带 GCS**，处理后 **仅把最终 TXT 交付到西友连携 GCS**。**源数据不进西友侧。无二次プッシュ。** 不申请 GKE。
 
 ---
 
@@ -43,9 +43,9 @@
 
 今天说明 SCM連携クラウド機 的申请范围。分四点：申请什么、为什么选这个执行基盤、往路和复路做什么、哪些不进本次 Spec。
 
-先说申请对象。在 TRIAL GCP 上新建 **1 个项目**。**暂定项目 ID 是 `md-data-integration-prod`。** 资料里的 ProjectD、Seiyu_Order 是指向这个暂定 ID 的说明用叫法。定位上，和现有的惣菜、MD-Link、Inunaki 并列，是一台 **SCM 連携机**。如果按课题拆成多个项目，启动对象和文件落点会变成两套，所以 **收敛为 1 个项目**。环境设计图（gcp環境設計）就是 **这个项目的申请图**。
+先说申请对象。在 TRIAL GCP 上新建 **1 个项目**。**暂定项目 ID 是 `md-data-integration-prod`。** 资料里的 ProjectD、Seiyu_Order 是指向这个暂定 ID 的说明用叫法。定位上，和现有的惣菜、MD-Link、Inunaki 并列，是一台 **SCM 連携机**。如果按课题拆成多个项目，启动对象和文件落点会变成两套，所以 **收敛为 1 个项目**。环境设计图（gcp環境設計／current-architecture-flow）就是 **这个项目的申请构成图**。
 
-再说执行基盤。采用 **Cloud Run Jobs**（东京 `asia-northeast1`，申请图为 4 vCPU / 16 GiB）。流程：**集计SV GCS（大阪）** 输入确认 → Storage Transfer 同步到 **本项目（`md-data-integration-prod`）附带 GCS** → Cloud Run 转换 → **结果反映到西友连携 GCS**（公司间正本）→ 西友 DataSpider。**本项目附带 GCS 与西友连携 GCS 是两套；无二次プッシュ。** **启动主体是 Hinemos 还是 Scheduler+Workflows，尚未完全确定。** 不申请 GKE。不做 VM／本机持久化ステージング。
+再说执行基盤。采用 **Cloud Run Jobs**（东京 `asia-northeast1`，申请图为 4 vCPU / 16 GiB）。流程：**集计SV GCS（大阪）** 输入确认 → Storage Transfer 同步到 **本项目附带 GCS（`source-landing/`，源数据约 7 日）** → Cloud Run（SMART）转换 → **仅最终 TXT upload 到西友连携 GCS（`result/` + `_SUCCESS`）** → 西友 DataSpider。**源数据不进西友连携 GCS；Seiyu 侧权限仅为 objectCreator。无二次プッシュ。** 申请图上的控制流是 **Scheduler → Workflows**；与 Hinemos（尤其 DSS②③）的分工仍要再对一次。不申请 GKE。不做 VM／本机持久化ステージング。
 
 负责范围是见积的 **Layer①**。不只是文件进出，还要做吸收西友与 TRIAL 差异的 **共通化・型转换**，以及一部分生成逻辑。  
 往路：从 **集计SV GCS（大阪）** 同步到 **`md-data-integration-prod` 附带 GCS**，经 Cloud Run 处理后把结果反映到 **西友连携 GCS**。公司间唯一通道就是西友连携 GCS。  
@@ -55,7 +55,7 @@ Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；�
 
 最后是计划。本周内继续固化 SCM連携クラウド機 的功能范围。到下周为止，由中国侧团队确认架构，并算出 Spec 与费用，再交给岩濑先生提出。
 
-以上。收束：「1 个项目的連携机」「东京 Cloud Run Jobs、不上 GKE」「集计在本项目附带 GCS、结果到西友连携 GCS、无本机磁盘」「启动 TBD」「往路反映到西友连携 GCS、复路プル后到自动发注 GCS」「DSS 与西友连携 GCS 另案／另 Spec」。
+以上。收束：「1 个项目的連携机」「东京 Cloud Run Jobs、不上 GKE」「源数据在本项目附带 GCS、仅最终 TXT 到西友连携 GCS、无本机磁盘」「源数据隔离・单方向纳品」「往路交付西友连携 GCS、复路プル后到自动发注 GCS」「DSS 与西友连携 GCS 另案／另 Spec」。
 
 ---
 
@@ -77,10 +77,10 @@ Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；�
 不做 VM／本机持久化。**集计数据在 `md-data-integration-prod` 附带 GCS、处理结果在西友连携 GCS（均在东京）。** 自动发注 GCS 是复路专用、另一套。
 
 **本项目附带 GCS 和西友连携 GCS 是两套吗。**  
-**是两套。** 集计数据放在 **`md-data-integration-prod` 附带 GCS**；处理后只把结果反映到 **西友连携 GCS**。无二次プッシュ。
+**是两套。** 集计／源数据放在 **`md-data-integration-prod` 附带 GCS（`source-landing/`）**；处理后 **仅最终 TXT** 交付到 **西友连携 GCS（`result/`）**。**源数据不进西友侧。** 无二次プッシュ。
 
 **启动是 Hinemos 还是 Scheduler。**  
-**尚未完全确定。** 候选：继续 Hinemos、Cloud Scheduler＋Workflows、或 Hinemos 调用 Workflows。DSS（②③）暂仍按 Hinemos。
+申请构成图上是 **Cloud Scheduler + Workflows**（READY→STS→Job→验证）。与 Hinemos（尤其 DSS②③）的分工仍 **要再对一次（TBD）**。DSS 侧暂仍按 Hinemos。
 
 **GCS 不进 Spec，是不是不用申请。**  
 这次 Spec 申请云机（`md-data-integration-prod`：Cloud Run 与 **本项目附带 GCS** 等）。**西友连携 GCS** 不是云机项目，但仍要向松尾另行申请。DataSpider 也不进这次 Spec。
