@@ -53,7 +53,7 @@
 
 Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；③ 往路送到 Sinops／BO，复路把劝告写到西友连携 GCS。**DataSpider 和西友连携 GCS 本体不进本次云机 Spec**；但西友连携 GCS 本身仍要向松尾 **另行申请**。BO 程序本阶段不做，但会共用同一套云机与 DataSpider 面。
 
-最后是计划。本周内继续固化 SCM連携クラウド機 的功能范围。到下周为止，由中国侧团队确认架构，并算出 Spec 与费用，再交给岩濑先生提出。
+最后是计划。本周内继续固化 SCM連携クラウド機 的功能范围。到下周为止，由中国侧团队确认架构；**GCP 费用已有 Calculator 初算（月约 ¥1.8 万，大半为大阪→东京転送）**，再交给岩濑先生提出。
 
 以上。收束：「1 个项目的連携机」「东京 Cloud Run Jobs、不上 GKE」「源数据在本项目附带 GCS、仅最终 TXT 到西友连携 GCS、无本机磁盘」「源数据隔离・单方向纳品」「往路交付西友连携 GCS、复路プル后到自动发注 GCS」「DSS 与西友连携 GCS 另案／另 Spec」。
 
@@ -99,3 +99,6 @@ BO 程序本阶段不做，但会用同一套云机和 DataSpider。共通基盤
 
 **Inunaki 的 PSC 呢。**  
 那是网络前提。不是这次申请的云机功能范围。和桶契约的最终对应还没对上。
+
+**费用大概多少。**  
+GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）初算月约 **¥18,190**（讨论用、非拘束）。其中约 **¥15,300** 是亚洲区域内大阪→东京転送；Cloud Run 与东京 Standard Storage 相对较小。Scheduler／Workflows／STS 等本表未计。

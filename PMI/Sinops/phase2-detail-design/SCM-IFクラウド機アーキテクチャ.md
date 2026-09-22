@@ -11,6 +11,8 @@
 - `sources/20260915-データ連携経路-データ活用連携_小峰資料_松尾加筆.md`
 - `sources/20260922-gcp環境設計/`（**本 PJ 申請図**。集計SV GCS（大阪）→本PJ附帯GCS（landing）→Cloud Run→西友連携 GCS（output））
 - `sources/20260922-current-architecture-flow/`（**申請構成クリーン版**。源データ隔離・最終 TXT のみ Seiyu 交付・権限／費用前提）
+- `sources/20260922-gcp-spec-estimate/`（**GCP Pricing Calculator 見積** `SPEC.xlsx`。2026-09-22。月約 ¥18,190）
+- `sources/20260922-scm-if-cloud-application/`（**申請用 PPT（日）** `SCM連携クラウド機_GCP環境申請.pptx`。構成＋スペック＋費用）
 - 構成図（draw.io）: `SCM-IFクラウド機アーキテクチャ.drawio`（日）／`SCM-统一IF机架构.drawio`（中）※2026-09-22 再作成
 
 ---
@@ -36,6 +38,7 @@
 - **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB（流式処理の初期値）。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
 - **権限（申請図）:** STS＝大阪 read→自有 write；Job＝自有 objectViewer→Seiyu objectCreator；Scheduler＝Workflows invoker のみ。
 - **容量前提（申請図入力値）:** 自有 GCS 源データ約 251.6 GiB（7日）；大阪→東京転送約 1,078.4 GiB/月。
+- **費用試算（Calculator `SPEC.xlsx` 2026-09-22）:** 月額合計約 **¥18,190**（議論用・非拘束）。内訳概算 — Cloud Run Jobs CPU ¥1,239 ＋ Memory ¥551、Standard Storage Tokyo（300）¥1,100、**Inter-region Asia 転送（1200）¥15,300**。大半は大阪→東京転送。Scheduler／Workflows／STS 等は本シート未計上。詳細は `sources/20260922-gcp-spec-estimate/転記.md`。
 - **GCS 上のファイル名は必ず末尾 `_YYYYMMDDhhmmss`。** 形式 `{論理ベース}_{YYYYMMDDhhmmss}.{拡張子}`。日付ディレクトリ `YYYYMMDD`（landing/output）と両立。本PJ附帯GCS・西友連携 GCS・自動発注 GCS とも同じ。
 - **自動発注 GCS** は TRIAL 内既存（復路の発注IF着地）。西友連携 GCS とは別用途。
 - **本PJ附帯 GCS** の桶は `md-data-integration-prod` 配下。**西友連携 GCS** の正式桶名（例 `seiyu-trial-data-exchange` / `ods-seiyu-*`）は別契約・要突合（TBD）。
