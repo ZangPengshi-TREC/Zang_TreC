@@ -9,7 +9,7 @@
 | 区分 | 内容 | 扱い |
 |---|---|---|
 | ユーザー要求 | 第一阶段概要已完成，下一阶段开始详细设计 | 本文件の実行目的。詳細設計を開始し、設計単位・凍結条件・証跡を管理する |
-| 詳細設計 IF一览 | `phase2-detail-design/IF一覧_Layer1-3.md`（原本 xlsx は `sources/IF一覧表_Layer1-3/`） | 2026-09-18 提示。Sinops 01–25 の Layer 有無・ファイル名・Intake の正。工数は見積 403。BO は BK の 33/34。生鮮増分は未掲載 |
+| 詳細設計 IF一覧 | `phase2-detail-design/IF一覧_Layer1-3.md`（原本 xlsx は `sources/IF一覧表_Layer1-3/`） | 2026-09-18 提示。Sinops 01–25 の Layer 有無・ファイル名・Intake の正。工数は見積 403。BO は BK の 33/34。生鮮増分は未掲載 |
 | 詳細設計テンプレ | `phase2-detail-design/templates/Sinops_IFレイアウト_仕入先マスタ.xlsx` | 1 IF = 1 ブック。見本は仕入先マスタ。命名: `DD/Sinops_IFレイアウト_{業務名}.xlsx`（アンダースコア）。字体 Arial／字号・背景は記入ガイド準拠。臧担当: `発注勧告`／`発注勧告翌日以降` |
 | Data Flow テンプレ | `phase2-detail-design/templates/データフロー図.drawio` | ページ名 `Sinops-IF-NNN_業務名`。成果物 `DD/Sinops-IF-{NNN}_{業務名}_DataFlow.drawio`。24/25 済 |
 | 参考資料 | `【概算見積もり】西友MD基幹統合_外部IF開発見積_BO系・自動補充Sinops系_20260903.xlsx` | 工数・対象工程・前提の根拠。仕様そのものではない |
@@ -20,7 +20,7 @@
 | 参考資料 | `phase2-detail-design/sources/20260915-データ連携経路-データ活用連携_小峰資料_松尾加筆.md` | 2026-09-15 ユーザー提示スライドの転記。西友 Azure DataSpider ↔ TRIAL GCP / Inunaki / 連携用 GCS。確定仕様ではない |
 | 参考資料 | `phase2-detail-design/sources/20260918-センター発注連携_認識合わせ/参考記録.md` | 2026-09-18 提示 PPT の学習記録。DC 勧告 3 案・便・新旧 JAN・生鮮/DC ルート・R6 4 層。詳細設計へは未昇格 |
 | 参考資料 | `phase2-detail-design/sources/20260918-自動補充PMI-生鮮IF会議/会議記録.md` | 2026-09-18 14:00 波多野×臧。生鮮 IF 増分。先行 3 本は勧告・入荷実績・入荷予定。403 と店舗 R は未変更 |
-| 参考資料 | `phase2-detail-design/sources/20260921-生鮮IF増分見積/` | 生鮮増分見積 Rev.e。**標準案／リスク込み案**分冊（各にPJ按分）。標準221.5人日／6,341,250円、リスク込み330人日／9,450,000円。既存403には含めない |
+| 参考資料 | `phase2-detail-design/sources/20260921-生鮮IF増分見積/` | 生鮮増分見積 Rev.e。**標準案／リスク込み案**は独立見積（相互参照しない）。標準221.5人日／7,085,000円、リスク込み330人日／10,256,250円。PMI課題 Sinops非生鮮のPhase2には含めない |
 | 参考資料 | `phase2-detail-design/sources/20260115-データ交換用GCSバケット/备用記録.md` | 2026-01-15 連携用 GCS バケット・権限・ライフサイクル。PJ `seiyu-trial-data-exchange`、桶 `ods-seiyu-*`。詳細設計へは未昇格 |
 | 参考資料 | `phase2-detail-design/sources/20260922-gcp環境設計/` | 2026-09-22。**`md-data-integration-prod` 申請図**（CONFIRMED）。集計SV GCS（大阪）→Transfer→**本PJ附帯GCS（集計保存）**→Cloud Run→**西友連携GCS（結果）**。転記は `転記.md` |
 | 参考資料 | `phase2-detail-design/sources/20260922-current-architecture-flow/` | 2026-09-22。申請構成クリーン版。**源データ隔離・最終 TXT のみ Seiyu 交付**、権限／費用前提、Scheduler+Workflows。転記は `転記.md` |
