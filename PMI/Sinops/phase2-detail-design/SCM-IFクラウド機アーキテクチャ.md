@@ -34,7 +34,7 @@
 - **output ＝ 西友連携 GCS（東京）＝ PPT「Seiyu 専用 GCS」。** Layer① の外。会社間の正本・唯一通路。パス例 `result/YYYYMMDD/final.txt`、完了印 `_SUCCESS`。西友 DataSpider はここを読む／書く。
 - **安全境界（CONFIRMED）:** **源データは西友連携 GCS に入らない。** Seiyu 側権限は **objectCreator のみ**。結果を自有 GCS に重複保存しない。単方向納品（最終 TXT のみ）。
 - **処理流れ:** Layer① 内で集計を附帯 GCS に保存し Cloud Run で SMART 処理したあと、**最終 TXT のみ西友連携 GCS（output）へ upload**。output 後の二次プッシュは置かない。
-- **本機（VM／永続ディスク）にステージングを持たない。** 永続は GCS のみ。大容量はストリーム + resumable upload；必要時のみ ephemeral disk 外排。処理中の一時作業領域（/tmp 等）は可。**新規 GKE は作らない。**
+- **本機（VM／永続ディスク）にステージングを持たない。** 永続は GCS のみ。大容量は resumable upload；通常ファイルは Cloud Run 処理後に西友連携 GCS へ直接アップロード；必要時のみ ephemeral disk 外排。処理中の一時作業領域（/tmp 等）は可。**新規 GKE は作らない。**
 - **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB（流式処理の初期値）。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
 - **権限（申請図）:** STS＝大阪 read→自有 write；Job＝自有 objectViewer→Seiyu objectCreator；Scheduler＝Workflows invoker のみ。
 - **容量前提（申請図入力値）:** 自有 GCS 源データ約 251.6 GiB（7日）；大阪→東京転送約 1,078.4 GiB/月。

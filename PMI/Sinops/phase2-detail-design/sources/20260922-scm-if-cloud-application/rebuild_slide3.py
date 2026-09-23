@@ -201,8 +201,8 @@ def main() -> None:
     fill_text(
         c22,
         [
-            ("resumable upload", 12, True, INK),
-            ("最終 TXT のみ", 10, False, MUTED),
+            ("大容量：resumable", 11, True, INK),
+            ("通常：直接アップロード", 10, False, MUTED),
         ],
     )
 
@@ -273,9 +273,9 @@ def main() -> None:
     fill_text(
         n2,
         [
-            ("大容量 TXT", 11, True, PURPLE),
-            ("メモリに全量保持せず、ストリーム + resumable upload。", 10, False, INK),
-            ("必要時のみ ephemeral disk を外部ソート領域として使用。", 10, False, INK),
+            ("アップロード方針", 11, True, PURPLE),
+            ("大容量：ストリーム + resumable upload。", 10, False, INK),
+            ("通常：Cloud Run 処理後、seiyu-trial-data-exchange へ直接アップロード。", 10, False, INK),
         ],
         align=PP_ALIGN.LEFT,
         anchor="t",

@@ -4,7 +4,8 @@
 読み: 難しい漢字だけ（　）で注音。カタカナ・英語はそのまま。  
 呼称: 申請対象は **SCM連携クラウド機**。見積の Layer①。ファイル IF だけでなく、共通化・型変換と一部の生成ロジックも本機。  
 仮称／ID: **GCP プロジェクト ID（暫定）=`md-data-integration-prod`。** 旧資料の ProjectD / Seiyu_Order はこの ID を指す説明用エイリアス。口頭では暫定 ID を言うか、「SCM連携クラウド機」でよい。  
-所要: 本文は約 **2 分〜2 分半**。短い枠なら「時間が足りないとき」の 15 秒版。
+所要: 本文は約 **2 分〜2 分半**。短い枠なら「時間が足りないとき」の 15 秒版。  
+用語: **STS**＝Google Cloud の Storage Transfer Service（ストレージ転送サービス）。
 
 ---
 
@@ -45,17 +46,17 @@
 
 まず申請対象です。TRIAL GCP に **新規 1 プロジェクト** を立てます。**暫定のプロジェクト ID は `md-data-integration-prod` です。** 資料に出てくる ProjectD や Seiyu_Order は、この暫定 ID を指す説明用の呼び方です。位置づけは、既存の惣菜（そうざい）、MD-Link、Inunaki と並列（へいれつ）する **SCM の連携機** です。課題ごとにプロジェクトを割ると、起動先とファイルの置き場が二系統になるため、**1 プロジェクトにまとめます。** 環境設計図（gcp環境設計／current-architecture-flow）は **このプロジェクトの申請構成図**です。
 
-次に実行基盤です。採用は **Cloud Run Jobs**（東京 `asia-northeast1`、申請図では 4 vCPU / 16 GiB）です。流れは、**集計SV GCS（大阪）** の入力確認 → Storage Transfer で **本 PJ 附帯 GCS（`source-landing/`、源データ約 7 日）** へ同期 → Cloud Run（SMART）で変換 → **最終 TXT のみ西友連携 GCS（`result/` + `_SUCCESS`）へ upload** → 西友 DataSpider、です。**源データは西友連携 GCS に入りません。Seiyu 側権限は objectCreator のみ。二次プッシュしません。** 申請図上の制御は **Scheduler → Workflows**。Hinemos（とくに DSS②③）との役割分担は要突合です。GKE は申請しません。VM／本機の永続ステージングも持ちません。
+次に実行基盤です。採用は **Cloud Run Jobs**（東京 `asia-northeast1`、申請図では 4 vCPU / 16 GiB）です。流れは、**集計SV GCS（大阪）** の入力確認 → Storage Transfer で **本 PJ 附帯 GCS（`source-landing/`、源データ約 7 日）** へ同期 → Cloud Run（SMART）で変換 → **最終 TXT のみ西友連携 GCS（`result/` + `_SUCCESS`）へ upload** → 西友 DataSpider、です。**源データは西友連携 GCS に入りません。Seiyu 側権限は objectCreator のみ。二次プッシュしません。** 申請図上の制御は **Scheduler → Workflows**。**将来は Hinemos 起動に変わる可能性もあります**（実行体は Cloud Run のまま）。Hinemos（とくに DSS②③）との役割分担は要突合です。GKE は申請しません。VM／本機の永続ステージングも持ちません。
 
 担当範囲は見積（みつもり）の **Layer①** です。単なるファイルの出し入れではなく、西友と TRIAL の差分を吸収する **共通化・型変換**、および一部の生成ロジックも本機で行います。  
-往路（おうろ）は、大阪の集計系データを **`md-data-integration-prod` 附帯 GCS** に保存し、Cloud Run で処理したうえで **西友連携 GCS** へ結果を反映します。会社間の唯一の通路は西友連携 GCS です。  
+往路（おうろ）は、大阪の集計系データを **`md-data-integration-prod` 附帯 GCS** に保存し、Cloud Run で処理したうえで **西友連携 GCS** へ結果を反映します。TRIAL と西友の間の唯一の通路は西友連携 GCS です。  
 復路（ふくろ）の発注勧告は、西友 Azure の **Layer③ DataSpider** が同 GCS へ出し、**Layer① Cloud Run** がプルして発注 IF へ変換し、**自動発注 GCS** へプッシュします。
 
-Layer② と Layer③ は西友 Azure の DataSpider です。② はマスタの Intake、③ は往路の Sinops・BO への転送、および復路の勧告を連携用 GCS へ出す処理です。**DataSpider と連携用 GCS 本体は、今回のクラウド機 Spec には入りません。** ただし連携用 GCS そのものは松尾さんへ **別途申請** が必要です。BO プログラムは本段階の対象外ですが、同じクラウド機と DataSpider の面は使います。
+Layer② と Layer③ は西友 Azure の **既存 DataSpider** です。② はマスタの Intake、③ は往路の Sinops・BO への転送、および復路の勧告を連携用 GCS へ出す処理です。**新規の DataSpider は申請せず、既存を使います。** 連携用 GCS 本体は今回のクラウド機 Spec には入りませんが、松尾さんへ **別途申請** が必要です。BO プログラムは本段階の対象外ですが、同じクラウド機と DataSpider の面は使います。
 
 最後に計画です。今週中に、SCM連携クラウド機の機能範囲を引き続き固めます。来週までに、中国側の担当チームでアーキテクチャを確認します。**GCP 費用は Calculator 初算あり（月約 1.8 万円、大半は大阪→東京転送）**。その後、岩瀬さんへお渡しして、ご提案いただきます。
 
-以上です。説明の要点は、「1 プロジェクトの連携機」「Cloud Run Jobs（東京）、GKE は不要」「源データは本 PJ 附帯 GCS、最終 TXT のみ西友連携 GCS、本機ディスクなし」「源データ隔離・単方向納品」「往路は西友連携 GCS へ交付、復路はプルして自動発注 GCS へ」「DSS と西友連携 GCS は別申請・別 Spec」です。
+以上です。説明の要点は、「1 プロジェクトの連携機」「Cloud Run Jobs（東京）、GKE は不要」「源データは本 PJ 附帯 GCS、最終 TXT のみ西友連携 GCS、本機ディスクなし」「源データ隔離・単方向納品」「往路は西友連携 GCS へ交付、復路はプルして自動発注 GCS へ」「Layer②③ は既存 DataSpider を使用／西友連携 GCS は別途申請」です。
 
 ---
 
@@ -83,7 +84,7 @@ VM／本機の永続ステージングは持ちません。**集計データは 
 申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）です。**将来は Hinemos から Cloud Run Job を起動する形に変わる可能性あり**（実行体は Cloud Run のまま）。Hinemos／DSS②③ との役割分担は要突合。DSS 側は当面 Hinemos 想定です。
 
 **GCS は Spec に入らないので、申請しなくてよいですか。**  
-今回の Spec はクラウド機（`md-data-integration-prod`：Cloud Run と **本 PJ 附帯 GCS** 等）です。**西友連携 GCS** はクラウド機のプロジェクトではありませんが、松尾さんへ別途申請します。DataSpider も今回の Spec には入りません。
+今回の Spec はクラウド機（`md-data-integration-prod`：Cloud Run と **本 PJ 附帯 GCS** 等）です。**西友連携 GCS** はクラウド機のプロジェクトではありませんが、松尾さんへ別途申請します。DataSpider は **既存を使用**し、今回の Spec には入りません。
 
 **連携用 GCS と自動発注 GCS は別ですか。**  
 別です。西友連携 GCS が TRIAL 側と西友側をつなぐ唯一の通路です。自動発注 GCS は TRIAL 内の既存機能で、勧告（かんこく）を OrdreSV へ渡す受け皿です。本 PJ 附帯 GCS（集計保存）とも切り分けて書きます。
