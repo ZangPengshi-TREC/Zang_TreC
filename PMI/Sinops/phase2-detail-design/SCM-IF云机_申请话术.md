@@ -64,8 +64,8 @@ Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；�
 **为什么不叫 IF 云机。**  
 见积 Layer① 写的是外部 IF，但本机还做共通化、型转换和一部分生成，所以叫 SCM連携クラウド機。
 
-**为什么用 Cloud Run、不用 GKE。**  
-见上方对比表。本机是「启动→转换→GCS→结束」的批处理，Cloud Run Jobs 对口；GKE 以常设集群／节点运维为前提，对无状态、无本机持久化的 IF 机过重。若将来要常驻 API 或复杂服务网格，再另行评估，不在本次申请范围。
+**为什么用 Cloud Run、不用 GKE／Autopilot。**  
+见第 2・7 页。本件是日次文件批，Cloud Run Jobs 对口；GKE（含 Autopilot）仍有集群管理费常驻、运维更重，且 Spec 口径不上 GKE。第 7 页对照的是 **Cloud Run ≈ ¥18,190** vs **Autopilot（管理费込み）≈ ¥29,000** vs **Standard 常驻 ≈ ¥36,000〜48,000**（讨论用概算）。
 
 **DataSpider 会做类型转换或字段筛选吗。**  
 原则上不做。DSS（Layer②／③）只做 **全字段通过／转发**。类型转换、字段筛选、代码转换、编辑都在 **Layer①（本云机）**。
@@ -80,7 +80,7 @@ Layer②、Layer③ 在西友 Azure 的 DataSpider。② 是主数据 Intake；�
 **是两套。** 集计／源数据放在 **`md-data-integration-prod` 附带 GCS（`source-landing/`）**；处理后 **仅最终 TXT** 交付到 **西友连携 GCS（`result/`）**。**源数据不进西友侧。** 无二次プッシュ。
 
 **启动是 Hinemos 还是 Scheduler。**  
-申请构成图上是 **Cloud Scheduler + Workflows**（READY→STS→Job→验证）。与 Hinemos（尤其 DSS②③）的分工仍 **要再对一次（TBD）**。DSS 侧暂仍按 Hinemos。
+申请构成图上是 **Cloud Scheduler + Workflows**（READY→STS→Job→验证）。**将来有可能改为由 Hinemos 启动 Cloud Run Job**（执行体仍是 Cloud Run，不变）。与 Hinemos／DSS②③ 的分工仍要再对。DSS 侧暂仍按 Hinemos。
 
 **GCS 不进 Spec，是不是不用申请。**  
 这次 Spec 申请云机（`md-data-integration-prod`：Cloud Run 与 **本项目附带 GCS** 等）。**西友连携 GCS** 不是云机项目，但仍要向松尾另行申请。DataSpider 也不进这次 Spec。
@@ -101,4 +101,4 @@ BO 程序本阶段不做，但会用同一套云机和 DataSpider。共通基盤
 那是网络前提。不是这次申请的云机功能范围。和桶契约的最终对应还没对上。
 
 **费用大概多少。**  
-GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）初算月约 **¥18,190**（讨论用、非拘束）。其中约 **¥15,300** 是亚洲区域内大阪→东京転送；Cloud Run 与东京 Standard Storage 相对较小。Scheduler／Workflows／STS 等本表未计。
+GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）初算月约 **¥18,190**、年约 **¥218,280**（×12，讨论用、非拘束）。其中约 **¥15,300／月** 是亚洲区域内大阪→东京転送；Cloud Run 与东京 Standard Storage 相对较小。Scheduler／Workflows／STS 等本表未计。

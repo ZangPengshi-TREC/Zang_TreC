@@ -38,12 +38,12 @@
 - **Cloud Run Job スペック（申請図）:** 4 vCPU / 16 GiB（流式処理の初期値）。東京リージョン内で分割処理。大阪側入力は `_READY` + manifest。
 - **権限（申請図）:** STS＝大阪 read→自有 write；Job＝自有 objectViewer→Seiyu objectCreator；Scheduler＝Workflows invoker のみ。
 - **容量前提（申請図入力値）:** 自有 GCS 源データ約 251.6 GiB（7日）；大阪→東京転送約 1,078.4 GiB/月。
-- **費用試算（Calculator `SPEC.xlsx` 2026-09-22）:** 月額合計約 **¥18,190**（議論用・非拘束）。内訳概算 — Cloud Run Jobs CPU ¥1,239 ＋ Memory ¥551、Standard Storage Tokyo（300）¥1,100、**Inter-region Asia 転送（1200）¥15,300**。大半は大阪→東京転送。Scheduler／Workflows／STS 等は本シート未計上。詳細は `sources/20260922-gcp-spec-estimate/転記.md`。
+- **費用試算（Calculator `SPEC.xlsx` 2026-09-22）:** 月額合計約 **¥18,190**、年間（×12）約 **¥218,280**（議論用・非拘束）。内訳概算 — Cloud Run Jobs CPU ¥1,239 ＋ Memory ¥551、Standard Storage Tokyo（300）¥1,100、**Inter-region Asia 転送（1200）¥15,300**。大半は大阪→東京転送。Scheduler／Workflows／STS 等は本シート未計上。詳細は `sources/20260922-gcp-spec-estimate/転記.md`。
 - **GCS 上のファイル名は必ず末尾 `_YYYYMMDDhhmmss`。** 形式 `{論理ベース}_{YYYYMMDDhhmmss}.{拡張子}`。日付ディレクトリ `YYYYMMDD`（landing/output）と両立。本PJ附帯GCS・西友連携 GCS・自動発注 GCS とも同じ。
 - **自動発注 GCS** は TRIAL 内既存（復路の発注IF着地）。西友連携 GCS とは別用途。
 - **本PJ附帯 GCS** の桶は `md-data-integration-prod` 配下。**西友連携 GCS** の正式桶名（例 `seiyu-trial-data-exchange` / `ods-seiyu-*`）は別契約・要突合（TBD）。
 - **DataSpider** は **西友 Azure**。② Intake と ③ 転送。**全フィールド通過。型変換・選別・編集は Layer①（`md-data-integration-prod` の Cloud Run）。**
-- **起動方式:** 申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）。Hinemos との役割分担（特に DSS②③）は **TBD**。DSS②③は当面 Hinemos。
+- **起動方式:** 申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）。**将来は Hinemos から Cloud Run Job を起動する形に変更する可能性あり**（実行体は Cloud Run のまま）。Hinemos／DSS②③ との役割分担は **TBD**。DSS②③は当面 Hinemos。
 - IF クラウド機を課題ごとに別 Project にすると、SCM 統一連携面が割れる。
 
 第2段階の Sinops 見積は **403 人日**（詳細設計 136 + 開発 144 + 単体 123）。共通基盤 **43 人日** はハブ立上げであり、403 に按分しない。BO 系 53.5 人日のプログラムは本段階の対象外だが、**同一の `md-data-integration-prod` + 西友 DataSpider は使う**。

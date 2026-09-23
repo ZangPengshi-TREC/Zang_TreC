@@ -64,8 +64,8 @@ Layer② と Layer③ は西友 Azure の DataSpider です。② はマスタ�
 **なぜ IF クラウド機と呼ばないのですか。**  
 見積の Layer① では外部 IF と書きますが、本機では共通化・型変換と一部の生成も行います。そのため SCM連携クラウド機と呼んでいます。
 
-**なぜ Cloud Run で、GKE ではないのですか。**  
-対比は上表のとおりです。本機は「起動→変換→GCS→終了」のバッチ。Cloud Run Jobs はそれに合う。GKE は常設クラスタ・ノード運用が前提で、無状態・永続ストレージなしの IF 機には過剰です。将来、常時 API や複雑なサービスメッシュが必要になれば再評価しますが、今回の申請範囲ではありません。
+**なぜ Cloud Run で、GKE／Autopilot ではないのですか。**  
+2・7 枚目参照。本件は日次ファイルバッチで Cloud Run Jobs が適合。GKE（Autopilot 含む）はクラスタ管理費が常駐し運用も重い。Spec は GKE 申請しない。7 枚目の对照は **Cloud Run ≈ ¥18,190** vs **Autopilot（管理費込み）≈ ¥29,000** vs **Standard 常駐 ≈ ¥36,000〜48,000**（議論用概算）。
 
 **DataSpider で型変換や項目の絞り込みはしますか。**  
 原則しません。DSS（Layer②／③）は **全フィールドを通す** だけです。型変換・フィールド選別・コード変換・編集は **Layer①（本クラウド機）** で行います。
@@ -80,7 +80,7 @@ VM／本機の永続ステージングは持ちません。**集計データは 
 **別です。** 集計／源データは **`md-data-integration-prod` 附帯 GCS（`source-landing/`）** に置きます。処理後の **最終 TXT のみ** を **西友連携 GCS（`result/`）** へ交付します。**源データは西友側に入りません。** 二次プッシュはありません。
 
 **起動は Hinemos ですか、Scheduler ですか。**  
-申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）です。Hinemos（とくに DSS②③）との役割分担は **要突合（TBD）**。DSS 側は当面 Hinemos 想定です。
+申請構成図上は **Cloud Scheduler + Workflows**（READY→STS→Job→検証）です。**将来は Hinemos から Cloud Run Job を起動する形に変わる可能性あり**（実行体は Cloud Run のまま）。Hinemos／DSS②③ との役割分担は要突合。DSS 側は当面 Hinemos 想定です。
 
 **GCS は Spec に入らないので、申請しなくてよいですか。**  
 今回の Spec はクラウド機（`md-data-integration-prod`：Cloud Run と **本 PJ 附帯 GCS** 等）です。**西友連携 GCS** はクラウド機のプロジェクトではありませんが、松尾さんへ別途申請します。DataSpider も今回の Spec には入りません。
@@ -101,4 +101,4 @@ BO プログラムは本段階の対象外ですが、同じクラウド機と D
 ネットワーク前提です。今回申請するクラウド機の機能範囲ではありません。バケット契約との最終対応は未突合（みとつごう）です。
 
 **費用はだいたいいくらですか。**  
-GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）の初算で月約 **¥18,190**（議論用・非拘束）です。うち約 **¥15,300** がアジア域内の大阪→東京転送。Cloud Run と東京 Standard Storage は相対的に小さいです。Scheduler／Workflows／STS 等は本表未計上です。
+GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）の初算で月約 **¥18,190**、年約 **¥218,280**（×12、議論用・非拘束）です。うち約 **¥15,300／月** がアジア域内の大阪→東京転送。Cloud Run と東京 Standard Storage は相対的に小さいです。Scheduler／Workflows／STS 等は本表未計上です。

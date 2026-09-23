@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SCM連携クラウド機　GCP環境申請　話術（中日・照着念）</title>
+<style>
+:root {
+  --bg: #f6f3ee;
+  --ink: #1c1917;
+  --muted: #78716c;
+  --cn: #0f766e;
+  --jp: #b45309;
+  --card: #fffdf9;
+  --line: #e7e5e4;
+  --accent: #0d9488;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: "Hiragino Sans", "Noto Sans JP", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--ink); line-height: 1.7;
+}
+header.top {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(246,243,238,.92); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line); padding: .75rem 1rem;
+}
+h1 { font-size: 1.15rem; margin: 0 0 .25rem; }
+.meta { color: var(--muted); font-size: .85rem; }
+.sync { color: var(--accent); font-size: .8rem; margin-top: .2rem; }
+.toolbar { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .55rem; }
+.toolbar button, .toc a {
+  border: 1px solid var(--line); background: #fff; border-radius: 999px;
+  padding: .25rem .7rem; font-size: .8rem; cursor: pointer; color: var(--ink);
+  text-decoration: none;
+}
+.toolbar button:hover, .toc a:hover { border-color: var(--accent); }
+.toc { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .45rem; }
+main { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1rem 1.1rem; margin: 0 0 1rem;
+}
+.card h2 { margin: 0 0 .7rem; font-size: 1.05rem; }
+.slide-num {
+  display: inline-block; background: var(--accent); color: #fff;
+  border-radius: 6px; padding: .05rem .45rem; font-size: .75rem; margin-right: .4rem;
+}
+.pair { display: grid; gap: .75rem; }
+.pair.side { grid-template-columns: 1fr 1fr; }
+.panel {
+  border: 1px solid var(--line); border-radius: 10px; padding: .75rem .85rem;
+  background: #fff;
+}
+.badge {
+  display: inline-block; font-size: .7rem; font-weight: 700;
+  border-radius: 999px; padding: .1rem .5rem; margin-bottom: .4rem;
+}
+.badge.cn { background: #ccfbf1; color: var(--cn); }
+.badge.jp { background: #ffedd5; color: var(--jp); }
+.cn-panel p, .jp-panel p { margin: 0 0 .65rem; }
+.cn-panel p:last-child, .jp-panel p:last-child { margin-bottom: 0; }
+.jp-panel { font-size: 1.02rem; }
+ruby { ruby-align: center; }
+rt { font-size: .55em; color: #a16207; }
+body.big { font-size: 1.12rem; }
+body.big .jp-panel { font-size: 1.18rem; }
+body.hide-cn .lang-cn-block { display: none !important; }
+body.hide-jp .lang-jp-block { display: none !important; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { border: 1px solid var(--line); padding: .45rem .55rem; vertical-align: top; }
+th { background: #fafaf9; text-align: left; }
+.qa-expand details { margin-top: .5rem; }
+.qa-expand summary { cursor: pointer; font-weight: 600; }
+.hint { color: var(--muted); font-size: .85rem; }
+.note { font-size: .8rem; color: var(--muted); margin-top: 1rem; text-align: center; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+@media (max-width: 859px) {
+  .pair.side { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+<h1>SCM連携クラウド機　GCP環境申請　話術（中日・照着念）</h1>
+<div class="meta">故事线：背景→判断→構成→運用→スペック→費用→代替案　｜　6〜7分　｜　PPT 7枚</div>
+<div class="sync">日文汉字自动注音（词典＋原稿括弧注音）／与 PPT・MD 同步</div>
+<div class="toolbar">
+<button type="button" onclick="showBoth()">中日両方</button>
+<button type="button" onclick="showCn()">中文のみ</button>
+<button type="button" onclick="showJp()">日本語のみ</button>
+<button type="button" onclick="toggleBig()">文字大きく</button>
+<button type="button" onclick="toggleSide()">左右並び</button>
+</div>
+<nav class="toc">
+<a href="#sec-15">15秒故事线</a>
+<a href="#slide-1">S1</a><a href="#slide-2">S2</a><a href="#slide-3">S3</a>
+<a href="#slide-4">S4</a><a href="#slide-5">S5</a><a href="#slide-6">S6</a>
+<a href="#slide-7">S7</a><a href="#sec-qa">Q&A</a>
+</nav>
+</header>
+<main>
+<section class="card" id="sec-story"><h2>故事线</h2>
+<table><thead><tr><th>#</th><th>页</th><th>作用</th></tr></thead><tbody>
+<tr><td>1</td><td>背景・なぜ新クラウド機</td><td>为什么要申请</td></tr>
+<tr><td>2</td><td>なぜ Cloud Run</td><td>怎么建</td></tr>
+<tr><td>3</td><td>申請構成図</td><td>长什么样</td></tr>
+<tr><td>4</td><td>日次フロー・権限</td><td>怎么跑</td></tr>
+<tr><td>5</td><td>スペック一覧</td><td>请批什么</td></tr>
+<tr><td>6</td><td>費用試算</td><td>月／年费用</td></tr>
+<tr><td>7</td><td>vs GKE</td><td>关替代案</td></tr>
+</tbody></table></section>
+<section class="card" id="sec-15"><h2>15 秒版</h2>
+<div class="pair"><div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>各位好。今天说明 <strong>SCM連携クラウド機</strong> 的 GCP 环境申请。一共七页：先讲背景，再讲为什么用 Cloud Run，然后是构成、每天怎么跑、规格、费用，最后和 GKE 对比。</p><p>先看背景。现在推进的是西友与 TRIAL 的 <strong>MD 基幹統合、自动补充 Sinops 第二阶段</strong>。每天要把大阪集计侧的数据交到西友侧；公司之间的正本通路是西友连携 GCS。型转换和共通化，方针上放在 TRIAL 侧吸收。如果按课题拆多个项目，SCM 统一连携面会裂开，所以要收敛成一台机。</p><p>因此需要：在 TRIAL GCP 上申请 <strong>一台 SCM 连携机</strong>；负责见积里的 <strong>Layer①</strong>——取得、转换、配置的批处理；附带 GCS（源数据）和 Cloud Run（处理）一体申请；只把最终 TXT 单方向交到 Seiyu GCS。位置上，和现有的惣菜、MD-Link、Inunaki 并列。</p><p>为什么说是「新机」。Layer① 是这次要申请的 TRIAL 云机；Layer②③ 是西友 Azure 的 DataSpider，<strong>另案 Spec</strong>。DSS 只做全字段通过，转换在 Layer①。本机不挂持久盘，永续只在 GCS。这也是 Sinops 见积约四百零三人日的执行基盤前提。</p><p>申请什么、不申请什么。申请：一个项目、Cloud Run Jobs、自有 GCS、Scheduler、Workflows、STS 等。不申请：GKE、本机持久磁盘、DataSpider、以及西友连携 GCS 本体——连携 GCS 要向松尾另行申请。</p><p>一句话：<strong>为了跑通公司间自动补充连携，TRIAL 侧需要带转换的统一 IF 基盤，所以申请新建一台 SCM連携クラウド機。</strong></p><p>接下来讲，这台机用什么执行基盤。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>みなさま、<ruby>本日<rt>ほんじつ</rt></ruby>は <strong>SCM<ruby>連携<rt>れんけい</rt></ruby>クラウド<ruby>機<rt>き</rt></ruby></strong> の GCP <ruby>環境<rt>かんきょう</rt></ruby><ruby>申請<rt>しんせい</rt></ruby>をご<ruby>説明<rt>せつめい</rt></ruby>します。<ruby>全<rt>ぜん</rt></ruby>7 <ruby>枚<rt>まい</rt></ruby>です。<ruby>背景<rt>はいけい</rt></ruby>、Cloud Run <ruby>採用<rt>さいよう</rt></ruby><ruby>理由<rt>りゆう</rt></ruby>、<ruby>構成<rt>こうせい</rt></ruby>、<ruby>日次<rt>にちじ</rt></ruby>の<ruby>動<rt>うご</rt></ruby>き、スペック、<ruby>費用<rt>ひよう</rt></ruby>、<ruby>最後<rt>さいご</rt></ruby>に GKE <ruby>比較<rt>ひかく</rt></ruby>の<ruby>順<rt>じゅん</rt></ruby>です。</p><p>まず<ruby>背景<rt>はいけい</rt></ruby>です。いま<ruby>進<rt>すす</rt></ruby>めているのは、<ruby>西友<rt>せいゆう</rt></ruby>と TRIAL の <strong>MD <ruby>基幹<rt>きかん</rt></ruby><ruby>統合<rt>とうごう</rt></ruby>・<ruby>自動補充<rt>じどうほじゅう</rt></ruby>Sinops <ruby>第<rt>だい</rt></ruby>2 <ruby>段階<rt>だんかい</rt></ruby></strong> です。<ruby>大阪<rt>おおさか</rt></ruby>の<ruby>集計<rt>しゅうけい</rt></ruby><ruby>系<rt>けい</rt></ruby>データを<ruby>日次<rt>にちじ</rt></ruby>で<ruby>西友側<rt>せいゆうがわ</rt></ruby>へ<ruby>渡す<rt>わたす</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があり、<ruby>会社間<rt>かいしゃかん</rt></ruby>の<ruby>正本<rt>せいほん</rt></ruby><ruby>通路<rt>つうろ</rt></ruby>は<ruby>西友連携<rt>れんけい</rt></ruby>GCS です。<ruby>型変換<rt>かたへんかん</rt></ruby>と<ruby>共通化<rt>きょうつうか</rt></ruby>は TRIAL <ruby>側<rt>がわ</rt></ruby>で<ruby>吸収<rt>きゅうしゅう</rt></ruby>する<ruby>方針<rt>ほうしん</rt></ruby>です。<ruby>課題<rt>かだい</rt></ruby>ごとにプロジェクトを<ruby>割<rt>わ</rt></ruby>ると SCM の<ruby>統一連携面<rt>とういつれんけいめん</rt></ruby>が<ruby>割れ<rt>われ</rt></ruby>るため、1 <ruby>台<rt>だい</rt></ruby>にまとめる<ruby>必要<rt>ひつよう</rt></ruby>があります。</p><p>そのため<ruby>必要<rt>ひつよう</rt></ruby>なのは、TRIAL GCP <ruby>上<rt>うえ</rt></ruby>の <strong>SCM <ruby>連携機<rt>れんけいき</rt></ruby>を 1 <ruby>台<rt>だい</rt></ruby></strong>。<ruby>見積<rt>みつもり</rt></ruby>の <strong>Layer①</strong>、つまり<ruby>取得<rt>しゅとく</rt></ruby>・<ruby>変換<rt>へんかん</rt></ruby>・<ruby>配置<rt>はいち</rt></ruby>のバッチです。<ruby>附帯<rt>ふたい</rt></ruby>GCS（<ruby>源<rt>げん</rt></ruby>データ）と Cloud Run（<ruby>処理<rt>しょり</rt></ruby>）を<ruby>一体<rt>いったい</rt></ruby>で<ruby>申請<rt>しんせい</rt></ruby>し、<ruby>最終<rt>さいしゅう</rt></ruby>TXT のみ Seiyu GCS へ<ruby>単方向<rt>たんほうこう</rt></ruby><ruby>納品<rt>のうひん</rt></ruby>します。<ruby>位置づけ<rt>いちづけ</rt></ruby>は、<ruby>既存<rt>きそん</rt></ruby>の<ruby>惣菜<rt>そうざい</rt></ruby>・MD-Link・Inunaki と<ruby>並列<rt>へいれつ</rt></ruby>です。</p><p>なぜ「<ruby>新<rt>あたら</rt></ruby>しい<ruby>機<rt>き</rt></ruby>」か。Layer① が<ruby>今回申請<rt>こんかいしんせい</rt></ruby>の TRIAL クラウド<ruby>機<rt>き</rt></ruby>、Layer②③ は<ruby>西友<rt>せいゆう</rt></ruby> Azure の DataSpider で <strong><ruby>別<rt>べつ</rt></ruby> Spec</strong> です。DSS は<ruby>全<rt>ぜん</rt></ruby>フィールド<ruby>通過<rt>つうか</rt></ruby>、<ruby>変換<rt>へんかん</rt></ruby>は Layer①。<ruby>本機<rt>ほんき</rt></ruby>に<ruby>永続<rt>えいぞく</rt></ruby>ディスクは<ruby>持た<rt>もた</rt></ruby>ず、<ruby>永続<rt>えいぞく</rt></ruby>は GCS のみ。Sinops <ruby>見積<rt>みつもり</rt></ruby>おおよそ 403 <ruby>人日<rt>にんにち</rt></ruby>の<ruby>実行前提<rt>じっこうぜんてい</rt></ruby>となる<ruby>基盤<rt>きばん</rt></ruby>でもあります。</p><p><ruby>申請<rt>しんせい</rt></ruby>する／しない。<ruby>申請<rt>しんせい</rt></ruby>するのは 1 プロジェクト、Cloud Run Jobs、<ruby>自有<rt>じゆう</rt></ruby> GCS、Scheduler、Workflows、STS など。<ruby>申請<rt>しんせい</rt></ruby>しないのは GKE、<ruby>本機永続<rt>ほんきえいぞく</rt></ruby>ディスク、DataSpider、<ruby>西友連携<rt>れんけい</rt></ruby> GCS <ruby>本体<rt>ほんたい</rt></ruby>です。<ruby>連携<rt>れんけい</rt></ruby> GCS は<ruby>松尾<rt>まつお</rt></ruby>さんへ<ruby>別途申請<rt>べっとしんせい</rt></ruby>します。</p><p><ruby>一口<rt>ひとくち</rt></ruby>で<ruby>言<rt>い</rt></ruby>うと、<strong><ruby>会社間<rt>かいしゃかん</rt></ruby>の<ruby>自動補充連携<rt>じどうほじゅうれんけい</rt></ruby>を<ruby>回す<rt>まわす</rt></ruby>ため、TRIAL <ruby>側<rt>がわ</rt></ruby>に<ruby>変換付<rt>へんかんつき</rt></ruby>きの<ruby>統一<rt>とういつ</rt></ruby> IF <ruby>基盤<rt>きばん</rt></ruby>が<ruby>要る<rt>いる</rt></ruby>。だから<ruby>新規<rt>しんき</rt></ruby> 1 プロジェクトの SCM<ruby>連携<rt>れんけい</rt></ruby>クラウド<ruby>機<rt>き</rt></ruby>を<ruby>申請<rt>しんせい</rt></ruby>する</strong>、です。</p><p><ruby>次<rt>つぎ</rt></ruby>に、この<ruby>機<rt>き</rt></ruby>をどの<ruby>実行基盤<rt>じっこうきばん</rt></ruby>で<ruby>作る<rt>つくる</rt></ruby>かを<ruby>説明<rt>せつめい</rt></ruby>します。</p></div></div></section>
+<section class="card" id="slide-1">
+<h2><span class="slide-num">S1/7</span><ruby>背景<rt>はいけい</rt></ruby>・なぜ<ruby>新<rt>あたら</rt></ruby>しいクラウド<ruby>機<rt>き</rt></ruby>を<ruby>申請<rt>しんせい</rt></ruby>するか　／　翻到第 1 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>各位好。今天说明 <strong>SCM連携クラウド機</strong> 的 GCP 环境申请。一共七页：先讲背景，再讲为什么用 Cloud Run，然后是构成、每天怎么跑、规格、费用，最后和 GKE 对比。</p><p>先看背景。现在推进的是西友与 TRIAL 的 <strong>MD 基幹統合、自动补充 Sinops 第二阶段</strong>。每天要把大阪集计侧的数据交到西友侧；公司之间的正本通路是西友连携 GCS。型转换和共通化，方针上放在 TRIAL 侧吸收。如果按课题拆多个项目，SCM 统一连携面会裂开，所以要收敛成一台机。</p><p>因此需要：在 TRIAL GCP 上申请 <strong>一台 SCM 连携机</strong>；负责见积里的 <strong>Layer①</strong>——取得、转换、配置的批处理；附带 GCS（源数据）和 Cloud Run（处理）一体申请；只把最终 TXT 单方向交到 Seiyu GCS。位置上，和现有的惣菜、MD-Link、Inunaki 并列。</p><p>为什么说是「新机」。Layer① 是这次要申请的 TRIAL 云机；Layer②③ 是西友 Azure 的 DataSpider，<strong>另案 Spec</strong>。DSS 只做全字段通过，转换在 Layer①。本机不挂持久盘，永续只在 GCS。这也是 Sinops 见积约四百零三人日的执行基盤前提。</p><p>申请什么、不申请什么。申请：一个项目、Cloud Run Jobs、自有 GCS、Scheduler、Workflows、STS 等。不申请：GKE、本机持久磁盘、DataSpider、以及西友连携 GCS 本体——连携 GCS 要向松尾另行申请。</p><p>一句话：<strong>为了跑通公司间自动补充连携，TRIAL 侧需要带转换的统一 IF 基盤，所以申请新建一台 SCM連携クラウド機。</strong></p><p>接下来讲，这台机用什么执行基盤。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>みなさま、<ruby>本日<rt>ほんじつ</rt></ruby>は <strong>SCM<ruby>連携<rt>れんけい</rt></ruby>クラウド<ruby>機<rt>き</rt></ruby></strong> の GCP <ruby>環境<rt>かんきょう</rt></ruby><ruby>申請<rt>しんせい</rt></ruby>をご<ruby>説明<rt>せつめい</rt></ruby>します。<ruby>全<rt>ぜん</rt></ruby>7 <ruby>枚<rt>まい</rt></ruby>です。<ruby>背景<rt>はいけい</rt></ruby>、Cloud Run <ruby>採用<rt>さいよう</rt></ruby><ruby>理由<rt>りゆう</rt></ruby>、<ruby>構成<rt>こうせい</rt></ruby>、<ruby>日次<rt>にちじ</rt></ruby>の<ruby>動<rt>うご</rt></ruby>き、スペック、<ruby>費用<rt>ひよう</rt></ruby>、<ruby>最後<rt>さいご</rt></ruby>に GKE <ruby>比較<rt>ひかく</rt></ruby>の<ruby>順<rt>じゅん</rt></ruby>です。</p><p>まず<ruby>背景<rt>はいけい</rt></ruby>です。いま<ruby>進<rt>すす</rt></ruby>めているのは、<ruby>西友<rt>せいゆう</rt></ruby>と TRIAL の <strong>MD <ruby>基幹<rt>きかん</rt></ruby><ruby>統合<rt>とうごう</rt></ruby>・<ruby>自動補充<rt>じどうほじゅう</rt></ruby>Sinops <ruby>第<rt>だい</rt></ruby>2 <ruby>段階<rt>だんかい</rt></ruby></strong> です。<ruby>大阪<rt>おおさか</rt></ruby>の<ruby>集計<rt>しゅうけい</rt></ruby><ruby>系<rt>けい</rt></ruby>データを<ruby>日次<rt>にちじ</rt></ruby>で<ruby>西友側<rt>せいゆうがわ</rt></ruby>へ<ruby>渡す<rt>わたす</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があり、<ruby>会社間<rt>かいしゃかん</rt></ruby>の<ruby>正本<rt>せいほん</rt></ruby><ruby>通路<rt>つうろ</rt></ruby>は<ruby>西友連携<rt>れんけい</rt></ruby>GCS です。<ruby>型変換<rt>かたへんかん</rt></ruby>と<ruby>共通化<rt>きょうつうか</rt></ruby>は TRIAL <ruby>側<rt>がわ</rt></ruby>で<ruby>吸収<rt>きゅうしゅう</rt></ruby>する<ruby>方針<rt>ほうしん</rt></ruby>です。<ruby>課題<rt>かだい</rt></ruby>ごとにプロジェクトを<ruby>割<rt>わ</rt></ruby>ると SCM の<ruby>統一連携面<rt>とういつれんけいめん</rt></ruby>が<ruby>割れ<rt>われ</rt></ruby>るため、1 <ruby>台<rt>だい</rt></ruby>にまとめる<ruby>必要<rt>ひつよう</rt></ruby>があります。</p><p>そのため<ruby>必要<rt>ひつよう</rt></ruby>なのは、TRIAL GCP <ruby>上<rt>うえ</rt></ruby>の <strong>SCM <ruby>連携機<rt>れんけいき</rt></ruby>を 1 <ruby>台<rt>だい</rt></ruby></strong>。<ruby>見積<rt>みつもり</rt></ruby>の <strong>Layer①</strong>、つまり<ruby>取得<rt>しゅとく</rt></ruby>・<ruby>変換<rt>へんかん</rt></ruby>・<ruby>配置<rt>はいち</rt></ruby>のバッチです。<ruby>附帯<rt>ふたい</rt></ruby>GCS（<ruby>源<rt>げん</rt></ruby>データ）と Cloud Run（<ruby>処理<rt>しょり</rt></ruby>）を<ruby>一体<rt>いったい</rt></ruby>で<ruby>申請<rt>しんせい</rt></ruby>し、<ruby>最終<rt>さいしゅう</rt></ruby>TXT のみ Seiyu GCS へ<ruby>単方向<rt>たんほうこう</rt></ruby><ruby>納品<rt>のうひん</rt></ruby>します。<ruby>位置づけ<rt>いちづけ</rt></ruby>は、<ruby>既存<rt>きそん</rt></ruby>の<ruby>惣菜<rt>そうざい</rt></ruby>・MD-Link・Inunaki と<ruby>並列<rt>へいれつ</rt></ruby>です。</p><p>なぜ「<ruby>新<rt>あたら</rt></ruby>しい<ruby>機<rt>き</rt></ruby>」か。Layer① が<ruby>今回申請<rt>こんかいしんせい</rt></ruby>の TRIAL クラウド<ruby>機<rt>き</rt></ruby>、Layer②③ は<ruby>西友<rt>せいゆう</rt></ruby> Azure の DataSpider で <strong><ruby>別<rt>べつ</rt></ruby> Spec</strong> です。DSS は<ruby>全<rt>ぜん</rt></ruby>フィールド<ruby>通過<rt>つうか</rt></ruby>、<ruby>変換<rt>へんかん</rt></ruby>は Layer①。<ruby>本機<rt>ほんき</rt></ruby>に<ruby>永続<rt>えいぞく</rt></ruby>ディスクは<ruby>持た<rt>もた</rt></ruby>ず、<ruby>永続<rt>えいぞく</rt></ruby>は GCS のみ。Sinops <ruby>見積<rt>みつもり</rt></ruby>おおよそ 403 <ruby>人日<rt>にんにち</rt></ruby>の<ruby>実行前提<rt>じっこうぜんてい</rt></ruby>となる<ruby>基盤<rt>きばん</rt></ruby>でもあります。</p><p><ruby>申請<rt>しんせい</rt></ruby>する／しない。<ruby>申請<rt>しんせい</rt></ruby>するのは 1 プロジェクト、Cloud Run Jobs、<ruby>自有<rt>じゆう</rt></ruby> GCS、Scheduler、Workflows、STS など。<ruby>申請<rt>しんせい</rt></ruby>しないのは GKE、<ruby>本機永続<rt>ほんきえいぞく</rt></ruby>ディスク、DataSpider、<ruby>西友連携<rt>れんけい</rt></ruby> GCS <ruby>本体<rt>ほんたい</rt></ruby>です。<ruby>連携<rt>れんけい</rt></ruby> GCS は<ruby>松尾<rt>まつお</rt></ruby>さんへ<ruby>別途申請<rt>べっとしんせい</rt></ruby>します。</p><p><ruby>一口<rt>ひとくち</rt></ruby>で<ruby>言<rt>い</rt></ruby>うと、<strong><ruby>会社間<rt>かいしゃかん</rt></ruby>の<ruby>自動補充連携<rt>じどうほじゅうれんけい</rt></ruby>を<ruby>回す<rt>まわす</rt></ruby>ため、TRIAL <ruby>側<rt>がわ</rt></ruby>に<ruby>変換付<rt>へんかんつき</rt></ruby>きの<ruby>統一<rt>とういつ</rt></ruby> IF <ruby>基盤<rt>きばん</rt></ruby>が<ruby>要る<rt>いる</rt></ruby>。だから<ruby>新規<rt>しんき</rt></ruby> 1 プロジェクトの SCM<ruby>連携<rt>れんけい</rt></ruby>クラウド<ruby>機<rt>き</rt></ruby>を<ruby>申請<rt>しんせい</rt></ruby>する</strong>、です。</p><p><ruby>次<rt>つぎ</rt></ruby>に、この<ruby>機<rt>き</rt></ruby>をどの<ruby>実行基盤<rt>じっこうきばん</rt></ruby>で<ruby>作る<rt>つくる</rt></ruby>かを<ruby>説明<rt>せつめい</rt></ruby>します。</p></div>
+</div></section>
+<section class="card" id="slide-2">
+<h2><span class="slide-num">S2/7</span>なぜ Cloud Run Jobs を<ruby>採用<rt>さいよう</rt></ruby>するか　／　翻到第 2 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第二页是技术判断。本件不是常驻 API，而是 <strong>需要时才跑的日次文件 IF 批处理</strong>。所以用 <strong>Cloud Run Jobs</strong>，<strong>不上 GKE</strong>。</p><p>四个観点。一，動き方：启动→处理→结束，空闲可停；GKE 容易常设集群，批处理易留固定费。二，工作内容：抽出、转换、GCS 推拉；GKE 更适合微服务和常驻 API。三，存储：无状态、正本只在 GCS；GKE 往往带节点和卷运维。四，运维费用：Cloud Run 轻；GKE 有集群费，后面用数字对照。</p><p>收束：<strong>不是常开的底座，而是需要时才跑的批处理，所以用 Cloud Run Jobs。</strong></p><p>接下来看构成图。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>2 <ruby>枚目<rt>まいめ</rt></ruby>は<ruby>技術<rt>ぎじゅつ</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>です。<ruby>本件<rt>ほんけん</rt></ruby>は<ruby>常駐<rt>じょうちゅう</rt></ruby>API ではなく、<strong><ruby>必要<rt>ひつよう</rt></ruby>なときだけ<ruby>動く<rt>うごく</rt></ruby><ruby>日次<rt>にちじ</rt></ruby>ファイル IF バッチ</strong>です。そのため <strong>Cloud Run Jobs</strong> を<ruby>採用<rt>さいよう</rt></ruby>し、<strong>GKE は<ruby>申請<rt>しんせい</rt></ruby>しません</strong>。</p><p><ruby>観点<rt>かんてん</rt></ruby>は<ruby>四<rt>よ</rt></ruby>つ。<ruby>第一<rt>だいいち</rt></ruby>、<ruby>動き<rt>うごき</rt></ruby><ruby>方<rt>かた</rt></ruby>：<ruby>起動<rt>きどう</rt></ruby>→<ruby>処理<rt>しょり</rt></ruby>→<ruby>終了<rt>しゅうりょう</rt></ruby>、<ruby>遊休時<rt>ゆうきゅうじ</rt></ruby>は<ruby>止め<rt>とめ</rt></ruby>られる。GKE はクラスタ<ruby>常設<rt>じょうせつ</rt></ruby>しやすく<ruby>固定費<rt>こていひ</rt></ruby>が<ruby>残り<rt>のこり</rt></ruby>やすい。<ruby>第二<rt>だいに</rt></ruby>、<ruby>仕事<rt>しごと</rt></ruby>：<ruby>抽出<rt>ちゅうしゅつ</rt></ruby>・<ruby>変換<rt>へんかん</rt></ruby>・GCS プッシュ／プル。GKE はマイクロサービス<ruby>向き<rt>むき</rt></ruby>。<ruby>第三<rt>だいさん</rt></ruby>、ストレージ：<ruby>無状態<rt>むじょうたい</rt></ruby>、<ruby>正本<rt>せいほん</rt></ruby>は GCS のみ。GKE はノード／ボリューム<ruby>運用<rt>うんよう</rt></ruby>が<ruby>前提<rt>ぜんてい</rt></ruby>になりやすい。<ruby>第四<rt>だいよん</rt></ruby>、<ruby>運用<rt>うんよう</rt></ruby>・<ruby>費用<rt>ひよう</rt></ruby>：Cloud Run は<ruby>軽い<rt>かるい</rt></ruby>。GKE はクラスタ<ruby>費<rt>ひ</rt></ruby>があり、<ruby>数字<rt>すうじ</rt></ruby>は<ruby>後<rt>あと</rt></ruby>で<ruby>対比<rt>たいひ</rt></ruby>します。</p><p><strong><ruby>常時<rt>じょうじ</rt></ruby><ruby>動かす<rt>うごかす</rt></ruby><ruby>基盤<rt>きばん</rt></ruby>ではなく、<ruby>必要<rt>ひつよう</rt></ruby>なときだけ<ruby>動く<rt>うごく</rt></ruby>バッチなので Cloud Run Jobs</strong>、です。</p><p>では<ruby>構成図<rt>こうせいず</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。</p></div>
+</div></section>
+<section class="card" id="slide-3">
+<h2><span class="slide-num">S3/7</span><ruby>申請構成図<rt>しんせいこうせいず</rt></ruby>　／　翻到第 3 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第三页是构成。申请东京 <code>asia-northeast1</code> 自有 GCP，dev／stg／prod。暂定 ID <strong>md-data-integration-prod</strong>。Layer①＝附带 GCS＋Cloud Run 一体。</p><p>左：大阪集计 GCS（既存、不申请）日次数据＋<code>_READY</code>。中：STS 复制到自有 <code>source-landing/</code>（约七天），Cloud Run <strong>4 vCPU／16 GiB</strong> 做 SMART，只把最终 TXT upload。右：Seiyu 专用 GCS 的 <code>result/</code>＋<code>_SUCCESS</code>。</p><p>控制：Scheduler → Workflows（READY→STS→Job→验证）。安全边界：<strong>源数据不进 Seiyu GCS</strong>；西友只有 objectCreator。大文件流式＋resumable；必要时临时盘外排。无 GKE、无本机持久落地。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>3 <ruby>枚目<rt>まいめ</rt></ruby>は<ruby>構成図<rt>こうせいず</rt></ruby>です。<ruby>東京<rt>とうきょう</rt></ruby> <code>asia-northeast1</code> の<ruby>自有<rt>じゆう</rt></ruby> GCP、<strong>dev / stg / prod</strong>。<ruby>暫定<rt>ざんてい</rt></ruby> ID は <strong>md-data-integration-prod</strong>。Layer①＝<ruby>附帯<rt>ふたい</rt></ruby> GCS＋Cloud Run の<ruby>一体<rt>いったい</rt></ruby>です。</p><p><ruby>左<rt>ひだり</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby><ruby>集計<rt>しゅうけい</rt></ruby> GCS（<ruby>既存<rt>きそん</rt></ruby>・<ruby>今回申請<rt>こんかいしんせい</rt></ruby>しない）、<ruby>日次<rt>にちじ</rt></ruby>データ＋<code>_READY</code>。<ruby>中央<rt>ちゅうおう</rt></ruby>で STS が<ruby>自有<rt>じゆう</rt></ruby> <code>source-landing/</code>（<ruby>約<rt>やく</rt></ruby> 7 <ruby>日<rt>にち</rt></ruby>）へコピーし、Cloud Run <strong>4 vCPU / 16 GiB</strong> が SMART <ruby>処理<rt>しょり</rt></ruby>、<ruby>最終<rt>さいしゅう</rt></ruby> TXT のみ upload。<ruby>右<rt>みぎ</rt></ruby>は Seiyu <ruby>専用<rt>せんよう</rt></ruby> GCS の <code>result/</code> と <code>_SUCCESS</code>。</p><p><ruby>制御<rt>せいぎょ</rt></ruby>は Scheduler → Workflows（READY→STS→Job→<ruby>検証<rt>けんしょう</rt></ruby>）。<ruby>安<rt>やす</rt></ruby><ruby>全<rt>ぜん</rt></ruby><ruby>境界<rt>きょうかい</rt></ruby>：<strong><ruby>源<rt>げん</rt></ruby>データは Seiyu GCS に<ruby>入ら<rt>いら</rt></ruby>ない</strong>。Seiyu は objectCreator のみ。<ruby>大<rt>だい</rt></ruby><ruby>容量<rt>ようりょう</rt></ruby>はストリーム＋resumable。GKE と<ruby>本機永続<rt>ほんきえいぞく</rt></ruby>ステージングは<ruby>持<rt>も</rt></ruby>ちません。</p></div>
+</div></section>
+<section class="card" id="slide-4">
+<h2><span class="slide-num">S4/7</span><ruby>日次実行<rt>にちじじっこう</rt></ruby>フロー・<ruby>権限<rt>けんげん</rt></ruby>・<ruby>処理方針<rt>しょりほうしん</rt></ruby>　／　翻到第 4 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第四页：每天六步——Scheduler → READY／manifest → STS → Cloud Run → 纳品 TXT → <code>_SUCCESS</code>。SMART 链：解压、选列行、外排 JOIN、汇总、计算格式、stream uploader。</p><p>大文件不整进 RAM；权限 STS 大阪读／自有写，Job 自有读／Seiyu 仅 objectCreator；容量约 251.6 GiB（七天）、転送约每月 1,078 GiB；费用初算约 <strong>一万八千一百九十日元</strong>（第六页明细）。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>4 <ruby>枚目<rt>まいめ</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby> 6 ステップです。Scheduler → READY／manifest → STS → Cloud Run → TXT <ruby>納品<rt>のうひん</rt></ruby> → <code>_SUCCESS</code>。SMART は<ruby>解凍<rt>かいとう</rt></ruby>・selcol／selrow・<ruby>外排<rt>がいはい</rt></ruby> JOIN・<ruby>集計<rt>しゅうけい</rt></ruby>・format・stream uploader。</p><p><ruby>大<rt>だい</rt></ruby>ファイルは RAM に<ruby>全量<rt>ぜんりょう</rt></ruby>を<ruby>載せ<rt>のせ</rt></ruby>ない。<ruby>権限<rt>けんげん</rt></ruby>は STS＝<ruby>大阪<rt>おおさか</rt></ruby> read／<ruby>自有<rt>じゆう</rt></ruby> write、Job＝<ruby>自有<rt>じゆう</rt></ruby> objectViewer／Seiyu objectCreator のみ。<ruby>容量<rt>ようりょう</rt></ruby>は<ruby>源<rt>げん</rt></ruby>データ<ruby>約<rt>やく</rt></ruby> 251.6 GiB（7 <ruby>日<rt>にち</rt></ruby>）、<ruby>転送<rt>てんそう</rt></ruby><ruby>月約<rt>つきやく</rt></ruby> 1,078 GiB。<ruby>費用初算<rt>ひようしょさん</rt></ruby>は<ruby>約<rt>やく</rt></ruby> <strong>1<ruby>万<rt>まん</rt></ruby>8,190 <ruby>円<rt>えん</rt></ruby></strong>（<ruby>明細<rt>めいさい</rt></ruby>は 6 <ruby>枚目<rt>まいめ</rt></ruby>）。</p></div>
+</div></section>
+<section class="card" id="slide-5">
+<h2><span class="slide-num">S5/7</span><ruby>申請<rt>しんせい</rt></ruby>スペック・<ruby>構成一覧<rt>こうせいいちらん</rt></ruby>　／　翻到第 5 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第五页是请批清单。PJ：<strong>md-data-integration-prod</strong>；Cloud Run <strong>4 vCPU／16 GiB</strong>；自有 <code>source-landing/</code>；Seiyu <code>result/</code>＋<code>_SUCCESS</code>；只交最终 TXT；无本机盘；不上 GKE；控制申请图上为 Scheduler→Workflows（<strong>将来可能改为 Hinemos 启动</strong>；与 DSS 分工要再对）。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>5 <ruby>枚目<rt>まいめ</rt></ruby>は<ruby>申請<rt>しんせい</rt></ruby>スペック<ruby>一覧<rt>いちらん</rt></ruby>です。PJ <ruby>暫定<rt>ざんてい</rt></ruby> <strong>md-data-integration-prod</strong>。Cloud Run <strong>4 vCPU / 16 GiB</strong>。<ruby>自有<rt>じゆう</rt></ruby> <code>source-landing/</code>。Seiyu <code>result/</code>＋<code>_SUCCESS</code>。<ruby>最終<rt>さいしゅう</rt></ruby> TXT のみ。<ruby>本機<rt>ほんき</rt></ruby>ディスクなし。GKE なし。<ruby>制御<rt>せいぎょ</rt></ruby>は<ruby>申請図<rt>しんせいず</rt></ruby><ruby>上<rt>うえ</rt></ruby> Scheduler→Workflows（<strong><ruby>将来<rt>しょうらい</rt></ruby> Hinemos <ruby>起動<rt>きどう</rt></ruby>に<ruby>変更<rt>へんこう</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>あり</strong>；DSS は<ruby>要<rt>よう</rt></ruby><ruby>突合<rt>とつごう</rt></ruby>）。</p></div>
+</div></section>
+<section class="card" id="slide-6">
+<h2><span class="slide-num">S6/7</span><ruby>費用試算<rt>ひようしさん</rt></ruby>　／　翻到第 6 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第六页：SPEC.xlsx，2026-09-22，讨论用非拘束。月约 <strong>¥18,190</strong>，年间（×12）约 <strong>¥218,280</strong>。CPU ¥1,239、Memory ¥551、Storage ¥1,100、<strong>転送 ¥15,300</strong>（约八成）。未计 STS／Workflows／Scheduler 等。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>6 <ruby>枚目<rt>まいめ</rt></ruby>は SPEC.xlsx（2026-09-22）、<ruby>議論用<rt>ぎろんよう</rt></ruby>・<ruby>非拘束<rt>ひこうそく</rt></ruby>。<ruby>月約<rt>つきやく</rt></ruby> <strong>¥18,190</strong>、<ruby>年間<rt>ねんかん</rt></ruby>（×12）<ruby>約<rt>やく</rt></ruby> <strong>¥218,280</strong>。CPU ¥1,239、Memory ¥551、Storage ¥1,100、<strong><ruby>転送<rt>てんそう</rt></ruby> ¥15,300</strong>（<ruby>約<rt>やく</rt></ruby> 8 <ruby>割<rt>わ</rt></ruby>）。STS／Workflows／Scheduler <ruby>等<rt>など</rt></ruby>は<ruby>未計上<rt>みけいじょう</rt></ruby>。</p></div>
+</div></section>
+<section class="card" id="slide-7">
+<h2><span class="slide-num">S7/7</span><ruby>費用比較<rt>ひようひかく</rt></ruby> vs GKE　／　翻到第 7 页</h2>
+<div class="pair">
+<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span><p>第七页关替代案。GCS＋転送约 ¥16,400 两边一样。Cloud Run 月 <strong>¥18,190</strong>（年约 <strong>¥218,280</strong>）。GKE Autopilot（含管理费）约 <strong>¥29,000／月（年约 ¥348,000）</strong>。Standard 常驻约 <strong>¥36,000〜48,000／月（年约 ¥43〜58 万）</strong>。差在集群常驻管理费；本件用 Cloud Run，不上 GKE。</p><p>总结七页：因自动补充需要 TRIAL 侧统一 IF 机而申请；用 Cloud Run 不上 GKE；源在自有、TXT 单方向给西友；费用月约一万八千、年约二十二万、大半是転送。请审议。谢谢。</p></div>
+<div class="panel jp-panel lang-jp-block"><span class="badge jp">日本語</span><p>7 <ruby>枚目<rt>まいめ</rt></ruby>で<ruby>代替案<rt>だいたいあん</rt></ruby>を<ruby>閉じ<rt>とじ</rt></ruby>ます。GCS＋<ruby>転送<rt>てんそう</rt></ruby>は<ruby>約<rt>やく</rt></ruby> ¥16,400 で<ruby>同額<rt>どうがく</rt></ruby>。Cloud Run <ruby>月<rt>つき</rt></ruby> <strong>¥18,190</strong>（<ruby>年約<rt>ねんやく</rt></ruby> <strong>¥218,280</strong>）。GKE Autopilot（<ruby>管理費込み<rt>かんりひこみ</rt></ruby>）<ruby>約<rt>やく</rt></ruby> <strong>¥29,000／<ruby>月<rt>つき</rt></ruby>（<ruby>年約<rt>ねんやく</rt></ruby> ¥348,000）</strong>。Standard <ruby>常駐<rt>じょうちゅう</rt></ruby><ruby>約<rt>やく</rt></ruby> <strong>¥36,000〜48,000／<ruby>月<rt>つき</rt></ruby>（<ruby>年約<rt>ねんやく</rt></ruby> 43〜58 <ruby>万円<rt>まんえん</rt></ruby>）</strong>。<ruby>差<rt>さ</rt></ruby>はクラスタ<ruby>常駐<rt>じょうちゅう</rt></ruby>の<ruby>管理費<rt>かんりひ</rt></ruby>です。<ruby>本件<rt>ほんけん</rt></ruby>は Cloud Run、GKE は<ruby>申請<rt>しんせい</rt></ruby>しません。</p><p><ruby>要約<rt>ようやく</rt></ruby>：<ruby>自動補充<rt>じどうほじゅう</rt></ruby>のため TRIAL <ruby>側<rt>がわ</rt></ruby>に<ruby>統一<rt>とういつ</rt></ruby> IF <ruby>機<rt>き</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>で<ruby>申請<rt>しんせい</rt></ruby>する。Cloud Run、GKE は<ruby>不要<rt>ふよう</rt></ruby>。<ruby>源<rt>げん</rt></ruby>は<ruby>自有<rt>じゆう</rt></ruby>、TXT のみ<ruby>西友<rt>せいゆう</rt></ruby>へ。<ruby>費用初算<rt>ひようしょさん</rt></ruby>は<ruby>月約<rt>つきやく</rt></ruby> 1.8 <ruby>万円<rt>まんえん</rt></ruby>・<ruby>年約<rt>ねんやく</rt></ruby> 22 <ruby>万円<rt>まんえん</rt></ruby>、<ruby>大半<rt>たいはん</rt></ruby>は<ruby>転送<rt>てんそう</rt></ruby>。ご<ruby>審議<rt>しんぎ</rt></ruby>のほど、よろしくお<ruby>願<rt>ねが</rt></ruby>いいたします。</p></div>
+</div></section>
+<section class="card" id="sec-qa"><h2><ruby>想定質問<rt>そうていしつもん</rt></ruby></h2>
+<p class="hint">想定質問先短答，追问再补一句即可。</p>
+<table><thead><tr><th>質問</th><th class="lang-cn-block">中文</th><th class="lang-jp-block">日本語</th></tr></thead>
+<tbody>
+<tr><td>为什么要新开项目？</td><td class='lang-cn-block'>第 1 页：统一 SCM 连携面；按课题拆会裂开。与惣菜／MD-Link／Inunaki 并列。</td><td class='lang-jp-block'>1 <ruby>枚目<rt>まいめ</rt></ruby>：SCM <ruby>連携面<rt>れんけいめん</rt></ruby>を<ruby>割<rt>わ</rt></ruby>らないため。<ruby>惣菜<rt>そうざい</rt></ruby>／MD-Link／Inunaki と<ruby>並列<rt>へいれつ</rt></ruby>。</td></tr><tr><td>为什么不用现有机？</td><td class='lang-cn-block'>Layer① 要做取得・转换・配置；见积执行前提；源隔离与单方向纳品是新设计边界。</td><td class='lang-jp-block'>Layer① の<ruby>取得<rt>しゅとく</rt></ruby>・<ruby>変換<rt>へんかん</rt></ruby>・<ruby>配置<rt>はいち</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>。<ruby>見積<rt>みつもり</rt></ruby>の<ruby>実行前提<rt>じっこうぜんてい</rt></ruby>。<ruby>源隔離<rt>げんかくり</rt></ruby>と<ruby>単方向納品<rt>たんほうこうのうひん</rt></ruby>が<ruby>新境界<rt>しんきょうかい</rt></ruby>。</td></tr><tr><td>DataSpider 不够吗？</td><td class='lang-cn-block'>DSS 是②③、全字段通过；转换在①。DSS 与连携 GCS 另 Spec。</td><td class='lang-jp-block'>DSS は②③で<ruby>全<rt>ぜん</rt></ruby>フィールド<ruby>通過<rt>つうか</rt></ruby>。<ruby>変換<rt>へんかん</rt></ruby>は①。DSS と<ruby>連携<rt>れんけい</rt></ruby> GCS は<ruby>別<rt>べつ</rt></ruby> Spec。</td></tr><tr><td>为什么不用 GKE／Autopilot？</td><td class='lang-cn-block'>第 2・7 页：日次批；集群管理费常驻；运维更重；Spec 不上 GKE。</td><td class='lang-jp-block'>2・7 <ruby>枚目<rt>まいめ</rt></ruby>：<ruby>日次<rt>にちじ</rt></ruby>バッチ。クラスタ<ruby>管理費<rt>かんりひ</rt></ruby>が<ruby>常駐<rt>じょうちゅう</rt></ruby>。<ruby>運用<rt>うんよう</rt></ruby>が<ruby>重い<rt>おもい</rt></ruby>。Spec は GKE <ruby>申請<rt>しんせい</rt></ruby>しない。</td></tr><tr><td>一万八千是定案吗？</td><td class='lang-cn-block'>否，讨论用非拘束。</td><td class='lang-jp-block'>いいえ。<ruby>議論用<rt>ぎろんよう</rt></ruby>・<ruby>非拘束<rt>ひこうそく</rt></ruby>です。</td></tr><tr><td>启动会改成 Hinemos 吗？</td><td class='lang-cn-block'>申请图是 Scheduler＋Workflows；<strong>将来可能改为 Hinemos 启动</strong>。执行体仍是 Cloud Run。</td><td class='lang-jp-block'><ruby>申請図<rt>しんせいず</rt></ruby>は Scheduler＋Workflows。<strong><ruby>将来<rt>しょうらい</rt></ruby> Hinemos <ruby>起動<rt>きどう</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>あり</strong>。<ruby>実行体<rt>じっこうたい</rt></ruby>は Cloud Run のまま。</td></tr>
+</tbody></table></section>
+<p class="note">注音：原稿（かな）＋词典自动补全　｜　源 MD／PPT 对齐</p>
+</main>
+<script>
+function showBoth(){ document.body.classList.remove('hide-cn','hide-jp'); }
+function showCn(){ document.body.classList.add('hide-jp'); document.body.classList.remove('hide-cn'); }
+function showJp(){ document.body.classList.add('hide-cn'); document.body.classList.remove('hide-jp'); }
+function toggleBig(){ document.body.classList.toggle('big'); }
+function toggleSide(){ document.querySelectorAll('.pair').forEach(el => el.classList.toggle('side')); }
+if (window.matchMedia('(min-width: 860px)').matches) {
+  document.querySelectorAll('.pair').forEach(el => el.classList.add('side'));
+}
+</script>
+</body>
+</html>
