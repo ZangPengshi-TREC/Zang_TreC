@@ -46,7 +46,7 @@
 
 先说申请对象。在 TRIAL GCP 上新建 **1 个项目**。**暂定项目 ID 是 `md-data-integration-prod`。** 资料里的 ProjectD、Seiyu_Order 是指向这个暂定 ID 的说明用叫法。定位上，和现有的惣菜、MD-Link、Inunaki 并列，是一台 **SCM 連携机**。如果按课题拆成多个项目，启动对象和文件落点会变成两套，所以 **收敛为 1 个项目**。环境设计图（gcp環境設計／current-architecture-flow）就是 **这个项目的申请构成图**。
 
-再说执行基盤。采用 **Cloud Run Jobs**（东京 `asia-northeast1`，申请图为 4 vCPU / 16 GiB）。流程：**集计SV GCS（大阪）** 输入确认 → Storage Transfer 同步到 **本项目附带 GCS（`source-landing/`，源数据约 7 日）** → Cloud Run（SMART）转换 → **仅最终 TXT upload 到西友连携 GCS（`result/` + `_SUCCESS`）** → 西友 DataSpider。**源数据不进西友连携 GCS；Seiyu 侧权限仅为 objectCreator。无二次プッシュ。** 申请图上的控制流是 **Scheduler → Workflows**；**将来也有可能改成 Hinemos 启动**（执行体仍是 Cloud Run）。与 Hinemos（尤其 DSS②③）的分工仍要再对一次。不申请 GKE。不做 VM／本机持久化ステージング。
+再说执行基盤。采用 **Cloud Run Jobs**（东京 `asia-northeast1`，申请图为 4 vCPU / 16 GiB）。流程：**集计SV GCS（大阪）** 输入确认 → Storage Transfer 同步到 **本项目附带 GCS（`source-landing/`，prod 源数据约 30 日，stg／dev 为 7 日）** → Cloud Run（SMART）转换 → **仅最终 TXT upload 到西友连携 GCS（`result/` + `_SUCCESS`）** → 西友 DataSpider。**源数据不进西友连携 GCS；Seiyu 侧权限仅为 objectCreator。无二次プッシュ。** 申请图上的控制流是 **Scheduler → Workflows**；**将来也有可能改成 Hinemos 启动**（执行体仍是 Cloud Run）。与 Hinemos（尤其 DSS②③）的分工仍要再对一次。不申请 GKE。不做 VM／本机持久化ステージング。
 
 负责范围是见积的 **Layer①**。不只是文件进出，还要做吸收西友与 TRIAL 差异的 **共通化・型转换**，以及一部分生成逻辑。  
 往路：从 **集计SV GCS（大阪）** 同步到 **`md-data-integration-prod` 附带 GCS**，经 Cloud Run 处理后把结果反映到 **西友连携 GCS**。TRIAL 与西友之间的唯一通道就是西友连携 GCS。  
@@ -66,7 +66,7 @@ Layer②、Layer③ 在西友 Azure 的 **既存 DataSpider**。② 是主数据
 见积 Layer① 写的是外部 IF，但本机还做共通化、型转换和一部分生成，所以叫 SCM連携クラウド機。
 
 **为什么用 Cloud Run、不用 GKE／Autopilot。**  
-见第 2・7 页。本件是日次文件批，Cloud Run Jobs 对口；GKE（含 Autopilot）仍有集群管理费常驻、运维更重，且 Spec 口径不上 GKE。第 7 页对照的是 **Cloud Run ≈ ¥18,190** vs **Autopilot（管理费込み）≈ ¥29,000** vs **Standard 常驻 ≈ ¥36,000〜48,000**（讨论用概算）。
+三套对照（东京公开单价、与 Cloud Run 同一工时、prod 保管 30 日）：**Cloud Run ≈ ¥27,356／月**、**Autopilot 三集群 ≈ ¥50,000／月**、**Standard 常驻三台 ≈ ¥109,000／月**。差在集群管理费。Spec 不上 GKE。
 
 **DataSpider 会做类型转换或字段筛选吗。**  
 原则上不做。DSS（Layer②／③）只做 **全字段通过／转发**。类型转换、字段筛选、代码转换、编辑都在 **Layer①（本云机）**。
@@ -102,4 +102,4 @@ BO 程序本阶段不做，但会用同一套云机和 DataSpider。共通基盤
 那是网络前提。不是这次申请的云机功能范围。和桶契约的最终对应还没对上。
 
 **费用大概多少。**  
-GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）初算月约 **¥18,190**、年约 **¥218,280**（×12，讨论用、非拘束）。其中约 **¥15,300／月** 是亚洲区域内大阪→东京転送；Cloud Run 与东京 Standard Storage 相对较小。Scheduler／Workflows／STS 等本表未计。
+三套合计月约 **¥27,356**、年约 **¥328,269**。prod 源数据保管 30 日（试算 1,200 GiB），stg／dev 仍是 7 日。其中约 **¥15,300／月** 是大阪→东京転送。Scheduler／Workflows／STS 等本表未计。

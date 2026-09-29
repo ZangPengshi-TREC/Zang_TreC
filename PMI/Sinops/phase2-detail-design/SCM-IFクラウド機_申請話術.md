@@ -46,7 +46,7 @@
 
 まず申請対象です。TRIAL GCP に **新規 1 プロジェクト** を立てます。**暫定のプロジェクト ID は `md-data-integration-prod` です。** 資料に出てくる ProjectD や Seiyu_Order は、この暫定 ID を指す説明用の呼び方です。位置づけは、既存の惣菜（そうざい）、MD-Link、Inunaki と並列（へいれつ）する **SCM の連携機** です。課題ごとにプロジェクトを割ると、起動先とファイルの置き場が二系統になるため、**1 プロジェクトにまとめます。** 環境設計図（gcp環境設計／current-architecture-flow）は **このプロジェクトの申請構成図**です。
 
-次に実行基盤です。採用は **Cloud Run Jobs**（東京 `asia-northeast1`、申請図では 4 vCPU / 16 GiB）です。流れは、**集計SV GCS（大阪）** の入力確認 → Storage Transfer で **本 PJ 附帯 GCS（`source-landing/`、源データ約 7 日）** へ同期 → Cloud Run（SMART）で変換 → **最終 TXT のみ西友連携 GCS（`result/` + `_SUCCESS`）へ upload** → 西友 DataSpider、です。**源データは西友連携 GCS に入りません。Seiyu 側権限は objectCreator のみ。二次プッシュしません。** 申請図上の制御は **Scheduler → Workflows**。**将来は Hinemos 起動に変わる可能性もあります**（実行体は Cloud Run のまま）。Hinemos（とくに DSS②③）との役割分担は要突合です。GKE は申請しません。VM／本機の永続ステージングも持ちません。
+次に実行基盤です。採用は **Cloud Run Jobs**（東京 `asia-northeast1`、申請図では 4 vCPU / 16 GiB）です。流れは、**集計SV GCS（大阪）** の入力確認 → Storage Transfer で **本 PJ 附帯 GCS（`source-landing/`、prod 源データ約 30 日、stg／dev は 7 日）** へ同期 → Cloud Run（SMART）で変換 → **最終 TXT のみ西友連携 GCS（`result/` + `_SUCCESS`）へ upload** → 西友 DataSpider、です。**源データは西友連携 GCS に入りません。Seiyu 側権限は objectCreator のみ。二次プッシュしません。** 申請図上の制御は **Scheduler → Workflows**。**将来は Hinemos 起動に変わる可能性もあります**（実行体は Cloud Run のまま）。Hinemos（とくに DSS②③）との役割分担は要突合です。GKE は申請しません。VM／本機の永続ステージングも持ちません。
 
 担当範囲は見積（みつもり）の **Layer①** です。単なるファイルの出し入れではなく、西友と TRIAL の差分を吸収する **共通化・型変換**、および一部の生成ロジックも本機で行います。  
 往路（おうろ）は、大阪の集計系データを **`md-data-integration-prod` 附帯 GCS** に保存し、Cloud Run で処理したうえで **西友連携 GCS** へ結果を反映します。TRIAL と西友の間の唯一の通路は西友連携 GCS です。  
@@ -66,7 +66,7 @@ Layer② と Layer③ は西友 Azure の **既存 DataSpider** です。② は
 見積の Layer① では外部 IF と書きますが、本機では共通化・型変換と一部の生成も行います。そのため SCM連携クラウド機と呼んでいます。
 
 **なぜ Cloud Run で、GKE／Autopilot ではないのですか。**  
-2・7 枚目参照。本件は日次ファイルバッチで Cloud Run Jobs が適合。GKE（Autopilot 含む）はクラスタ管理費が常駐し運用も重い。Spec は GKE 申請しない。7 枚目の对照は **Cloud Run ≈ ¥18,190** vs **Autopilot（管理費込み）≈ ¥29,000** vs **Standard 常駐 ≈ ¥36,000〜48,000**（議論用概算）。
+3 環境の対照（東京の公開単価、Cloud Run と同じ稼働時間、prod 保管 30 日）。**Cloud Run ≈ ¥27,356／月**、**Autopilot 3 クラスタ ≈ ¥50,000／月**、**Standard 常駐 3 台 ≈ ¥109,000／月**。差はクラスタ管理費。Spec は GKE を申請しない。
 
 **DataSpider で型変換や項目の絞り込みはしますか。**  
 原則しません。DSS（Layer②／③）は **全フィールドを通す** だけです。型変換・フィールド選別・コード変換・編集は **Layer①（本クラウド機）** で行います。
@@ -102,4 +102,4 @@ BO プログラムは本段階の対象外ですが、同じクラウド機と D
 ネットワーク前提です。今回申請するクラウド機の機能範囲ではありません。バケット契約との最終対応は未突合（みとつごう）です。
 
 **費用はだいたいいくらですか。**  
-GCP Pricing Calculator（`SPEC.xlsx`、2026-09-22）の初算で月約 **¥18,190**、年約 **¥218,280**（×12、議論用・非拘束）です。うち約 **¥15,300／月** がアジア域内の大阪→東京転送。Cloud Run と東京 Standard Storage は相対的に小さいです。Scheduler／Workflows／STS 等は本表未計上です。
+3 環境合計で月約 **¥27,356**、年約 **¥328,269** です。prod の元データ保管は 30 日（試算 1,200 GiB）。stg／dev は 7 日。うち約 **¥15,300／月** が大阪→東京転送。Scheduler／Workflows／STS 等は本表未計上です。

@@ -161,7 +161,41 @@ RUBY_DICT: dict[str, str] = {
     "将来": "しょうらい",
     "変更": "へんこう",
     "起動": "きどう",
+    "時刻起動のアカウント": "じこくきどうのあかうんと",
+    "店と商品": "てんとしょうひん",
+    "大半": "たいはん",
+    "結論": "けつろん",
+    "一時的": "いちじてき",
+    "並べ替え": "ならべかえ",
+    "承認いただきたい内容": "しょうにんいただきたいないよう",
+    "完了の印": "かんりょうのしるし",
+    "当日分": "とうじつぶ",
+    "書き込む": "かきこむ",
+    "残しません": "のこしません",
+    "残します": "のこします",
+    "残し": "のこし",
+    "開発": "かいはつ",
+    "本番": "ほんばん",
+    "確認": "かくにん",
+    "承認": "しょうにん",
+    "機械": "きかい",
+    "場所": "ばしょ",
+    "内容": "ないよう",
+    "公開単価": "こうかいたんか",
+    "要突合": "ようとつごう",
+    "概数": "がいすう",
+    "正確": "せいかく",
+    "対照": "たいしょう",
+    "換算": "かんさん",
+    "名称": "めいしょう",
+    "末尾": "まつび",
+    "内訳": "うちわけ",
+    "稼働": "かどう",
+    "試算": "しさん",
     "突合": "とつごう",
+    "実額": "じつがく",
+    "試算入力": "しさんにゅうりょく",
+    "余裕": "よゆう",
     "制御": "せいぎょ",
     "検証": "けんしょう",
     "境界": "きょうかい",
@@ -291,6 +325,19 @@ RUBY_DICT: dict[str, str] = {
     "含": "ふく",
     "保管": "ほかん",
     "変わる": "かわる",
+    "非表示": "ひひょうじ",
+    "映写": "えいしゃ",
+    "対応": "たいおう",
+    "話術": "わじゅつ",
+    "飛ばし": "とばし",
+    "入れない": "いれない",
+    "重複": "ちょうふく",
+    "保存": "ほぞん",
+    "図上": "ずじょう",
+    "詳細": "しょうさい",
+    "結果": "けっか",
+    "例": "れい",
+    "桁連番": "けたれんばん",
     "時刻": "じこく",
     "途中": "とちゅう",
     "再開": "さいかい",
@@ -540,7 +587,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 <body>
 <header class="top">
 <h1>SCM連携クラウド機　GCP環境申請　話術（中日・照着念）</h1>
-<div class="meta">故事线：背景→判断→構成→運用→スペック→費用→代替案　｜　6〜7分　｜　PPT 7枚</div>
+<div class="meta">故事线：背景→判断→構成→運用→スペック→費用→代替案　｜　全文 6〜7分　｜　精简约 2 分　｜　文件・放映 7 枚</div>
 <div class="sync">日文汉字自动注音（词典＋原稿括弧注音）／与 PPT・MD 同步<br/>用語：<strong>STS</strong>＝Google Cloud Storage Transfer Service（ストレージ転送サービス）</div>
 <div class="toolbar">
 <button type="button" onclick="showBoth()">中日両方</button>
@@ -550,7 +597,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 <button type="button" onclick="toggleSide()">左右並び</button>
 </div>
 <nav class="toc">
-<a href="#sec-15">15秒故事线</a>
+<a href="#sec-15">15秒</a>
+<a href="#sec-short">精简</a>
 <a href="#slide-1">S1</a><a href="#slide-2">S2</a><a href="#slide-3">S3</a>
 <a href="#slide-4">S4</a><a href="#slide-5">S5</a><a href="#slide-6">S6</a>
 <a href="#slide-7">S7</a><a href="#sec-qa">Q&A</a>
@@ -593,6 +641,20 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
     html_parts.append(f'<span class="badge cn">中文</span>{paras(strip_bq(m15.group(1)), jp=False)}</div>\n')
     html_parts.append('<div class="panel jp-panel lang-jp-block">')
     html_parts.append(f'<span class="badge jp">日本語</span>{paras(strip_bq(m15.group(2)), jp=True)}</div></div></section>\n')
+
+    mshort = re.search(
+        r"## 精简版.*?\n### 中文\n\n(.*?)\n### 日本語\n\n(.*?)\n---",
+        text,
+        re.S,
+    )
+    if not mshort:
+        raise SystemExit("精简版 not found")
+    html_parts.append('<section class="card" id="sec-short"><h2>精简版（约 2 分钟）</h2>\n')
+    html_parts.append('<p class="hint">文件和放映均为 7 页。</p>\n')
+    html_parts.append('<div class="pair"><div class="panel cn-panel lang-cn-block">')
+    html_parts.append(f'<span class="badge cn">中文</span>{paras(strip_bq(mshort.group(1)), jp=False)}</div>\n')
+    html_parts.append('<div class="panel jp-panel lang-jp-block">')
+    html_parts.append(f'<span class="badge jp">日本語</span>{paras(strip_bq(mshort.group(2)), jp=True)}</div></div></section>\n')
 
     # --- スライド 1-7 ---
     slides = list(
@@ -691,7 +753,7 @@ if (window.matchMedia('(min-width: 860px)').matches) {
 
     OUT_PATH.write_text("".join(html_parts), encoding="utf-8")
     body = OUT_PATH.read_text(encoding="utf-8")
-    assert "218,280" in body
+    assert "31,607" in body and "379,287" in body
     assert "将来 Hinemos" in body or "将来可能改为 Hinemos" in body
     ruby_n = body.count("<ruby>")
     print(f"OK {OUT_PATH} size={OUT_PATH.stat().st_size} rubies={ruby_n}")
