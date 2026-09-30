@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>標準案 Excel　簡略話術（2〜3分）</title>
+<style>
+  :root { --navy:#1a365d; --orange:#c05621; --bg:#f7fafc; --line:#e2e8f0; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic","Microsoft YaHei",sans-serif; background:var(--bg); color:#1a202c; line-height:1.75; }
+  header { background:linear-gradient(135deg,var(--navy),#2c5282); color:#fff; padding:1.2rem 1.1rem; }
+  header h1 { margin:0 0 .35rem; font-size:1.2rem; }
+  header p { margin:.2rem 0; font-size:.9rem; opacity:.92; }
+  main { max-width:820px; margin:0 auto; padding:1rem 1rem 2.5rem; }
+  section { background:#fff; border:1px solid var(--line); border-radius:8px; margin:.85rem 0; overflow:hidden; }
+  h2 { margin:0; padding:.55rem .9rem; background:var(--navy); color:#fff; font-size:.98rem; }
+  .cn, .jp { padding:.75rem .95rem; }
+  .cn { background:#f0fff4; border-bottom:1px solid var(--line); }
+  .jp { background:#ebf8ff; }
+  .lang { font-size:.72rem; font-weight:700; color:#4a5568; margin-bottom:.25rem; }
+  p { margin:.3rem 0; }
+  rt { font-size:.55em; color:var(--orange); }
+  strong { color:var(--navy); }
+</style>
+</head>
+<body>
+<header>
+  <h1>標準案 Excel　簡略話術（2〜3分）</h1>
+  <p>タブの順に進める。青い欄だけ読む。橙色のシート名は開く合図で、読まない。</p>
+  <p>サマリー → 見積前提 → A → B → C → 対既存差分 → 算定根拠</p>
+  <p>160.5人日／¥5,120,000（税抜）　2026-09-29 マスタデータ判定反映</p>
+</header>
+<main>
+
+<section>
+  <h2>サマリー</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>这是生鲜增分的标准案，不是非生鲜 Phase2。契约额据え置き。</p>
+    <p>结论是 <strong>160.5人日、税抜512万円</strong>。Phase1 是41.5人日、166万。Phase2 直接是104人日、286万。C（増分PJ按分）15人日、60万。</p>
+    <p>字母：<strong>A</strong>＝确定的新IF／差分IF，<strong>B1</strong>＝流用确认＋残件，<strong>B2</strong>＝主数据本体IF，<strong>B3</strong>＝对非生鲜Phase2的波及，<strong>C</strong>＝増分PJ按分。</p>
+    <p>人日：A 125.5（含生鲜劝告→发注统合转换22）、B1 15、B2 0、B3 5。范围到单体测试为止。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>このファイルは、<ruby>生鮮<rt>せいせん</rt></ruby>IF<ruby>増分<rt>ぞうぶん</rt></ruby>の<ruby>標準案<rt>ひょうじゅんあん</rt></ruby>です。<ruby>非生鮮<rt>ひせいせん</rt></ruby>Phase2の<ruby>契約<rt>けいやく</rt></ruby>は<ruby>据え置き<rt>すえおき</rt></ruby>で、ここは<ruby>増分<rt>ぞうぶん</rt></ruby>だけです。</p>
+    <p><ruby>結論<rt>けつろん</rt></ruby>は <strong>160.5<ruby>人日<rt>にんにち</rt></ruby>、<ruby>税抜<rt>ぜいぬき</rt></ruby>512<ruby>万円<rt>まんえん</rt></ruby></strong> です。</p>
+    <p>Phase1が41.5<ruby>人日<rt>にんにち</rt></ruby>、166<ruby>万円<rt>まんえん</rt></ruby>。Phase2の<ruby>直接<rt>ちょくせつ</rt></ruby>が104<ruby>人日<rt>にんにち</rt></ruby>、286<ruby>万円<rt>まんえん</rt></ruby>。CのPJ<ruby>管理<rt>かんり</rt></ruby><ruby>按分<rt>あんぶん</rt></ruby>が15<ruby>人日<rt>にんにち</rt></ruby>、60<ruby>万円<rt>まんえん</rt></ruby>です。</p>
+    <p><ruby>記号<rt>きごう</rt></ruby>です。Aは<ruby>確定<rt>かくてい</rt></ruby>した<ruby>新規<rt>しんき</rt></ruby>／<ruby>差分IF<rt>さぶんIF</rt></ruby>、B1は<ruby>流用<rt>りゅうよう</rt></ruby>の<ruby>確認<rt>かくにん</rt></ruby>と<ruby>残件<rt>ざんけん</rt></ruby>、B2はマスタ<ruby>本体<rt>ほんたい</rt></ruby>IF、B3は<ruby>非生鮮<rt>ひせいせん</rt></ruby>Phase2への<ruby>波及<rt>はきゅう</rt></ruby>、Cは<ruby>増分<rt>ぞうぶん</rt></ruby>のPJ<ruby>管理<rt>かんり</rt></ruby><ruby>按分<rt>あんぶん</rt></ruby>です。</p>
+    <p><ruby>内訳<rt>うちわけ</rt></ruby>は、Aが125.5<ruby>人日<rt>にんにち</rt></ruby>（うち<ruby>生鮮勧告<rt>せいせんかんこく</rt></ruby>→<ruby>発注統合変換<rt>はっちゅうとうごうへんかん</rt></ruby>22<ruby>人日<rt>にんにち</rt></ruby>）、B1が15<ruby>人日<rt>にんにち</rt></ruby>、B2は0、B3が5<ruby>人日<rt>にんにち</rt></ruby>です。</p>
+    <p><ruby>範囲<rt>はんい</rt></ruby>は、<ruby>調査<rt>ちょうさ</rt></ruby>・マッピングから、<ruby>詳細設計<rt>しょうさいせっけい</rt></ruby>・<ruby>開発<rt>かいはつ</rt></ruby>・<ruby>単体<rt>たんたい</rt></ruby>までです。</p>
+  </div>
+</section>
+
+<section>
+  <h2>見積前提条件・注記</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>这不是确定请负额。主数据（マスタデータ）这部分的本数已在 9月29日判定，不是「生鲜整体风险仍很大」。</p>
+    <p>店铺系12本流用。劝告2个文件按1.5本。生鲜劝告→发注统合转换新規。入荷和日程差分。<strong>PC/CK 在别的 SQL，要 DBGET</strong>。仓库対象外。残件是水煮、GCS、伝票区分、生鲜劝告→发注统合转换的项目差、作成时刻。覆了就再見積。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>これは<ruby>確定<rt>かくてい</rt></ruby>の<ruby>請負<rt>うけおい</rt></ruby>額ではありません。</p>
+    <p>マスタデータ（<ruby>流用<rt>りゅうよう</rt></ruby>／<ruby>新規<rt>しんき</rt></ruby>）の<ruby>本数<rt>ほんすう</rt></ruby>は9月29日に<ruby>判定<rt>はんてい</rt></ruby>済みです。「<ruby>生鮮<rt>せいせん</rt></ruby>の<ruby>不確実性<rt>ふかくじつせい</rt></ruby>がいまも大きい」という<ruby>書き方<rt>かきかた</rt></ruby>はしません。</p>
+    <p><ruby>店舗<rt>てんぽ</rt></ruby>系12本は<ruby>流用<rt>りゅうよう</rt></ruby>。<ruby>勧告<rt>かんこく</rt></ruby>の2ファイルは1.5本<ruby>換算<rt>かんさん</rt></ruby>。<ruby>生鮮勧告<rt>せいせんかんこく</rt></ruby>→<ruby>発注統合変換<rt>はっちゅうとうごうへんかん</rt></ruby>は<ruby>新規<rt>しんき</rt></ruby>。<ruby>入荷<rt>にゅうか</rt></ruby>とスケジュールは<ruby>差分<rt>さぶん</rt></ruby>。PC／CKは別SQLでDBGETします。<ruby>倉庫<rt>そうこ</rt></ruby>は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。<ruby>残件<rt>ざんけん</rt></ruby>は<ruby>水煮<rt>みずに</rt></ruby><ruby>相当<rt>そうとう</rt></ruby>、GCS、<ruby>伝票区分<rt>でんぴょうくぶん</rt></ruby>、<ruby>生鮮勧告<rt>せいせんかんこく</rt></ruby>→<ruby>発注統合変換<rt>はっちゅうとうごうへんかん</rt></ruby>の<ruby>項目<rt>こうもく</rt></ruby>差、<ruby>作成時刻<rt>さくせいじこく</rt></ruby>です。<ruby>覆った<rt>くつがえった</rt></ruby>ら<ruby>再見積<rt>さいみつもり</rt></ruby>です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>A_先行トラン明細</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>这一页是 <strong>A</strong>，确定的新IF／差分IF。劝告按 1.5本。生鲜劝告→发注统合转换新規。入荷和日程是差分。<strong>S12／S13 的 PC/CK 做 DBGET</strong>。合计 125.5人日。Layer② 是0。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>このシートはAです。<ruby>確定<rt>かくてい</rt></ruby>した<ruby>新規<rt>しんき</rt></ruby>／<ruby>差分IF<rt>さぶんIF</rt></ruby>です。<ruby>勧告<rt>かんこく</rt></ruby>は1.5本<ruby>換算<rt>かんさん</rt></ruby>。<ruby>生鮮勧告<rt>せいせんかんこく</rt></ruby>→<ruby>発注統合変換<rt>はっちゅうとうごうへんかん</rt></ruby>は<ruby>新規<rt>しんき</rt></ruby>。<ruby>入荷<rt>にゅうか</rt></ruby>とスケジュールは<ruby>差分<rt>さぶん</rt></ruby>です。S12／S13のPC／CKはDBGETです。<ruby>合計<rt>ごうけい</rt></ruby>125.5<ruby>人日<rt>にんにち</rt></ruby>。Layer②は0です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>B_マスタ横断リスク</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p><strong>B1</strong>＝流用确认＋残件 15人日（突合8、仓库対象外2、GCS3、水煮2）。</p>
+    <p><strong>B2</strong>＝主数据本体IF，是0。<strong>B3</strong>＝对非生鲜Phase2的波及 5人日，唯一的 buffer。契约额不动。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>B1は<ruby>流用<rt>りゅうよう</rt></ruby>の<ruby>確認<rt>かくにん</rt></ruby>と<ruby>残件<rt>ざんけん</rt></ruby>で15<ruby>人日<rt>にんにち</rt></ruby>です。<ruby>突合<rt>とつごう</rt></ruby>8、<ruby>倉庫<rt>そうこ</rt></ruby><ruby>対象外<rt>たいしょうがい</rt></ruby>2、GCS3、<ruby>水煮<rt>みずに</rt></ruby><ruby>相当<rt>そうとう</rt></ruby>2です。</p>
+    <p>B2はマスタ<ruby>本体<rt>ほんたい</rt></ruby>IFで、0です。B3は<ruby>非生鮮<rt>ひせいせん</rt></ruby>Phase2への<ruby>波及<rt>はきゅう</rt></ruby>で5<ruby>人日<rt>にんにち</rt></ruby>です。この表で<ruby>明示<rt>めいじ</rt></ruby>しているバッファはここだけです。<ruby>契約<rt>けいやく</rt></ruby>額は<ruby>据え置き<rt>すえおき</rt></ruby>です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>C_PJ管理</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>这一页是 <strong>C</strong>，增分 PJ 按分，不是既有 PJ50。直接 145.5 乘 50／499.5，约 15人日、60万。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>このシートはCです。<ruby>増分<rt>ぞうぶん</rt></ruby>のPJ<ruby>管理<rt>かんり</rt></ruby><ruby>按分<rt>あんぶん</rt></ruby>です。<ruby>既存<rt>きそん</rt></ruby>のPJ50ではありません。<ruby>直接<rt>ちょくせつ</rt></ruby>145.5<ruby>人日<rt>にんにち</rt></ruby>に50分の499.5を掛けます。約15<ruby>人日<rt>にんにち</rt></ruby>、60<ruby>万円<rt>まんえん</rt></ruby>です。</p>
+    <p><ruby>既存<rt>きそん</rt></ruby>のPJ<ruby>管理<rt>かんり</rt></ruby>50の<ruby>契約<rt>けいやく</rt></ruby>行は<ruby>変えません<rt>かえません</rt></ruby>。</p>
+  </div>
+</section>
+
+<section>
+  <h2>対既存差分</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>12本流用。入荷实绩、入荷预定、发注日程是差分。劝告两个文件新規、工数1.5本。生鲜劝告→发注统合转换新規。仓库対象外。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>12本は<ruby>流用<rt>りゅうよう</rt></ruby>です。<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>、<ruby>入荷予定<rt>にゅうかよてい</rt></ruby>、<ruby>発注スケジュール<rt>はっちゅうスケジュール</rt></ruby>は<ruby>差分IF<rt>さぶんIF</rt></ruby>です。<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>は2ファイルで<ruby>新規<rt>しんき</rt></ruby>、<ruby>工数<rt>こうすう</rt></ruby>は1.5本です。<ruby>生鮮勧告<rt>せいせんかんこく</rt></ruby>→<ruby>発注統合変換<rt>はっちゅうとうごうへんかん</rt></ruby>も<ruby>新規<rt>しんき</rt></ruby>です。<ruby>倉庫<rt>そうこ</rt></ruby>は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>算定根拠</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>这一页是同一套数字的算法，不另报合计。160.5人日、512万円。判定覆了就再見積。</p>
+  </div>
+  <div class="jp"><div class="lang">日文（読み上げ）</div>
+    <p>このシートは、同じ<ruby>数字<rt>すうじ</rt></ruby>の<ruby>計算<rt>けいさん</rt></ruby><ruby>根拠<rt>こんきょ</rt></ruby>です。別の<ruby>合計<rt>ごうけい</rt></ruby>はありません。</p>
+    <p><ruby>提示<rt>ていじ</rt></ruby>は160.5<ruby>人日<rt>にんにち</rt></ruby>、512<ruby>万円<rt>まんえん</rt></ruby>です。<ruby>判定<rt>はんてい</rt></ruby>が<ruby>覆った<rt>くつがえった</rt></ruby>ら<ruby>再見積<rt>さいみつもり</rt></ruby>とします。<ruby>以上<rt>いじょう</rt></ruby>です。</p>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
