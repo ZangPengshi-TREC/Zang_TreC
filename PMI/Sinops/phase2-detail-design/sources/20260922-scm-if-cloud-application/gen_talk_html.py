@@ -587,7 +587,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 <body>
 <header class="top">
 <h1>SCM連携クラウド機　GCP環境申請　話術（中日・照着念）</h1>
-<div class="meta">故事线：背景→判断→構成→運用→スペック→費用→代替案　｜　全文 6〜7分　｜　精简约 2 分　｜　文件・放映 7 枚</div>
+<div class="meta">故事线：背景→実施条件・テスト環境→判断→構成→運用→スペック→費用→代替案　｜　全文 7〜8分　｜　精简约 2 分　｜　文件・放映 8 枚</div>
 <div class="sync">日文汉字自动注音（词典＋原稿括弧注音）／与 PPT・MD 同步<br/>用語：<strong>STS</strong>＝Google Cloud Storage Transfer Service（ストレージ転送サービス）</div>
 <div class="toolbar">
 <button type="button" onclick="showBoth()">中日両方</button>
@@ -601,7 +601,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 <a href="#sec-short">精简</a>
 <a href="#slide-1">S1</a><a href="#slide-2">S2</a><a href="#slide-3">S3</a>
 <a href="#slide-4">S4</a><a href="#slide-5">S5</a><a href="#slide-6">S6</a>
-<a href="#slide-7">S7</a><a href="#sec-qa">Q&A</a>
+<a href="#slide-7">S7</a><a href="#slide-8">S8</a><a href="#sec-qa">Q&A</a>
 </nav>
 </header>
 <main>
@@ -613,12 +613,13 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
         """<section class="card" id="sec-story"><h2>故事线</h2>
 <table><thead><tr><th>#</th><th>页</th><th>作用</th></tr></thead><tbody>
 <tr><td>1</td><td>背景・なぜ新クラウド機</td><td>为什么要申请</td></tr>
-<tr><td>2</td><td>なぜ Cloud Run</td><td>怎么建</td></tr>
-<tr><td>3</td><td>申請構成図</td><td>长什么样</td></tr>
-<tr><td>4</td><td>日次フロー・権限</td><td>怎么跑</td></tr>
-<tr><td>5</td><td>スペック一覧</td><td>请批什么</td></tr>
-<tr><td>6</td><td>費用試算</td><td>月／年费用</td></tr>
-<tr><td>7</td><td>vs GKE</td><td>关替代案</td></tr>
+<tr><td>2</td><td>実施条件・テスト環境</td><td>补充承认条件</td></tr>
+<tr><td>3</td><td>なぜ Cloud Run</td><td>怎么建</td></tr>
+<tr><td>4</td><td>申請構成図</td><td>长什么样</td></tr>
+<tr><td>5</td><td>日次フロー・権限</td><td>怎么跑</td></tr>
+<tr><td>6</td><td>スペック一覧</td><td>请批什么</td></tr>
+<tr><td>7</td><td>費用試算</td><td>月／年费用</td></tr>
+<tr><td>8</td><td>vs GKE</td><td>关替代案</td></tr>
 </tbody></table></section>
 """
     )
@@ -650,13 +651,13 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
     if not mshort:
         raise SystemExit("精简版 not found")
     html_parts.append('<section class="card" id="sec-short"><h2>精简版（约 2 分钟）</h2>\n')
-    html_parts.append('<p class="hint">文件和放映均为 7 页。</p>\n')
+    html_parts.append('<p class="hint">文件和放映均为 8 页。</p>\n')
     html_parts.append('<div class="pair"><div class="panel cn-panel lang-cn-block">')
     html_parts.append(f'<span class="badge cn">中文</span>{paras(strip_bq(mshort.group(1)), jp=False)}</div>\n')
     html_parts.append('<div class="panel jp-panel lang-jp-block">')
     html_parts.append(f'<span class="badge jp">日本語</span>{paras(strip_bq(mshort.group(2)), jp=True)}</div></div></section>\n')
 
-    # --- スライド 1-7 ---
+    # --- スライド 1-8 ---
     slides = list(
         re.finditer(
             r"### 【スライド (\d)】([^\n]+)\n\n#### 中文\n\n(.*?)\n#### 日本語\n\n(.*?)(?=\n---\n)",
@@ -664,13 +665,13 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
             re.S,
         )
     )
-    if len(slides) != 7:
-        raise SystemExit(f"expected 7 slides, got {len(slides)}")
+    if len(slides) != 8:
+        raise SystemExit(f"expected 8 slides, got {len(slides)}")
 
     for m in slides:
         num, title, cn, jp = m.group(1), m.group(2).strip(), m.group(3), m.group(4)
         html_parts.append(f'<section class="card" id="slide-{num}">\n')
-        html_parts.append(f'<h2><span class="slide-num">S{num}/7</span>{jp_title(title)}</h2>\n')
+        html_parts.append(f'<h2><span class="slide-num">S{num}/8</span>{jp_title(title)}</h2>\n')
         html_parts.append('<div class="pair">\n')
         html_parts.append(
             f'<div class="panel cn-panel lang-cn-block"><span class="badge cn">中文</span>{paras(cn, jp=False)}</div>\n'
