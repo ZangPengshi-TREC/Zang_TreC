@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生鮮IF増分・標準案　日程 2026-10-12</title>
+<style>
+  :root { --navy:#1a365d; --line:#e2e8f0; --bg:#f7fafc; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Hiragino Sans","Yu Gothic","Noto Sans JP","Microsoft YaHei",sans-serif; background:var(--bg); color:#1a202c; line-height:1.7; }
+  header { background:linear-gradient(135deg,var(--navy),#2c5282); color:#fff; padding:1.3rem 1.1rem 1.1rem; }
+  header h1 { margin:0 0 .4rem; font-size:1.22rem; }
+  header p { margin:.2rem 0; font-size:.9rem; opacity:.93; }
+  .nums { display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; max-width:1100px; margin:1rem auto 0; padding:0 1rem; }
+  .num { background:#fff; border:1px solid var(--line); border-radius:8px; padding:.7rem .8rem; }
+  .num b { display:block; font-size:1.05rem; color:var(--navy); }
+  .num span { font-size:.75rem; color:#4a5568; }
+  main { max-width:1100px; margin:0 auto; padding:1rem 1rem 2.6rem; }
+  section { background:#fff; border:1px solid var(--line); border-radius:8px; margin:.9rem 0; overflow:hidden; }
+  h2 { margin:0; padding:.55rem .9rem; background:var(--navy); color:#fff; font-size:.98rem; }
+  .cn, .jp { padding:.7rem .95rem; }
+  .cn { background:#f0fff4; border-bottom:1px solid var(--line); }
+  .jp { background:#ebf8ff; }
+  .lang { font-size:.72rem; font-weight:700; color:#4a5568; margin-bottom:.2rem; }
+  p { margin:.28rem 0; }
+  rt { font-size:.55em; color:#c05621; }
+  strong { color:var(--navy); }
+  table { width:100%; border-collapse:collapse; font-size:.82rem; }
+  th, td { border:1px solid var(--line); padding:.35rem .45rem; vertical-align:top; }
+  th { background:#edf2f7; text-align:left; }
+  .num { text-align:right; }
+  .gantt { width:100%; border-collapse:separate; border-spacing:0; font-size:.68rem; }
+  .gantt th { background:#2c5282; color:#fff; text-align:center; padding:.35rem .15rem; border:none; }
+  .gantt td { border-bottom:1px solid var(--line); padding:.22rem .12rem; }
+  .lane { width:8.2rem; font-weight:700; color:var(--navy); background:#f7fafc; font-size:.72rem; }
+  .bar { display:block; min-height:1.7rem; border-radius:4px; color:#fff; font-size:.62rem; line-height:1.25; text-align:center; padding:.15rem .15rem; }
+  .p1 { background:#2b6cb0; }
+  .rev { background:#b7791f; }
+  .l1 { background:#1a365d; }
+  .dev { background:#276749; }
+  .l3 { background:#c05621; }
+  .b1 { background:#6b46c1; }
+  .b3 { background:#744210; }
+  .pj { background:#718096; }
+  .legend { display:flex; flex-wrap:wrap; gap:.45rem; padding:.65rem .9rem; font-size:.78rem; }
+  .legend i { display:inline-block; width:.75rem; height:.75rem; border-radius:2px; margin-right:.25rem; vertical-align:-1px; }
+  .note { font-size:.82rem; color:#4a5568; padding:.2rem .95rem 1rem; }
+  @media (max-width:800px) { .nums { grid-template-columns:1fr 1fr; } .lane { width:5.2rem; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>生鮮IF増分・標準案　日程</h1>
+  <p>着手 2026-10-12。単体完了は勧告3本が 12/11、入荷3本が 12/18。計画工数152.5人日。結合以降は含まない。</p>
+  <p>Phase1のMappingは10/21まで。統合変換はMappingなし。レビューは合計1.0人日以内（別掲）。開発・単体は未定。</p>
+</header>
+<div class="nums">
+  <div class="num"><span>着手</span><b>10/12（月）</b></div>
+  <div class="num"><span>単体完了</span><b>勧告 12/11・入荷 12/18</b></div>
+  <div class="num"><span>計画工数</span><b>152.5（見積157.5－Mapping5.0）</b></div>
+  <div class="num"><span>詳細設計の出口</span><b>統合変換 11/16</b></div>
+</div>
+<main>
+<section>
+  <h2>結論</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>10月12日开工。Mapping 收到 <strong>10月21日</strong>。Review 期限 10/22，合计不超过 <strong>1.0人日</strong>，不计入计划工数。勧告三本单体收到 <strong>12月11日</strong>，入荷三本收到 <strong>12月18日</strong>。</p>
+    <p>统合转换是 TRIAL 自动订货的内部处理，<strong>不做 Mapping，也没有 review</strong>，从详细设计开始。见积 157.5 人日去掉这部分 5.0，计划工数是 <strong>152.5人日</strong>。</p>
+    <p>臧鹏仕 10/21 做完翌日的 Mapping，10/22 进入当日的详细设计，统合转换在 <strong>11/16</strong> 结束详细设计。入荷三本在 Mapping 次日进入详细设计。</p>
+    <p>开发和单体的人未定。详细设计的下一工作日开工，单体验收到12月下旬。</p>
+  </div>
+  <div class="jp"><div class="lang">日文</div>
+    <p>10月12日に着手する。Mappingは <strong>10月21日</strong> まで。レビューの期限は10/22、合計 <strong>1.0人日以内</strong> で計画工数に含めない。勧告3本の単体は <strong>12月11日</strong>、入荷3本は <strong>12月18日</strong> まで。</p>
+    <p>統合変換はTRIAL自動発注の内部処理なので、<strong>Mappingもレビューもなく</strong>、詳細設計から着手する。見積157.5人日からMapping 5.0を除いて、計画工数は <strong>152.5人日</strong>。</p>
+    <p>臧鹏仕は10/21に翌日のMappingを終え、10/22から当日の詳細設計に入る。統合変換の詳細設計は <strong>11/16</strong> に終わる。入荷の3本はMappingの翌営業日から詳細設計へ入る。</p>
+    <p>開発と単体の担当は未定。詳細設計の翌営業日から着手し、単体を12月下旬に置く。</p>
+  </div>
+</section>
+<section>
+  <h2>週次</h2>
+  <div class="legend">
+    <span><i class="p1"></i>調査・Mapping</span>
+    <span><i class="rev"></i>レビュー</span>
+    <span><i class="l1"></i>詳細設計</span>
+    <span><i class="dev"></i>開発</span>
+    <span><i class="l3"></i>単体</span>
+    <span><i class="b1"></i>B1</span>
+    <span><i class="b3"></i>B3</span>
+    <span><i class="pj"></i>PJ</span>
+  </div>
+  <div style="overflow-x:auto; padding:0 .4rem 1rem;">
+  <table class="gantt">
+    <thead><tr><th class="lane"> </th><th>10/12</th><th>10/19</th><th>10/26</th><th>11/2</th><th>11/9</th><th>11/16</th><th>11/23</th><th>11/30</th><th>12/7</th><th>12/14</th></tr></thead>
+    <tbody>
+    <tr><td class="lane">臧鹏仕<br>調査・レビュー・設計</td><td class="cell"><span class="bar rev">Mapping Review</span></td><td class="cell"><span class="bar l1">Mapping Review 設計①</span></td><td class="cell"><span class="bar l1">設計① 設計③</span></td><td class="cell"><span class="bar l1">設計① 設計③</span></td><td class="cell"><span class="bar l1">設計①</span></td><td class="cell"><span class="bar l1">設計③</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">尹启林<br>入荷予定</td><td class="cell"><span class="bar rev">Mapping Review</span></td><td class="cell"><span class="bar l1">Review 設計①</span></td><td class="cell"><span class="bar l1">設計③</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">王静<br>入荷実績</td><td class="cell"><span class="bar l1">Mapping Review 設計①</span></td><td class="cell"><span class="bar l1">Review 設計① 設計③</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">杨艳<br>スケジュール</td><td class="cell"><span class="bar rev">Mapping Review</span></td><td class="cell"><span class="bar l1">Review 設計①</span></td><td class="cell"><span class="bar l1">設計③</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">開発・単体<br>発注勧告(当日分)<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発① 開発③</span></td><td class="cell"><span class="bar l3">開発③ 単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td><td class="cell"></td></tr><tr><td class="lane">開発・単体<br>発注勧告(翌日以降分)<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar l3">開発③ 単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td><td class="cell"></td></tr><tr><td class="lane">開発・単体<br>入荷予定<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発① 開発③</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td></tr><tr><td class="lane">開発・単体<br>入荷実績<br>未定</td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar l3">開発③ 単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td></tr><tr><td class="lane">開発・単体<br>発注スケジュール<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発① 開発③</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td></tr><tr><td class="lane">開発・単体<br>勧告→発注統合変換<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar dev">開発①</span></td><td class="cell"><span class="bar dev">開発① 開発③</span></td><td class="cell"><span class="bar l3">開発③ 単体①</span></td><td class="cell"><span class="bar l3">単体① 単体③</span></td><td class="cell"></td></tr><tr><td class="lane">B1 横断<br>未定</td><td class="cell"><span class="bar b1">店舗系12本の流</span></td><td class="cell"><span class="bar b1">店舗系12本の流 倉庫系対象外の整</span></td><td class="cell"><span class="bar b1">GCSアップロー</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">B3 波及<br>未定</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"><span class="bar b3">非生鮮Phase</span></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr><tr><td class="lane">PJ管理<br>未定</td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td><td class="cell"><span class="bar pj">進捗・品質・会議</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">同じ週に開発または単体へ入る IF は最大 6本（11/16 の週）。1名に勧告3本の開発・単体をすべて載せると、12/11 には収まらない。</p>
+</section>
+<section>
+  <h2>IF別</h2>
+  <table>
+    <thead><tr><th>IF</th><th>調査・詳細設計</th><th>Mapping</th><th>レビュー期限</th><th>詳細設計完了</th><th>開発開始</th><th>単体完了</th><th>人日</th></tr></thead>
+    <tbody><tr><td>発注勧告(当日分)</td><td>臧鹏仕</td><td>10/12–10/16</td><td>10/22</td><td>11/2</td><td>11/3</td><td>12/11</td><td class='num'>26.5</td></tr><tr><td>発注勧告(翌日以降分)</td><td>臧鹏仕</td><td>10/19–10/21</td><td>10/22</td><td>11/6</td><td>11/9</td><td>12/11</td><td class='num'>13.5</td></tr><tr><td>入荷予定</td><td>尹启林</td><td>10/12–10/16</td><td>10/22</td><td>10/26</td><td>10/27</td><td>12/18</td><td class='num'>22.5</td></tr><tr><td>入荷実績</td><td>王静</td><td>10/12–10/15</td><td>10/22</td><td>10/22</td><td>10/23</td><td>12/18</td><td class='num'>18.5</td></tr><tr><td>発注スケジュール</td><td>杨艳</td><td>10/12–10/16</td><td>10/22</td><td>10/26</td><td>10/27</td><td>12/18</td><td class='num'>22.5</td></tr><tr><td>勧告→発注統合変換</td><td>臧鹏仕</td><td>なし（詳細設計から）</td><td>－</td><td>11/16</td><td>11/17</td><td>12/11</td><td class='num'>17.0</td></tr></tbody>
+  </table>
+  <p class="note">B1突合 10/12–10/21。倉庫対象外 10/22–10/23。GCS 10/26–10/28。B3 11/16–11/20。PJは 10/12–12/18。レビュー合計1.0人日以内（別掲）。担当は未定（横断）。</p>
+</section>
+<section>
+  <h2>ずれるとき</h2>
+  <div class="cn"><div class="lang">中文</div>
+    <p>Review 合计若超过 1 人日并占住日历，当日的详细设计和统合转换的详细设计会往后滑。11月以后开发人员到不齐，勧告三本的单体会从 12/11 往后滑，入荷三本会从 12/18 往后滑。</p>
+    <p>统合转换若发现需要 Mapping，要补 5.0 人日，臧鹏仕的详细设计整体往后。</p>
+    <p>12本流用被推翻，或入荷予定・发注日程的作成时刻等不住，先再見積再重排。风险込み案 251人日放不进这张日程。</p>
+  </div>
+  <div class="jp"><div class="lang">日文</div>
+    <p>11月以降に開発要員が揃わない場合、勧告3本の単体は 12/11 から、入荷3本は 12/18 から後ろへずれる。11/3 または 11/23 を休む場合、詳細設計が1日ずつ後ろへずれる。統合変換にMappingが必要になった場合は、5.0人日を足して詳細設計が後ろへずれる。</p>
+    <p><ruby>流用<rt>りゅうよう</rt></ruby>12本が覆る、または作成時刻が待ち合わせに収まらない場合は、再見積してから組み直す。リスク込み案の251人日はこの日程に載らない。</p>
+  </div>
+</section>
+</main>
+</body>
+</html>
