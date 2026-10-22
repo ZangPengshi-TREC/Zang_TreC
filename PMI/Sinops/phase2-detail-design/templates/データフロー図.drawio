@@ -5957,8 +5957,8 @@
         <mxCell id="IFyS1fYAhakYxH14PfWm-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="既存" vertex="1">
           <mxGeometry height="28" width="60" x="384" y="630" as="geometry" />
         </mxCell>
-        <mxCell id="IFyS1fYAhakYxH14PfWm-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="往路トラン。便区分は固定値 1。&lt;br&gt;Layer①で CSVを gz。完了印は空の nyuka.end。&lt;br&gt;Layer③は .end の後に gz を取得。型変換なし。&lt;br&gt;本IFはトラン。Layer②なし。" vertex="1">
-          <mxGeometry height="150" width="960" x="695" y="870" as="geometry" />
+        <mxCell id="IFyS1fYAhakYxH14PfWm-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="往路トラン。便区分は固定値 1。&lt;br&gt;西友連携GCSへ出すのは、西友店舗マスタにある店舗のみ。&lt;br&gt;Layer①で CSVを gz。完了印は空の nyuka.end。&lt;br&gt;Layer③は .end の後に gz を取得。型変換なし。&lt;br&gt;本IFはトラン。Layer②なし。" vertex="1">
+          <mxGeometry height="175" width="960" x="695" y="870" as="geometry" />
         </mxCell>
         <mxCell id="IFyS1fYAhakYxH14PfWm-30" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial,sans-serif;" value="&lt;div style=&quot;text-align:left;line-height:1.45;&quot;&gt;&lt;span style=&quot;color:#FF0000;font-size:16px;&quot;&gt;Layer①&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;集計SVからGCSまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#3035FC;font-size:16px;&quot;&gt;Layer②&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;GCSからDWHまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#00B050;font-size:16px;&quot;&gt;Layer③-MDSCM&amp;nbsp;&amp;nbsp;DWH・GCS→MDSCM系システムまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#000000;font-size:14px;&quot;&gt;※実績系は本ルートの逆となる&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#9900CC;font-size:16px;&quot;&gt;Layer③-BO&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;DWH・GCS→BO系システムまでの連携&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="620" x="60" y="860" as="geometry" />
@@ -5999,6 +5999,12 @@
         </mxCell>
         <mxCell id="IFyS1fYAhakYxH14PfWm-6" parent="GmRi0nsKfMVwpa_VqF_Z-5" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=16;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" value="IF処理" vertex="1">
           <mxGeometry height="80" width="140" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ny11-store" parent="GmRi0nsKfMVwpa_VqF_Z-5" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;align=center;" value="西友店舗マスタ" vertex="1">
+          <mxGeometry height="62" width="140" x="20" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="ny11-store-edge" edge="1" parent="1" source="ny11-store" target="IFyS1fYAhakYxH14PfWm-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="GmRi0nsKfMVwpa_VqF_Z-6" connectable="0" parent="1" style="group" value="" vertex="1">
           <mxGeometry height="220" width="180" x="695" y="135" as="geometry" />
@@ -6134,8 +6140,8 @@
         <mxCell id="tCxCKXqGz85w2LRJxQ2A-20" parent="tCxCKXqGz85w2LRJxQ2A-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="既存" vertex="1">
           <mxGeometry height="28" width="60" x="384" y="630" as="geometry" />
         </mxCell>
-        <mxCell id="tCxCKXqGz85w2LRJxQ2A-21" parent="tCxCKXqGz85w2LRJxQ2A-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="往路トラン。便区分は固定値 1。&lt;br&gt;Layer①で CSVを gz。完了印は空の nyuka.end。&lt;br&gt;Layer③は .end の後に gz を取得。型変換なし。&lt;br&gt;本IFはトラン。Layer②なし。" vertex="1">
-          <mxGeometry height="150" width="960" x="695" y="870" as="geometry" />
+        <mxCell id="tCxCKXqGz85w2LRJxQ2A-21" parent="tCxCKXqGz85w2LRJxQ2A-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;" value="往路トラン。便区分は固定値 1。&lt;br&gt;西友連携GCSへ出すのは、西友店舗マスタにある店舗のみ。&lt;br&gt;Layer①で CSVを gz。完了印は空の nyuka.end。&lt;br&gt;Layer③は .end の後に gz を取得。型変換なし。&lt;br&gt;本IFはトラン。Layer②なし。" vertex="1">
+          <mxGeometry height="175" width="960" x="695" y="870" as="geometry" />
         </mxCell>
         <mxCell id="tCxCKXqGz85w2LRJxQ2A-22" parent="tCxCKXqGz85w2LRJxQ2A-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontFamily=Arial,sans-serif;" value="&lt;div style=&quot;text-align:left;line-height:1.45;&quot;&gt;&lt;span style=&quot;color:#FF0000;font-size:16px;&quot;&gt;Layer①&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;集計SVからGCSまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#3035FC;font-size:16px;&quot;&gt;Layer②&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;GCSからDWHまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#00B050;font-size:16px;&quot;&gt;Layer③-MDSCM&amp;nbsp;&amp;nbsp;DWH・GCS→MDSCM系システムまでの連携&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#000000;font-size:14px;&quot;&gt;※実績系は本ルートの逆となる&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color:#9900CC;font-size:16px;&quot;&gt;Layer③-BO&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;DWH・GCS→BO系システムまでの連携&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="620" x="60" y="860" as="geometry" />
@@ -6176,6 +6182,12 @@
         </mxCell>
         <mxCell id="tCxCKXqGz85w2LRJxQ2A-33" parent="tCxCKXqGz85w2LRJxQ2A-31" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=16;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;" value="IF処理" vertex="1">
           <mxGeometry height="80" width="140" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ny12-store" parent="tCxCKXqGz85w2LRJxQ2A-31" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontFamily=Trebuchet MS,Verdana,Arial,sans-serif;fontSize=14;align=center;" value="西友店舗マスタ" vertex="1">
+          <mxGeometry height="62" width="140" x="20" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="ny12-store-edge" edge="1" parent="tCxCKXqGz85w2LRJxQ2A-1" source="ny12-store" target="tCxCKXqGz85w2LRJxQ2A-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tCxCKXqGz85w2LRJxQ2A-35" connectable="0" parent="tCxCKXqGz85w2LRJxQ2A-1" style="group" value="" vertex="1">
           <mxGeometry height="220" width="180" x="695" y="135" as="geometry" />
