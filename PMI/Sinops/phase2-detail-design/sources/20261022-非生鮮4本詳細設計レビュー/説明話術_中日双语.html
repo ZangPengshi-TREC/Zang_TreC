@@ -39,9 +39,9 @@
 <body>
 <header>
   <h1>非生鮮4本　詳細設計レビュー　話術</h1>
-  <p>順に。Sinops-11 入荷実績 → 12 入荷予定 → 24 と 25 の発注勧告はまとめて</p>
-  <p>左＝中文／右＝日文。青い欄（日文）だけ読む。紺の帯は見せるファイルとページ。読まない。</p>
-  <p>話す順は、各本とも 3 Data Flow → 2 IF概要 → その後の設計。页顺は 1表紙 2概要 3 Data Flow 4 Layer① 6 Layer③</p>
+  <p>入荷実績 → 入荷予定 → 発注勧告</p>
+  <p>左は中文。右の青だけ読む。紺の帯はページ。読まない。</p>
+  <p>各本は Data Flow の次に IF概要。</p>
 </header>
 <main>
 
@@ -49,12 +49,12 @@
   <h2>開場</h2>
   <div class="cols">
     <div class="cn"><div class="lang">中文</div>
-      <p class="cue">表纸不讲。每本都从第3页 Data Flow 打开</p>
-      <p>今天按本看非生鲜事务的详细设计。先入荷実績，再入荷予定。发注劝告的当日和翌日以后放在最后一起看。每本都先看 Data Flow。主档和生鲜今天不看。这几本都没有 Layer②，不进 DWH。</p>
+      <p class="cue">表纸不讲。每本从第3页 Data Flow 打开</p>
+      <p>今天看非生鲜的事务数据。顺序是入荷実績、入荷予定、发注劝告。主档和生鲜今天分开。没有 Layer②，也不进 DWH。</p>
     </div>
     <div class="jp"><div class="lang">日文（読み上げ）</div>
       <p class="cue">表紙は開かない。各本は 3枚目 Data Flow から</p>
-      <p><ruby>今日<rt>きょう</rt></ruby>は、<ruby>非生鮮<rt>ひせいせん</rt></ruby>のトランザクションを1<ruby>冊<rt>さつ</rt></ruby>ずつ<ruby>見<rt>み</rt></ruby>ます。先に<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>、次に<ruby>入荷予定<rt>にゅうかよてい</rt></ruby>です。<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>の<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>翌日以降<rt>よくじついこう</rt></ruby>は、最後にまとめて<ruby>見<rt>み</rt></ruby>ます。どの<ruby>冊<rt>さつ</rt></ruby>も、先に Data Flow です。マスタと<ruby>生鮮<rt>せいせん</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>の<ruby>対象外<rt>たいしょうがい</rt></ruby>です。Layer② はなく、DWH への<ruby>取込<rt>とりこみ</rt></ruby>はありません。</p>
+      <p><ruby>今日<rt>きょう</rt></ruby>は<ruby>非生鮮<rt>ひせいせん</rt></ruby>のトランザクションです。<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>、<ruby>入荷予定<rt>にゅうかよてい</rt></ruby>、<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>の<ruby>順<rt>じゅん</rt></ruby>です。マスタと<ruby>生鮮<rt>せいせん</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>は<ruby>別<rt>べつ</rt></ruby>です。Layer② はなく、DWH への<ruby>取込<rt>とりこみ</rt></ruby>もありません。</p>
     </div>
   </div>
 </section>
@@ -64,27 +64,31 @@
   <div class="cols">
     <div class="cn"><div class="lang">中文</div>
       <p class="cue">出示　Sinops-11　第3页 Data Flow</p>
-      <p>这本是入荷実績。TRIAL 基干出集计，在云上把布局整理好，放到西友连携 GCS，再由 Sinops-R6 取走。云上的 IF 处理用西友店铺主档做限定，放到西友连携 GCS 的只有西友店铺的数据。</p>
+      <p>入荷実績。TRIAL 基干出集计，在云上做型转换和项目挑选，放到西友连携 GCS，Sinops-R6 来取。西友店铺主档里有的店，才放到西友连携 GCS。</p>
       <p class="cue">出示　Sinops-11　第2页 IF概要</p>
-      <p>概要这里。件数是西友回答的日平均，约 90 万件、约 40MB。重跑是把对象文件全件替换。</p>
+      <p>发送方是 TRIAL 的 MD 基干 CoreSaver，接收方是 Sinops-R6。件数是西友回答的，一天约 90 万件、约 40M。重跑是全件替换，不做部分重跑，原因处理好之后把对象文件重新送出。Layer① 有转换，用 Cloud Run。Layer③ 不转换，用 DataSpider，Sinops 侧按差分导入。Layer② 是对象外。</p>
       <p class="cue">出示　Sinops-11　第4页 Layer①</p>
-      <p>来源是仕入明细 ALLSIRE_MEISAI，每天出劝告计算的前一天。便区分固定为 1，不看来源里的便。字符码 SJIS。内容做成 CSV 再 gzip，后面放空的 NYUKA_YYYYMMDDhhmmss.END。放到 gs://ods-seiyu-prod/IF0079_LM0026_011/YYYYMMDD/。Layer① 每天 3 点启动。</p>
-      <p class="cue">出示　Sinops-11　第6页 Layer③</p>
-      <p>文件是 NYUKA 的 gz。Sinops 侧名字是 nyuka.txt。Layer③ 看到 NYUKA_YYYYMMDDhhmmss.END 再取 gz，内容不再加工。Layer③ 每天 3 点 20 分启动。Sinops 的接收路径还在和西友确认。</p>
+      <p>来源是仕入明细 ALLSIRE_MEISAI，取劝告计算的前一天。传票区分只取 10 店铺发注、11 买家发注、12 FAX 发注、31 振入库。便区分固定为 1，来源里的便不用。店铺和商品换成统合主档的代码，西友店铺主档里有的店才留下。后面就是 CSV 再 gzip，空的 NYUKA.end 放到 011，每天 3 点，字符 SJIS。</p>
+      <p class="cue">出示　Sinops-11　第5页 Layer②。一句带过</p>
+      <p>这一页是对象外，不进 DWH。</p>
+      <p class="cue">出示　Sinops-11　第6页 Layer③。传送，带过</p>
+      <p>这里不加工。看到 END 再取 gz，每天 3 点 20 分。Sinops 的接收位置还在确认。</p>
       <p class="cue">出示　Sinops-11　第7页 項目マッピング Layer①。第8页不讲。第9页只说通过</p>
-      <p>项目是这 6 个。店铺代码、商品代码、入荷日、传票号、便区分、入荷数量。便区分这一行就是固定的 1。第8页 Layer② 是对象外。第9页把同样的项目原样交到 nyuka.txt。</p>
+      <p>店铺代码、商品代码、入荷日、传票号、便区分、入荷数量。传票号是原样交接。便区分那一行是固定的 1。下一页把同样的项目原样交到 nyuka.txt。</p>
     </div>
     <div class="jp"><div class="lang">日文（読み上げ）</div>
       <p class="cue">見せる　Sinops-11　3枚目 Data Flow</p>
-      <p><ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>です。TRIAL の<ruby>基幹<rt>きかん</rt></ruby>から<ruby>集計<rt>しゅうけい</rt></ruby>データを<ruby>出<rt>だ</rt></ruby>して、クラウド<ruby>機<rt>き</rt></ruby>でレイアウトを<ruby>整<rt>ととの</rt></ruby>え、<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。そこから Sinops-R6 が<ruby>取<rt>と</rt></ruby>ります。クラウド<ruby>機<rt>き</rt></ruby>の IF <ruby>処理<rt>しょり</rt></ruby>は<ruby>西友店舗<rt>せいゆうてんぽ</rt></ruby>マスタで<ruby>店舗<rt>てんぽ</rt></ruby>を<ruby>限<rt>かぎ</rt></ruby>ります。<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSへ<ruby>出<rt>だ</rt></ruby>すのは、<ruby>西友<rt>せいゆう</rt></ruby>の<ruby>店舗<rt>てんぽ</rt></ruby>だけです。</p>
+      <p><ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>です。TRIAL の<ruby>基幹<rt>きかん</rt></ruby>から<ruby>集計<rt>しゅうけい</rt></ruby>データを<ruby>出<rt>だ</rt></ruby>して、クラウドで<ruby>型変換<rt>かたへんかん</rt></ruby>と<ruby>項目<rt>こうもく</rt></ruby>の<ruby>選別<rt>せんべつ</rt></ruby>をして、<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。Sinops-R6 が<ruby>取<rt>と</rt></ruby>ります。<ruby>西友店舗<rt>せいゆうてんぽ</rt></ruby>マスタにある<ruby>店舗<rt>てんぽ</rt></ruby>だけ、<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSへ<ruby>出<rt>だ</rt></ruby>します。</p>
       <p class="cue">見せる　Sinops-11　2枚目 IF概要</p>
-      <p><ruby>概要<rt>がいよう</rt></ruby>です。<ruby>件数<rt>けんすう</rt></ruby>は<ruby>西友<rt>せいゆう</rt></ruby>さんからの<ruby>回答<rt>かいとう</rt></ruby>で、1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>90<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>40MBです。リランは、<ruby>対象<rt>たいしょう</rt></ruby>ファイルを<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えします。</p>
+      <p><ruby>送信元<rt>そうしんもと</rt></ruby>は TRIAL の MD<ruby>基幹<rt>きかん</rt></ruby>、CoreSaver です。<ruby>受信先<rt>じゅしんさき</rt></ruby>は Sinops-R6 です。<ruby>件数<rt>けんすう</rt></ruby>は<ruby>西友<rt>せいゆう</rt></ruby>さんからの<ruby>回答<rt>かいとう</rt></ruby>で、1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>90<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>40Mです。リランは<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えです。<ruby>部分<rt>ぶぶん</rt></ruby>リランはしません。<ruby>原因<rt>げんいん</rt></ruby>を<ruby>直<rt>なお</rt></ruby>してから、<ruby>対象<rt>たいしょう</rt></ruby>ファイルを<ruby>出<rt>だ</rt></ruby>し<ruby>直<rt>なお</rt></ruby>します。Layer① は<ruby>変換<rt>へんかん</rt></ruby>ありで Cloud Run、Layer③ は<ruby>変換<rt>へんかん</rt></ruby>なしで DataSpider です。Sinops へは<ruby>差分<rt>さぶん</rt></ruby><ruby>取込<rt>とりこみ</rt></ruby>です。Layer② は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
       <p class="cue">見せる　Sinops-11　4枚目 Layer①</p>
-      <p><ruby>元<rt>もと</rt></ruby>は<ruby>仕入明細<rt>しいれめいさい</rt></ruby>の ALLSIRE_MEISAI で、<ruby>勧告計算<rt>かんこくけいさん</rt></ruby>の<ruby>前日分<rt>ぜんじつぶん</rt></ruby>を<ruby>毎日<rt>まいにち</rt></ruby><ruby>出<rt>だ</rt></ruby>します。<ruby>便区分<rt>びんくぶん</rt></ruby>は1<ruby>固定<rt>こてい</rt></ruby>です。<ruby>元<rt>もと</rt></ruby>データの<ruby>便<rt>びん</rt></ruby>は<ruby>見<rt>み</rt></ruby>ません。<ruby>文字<rt>もじ</rt></ruby>コードは SJIS です。<ruby>中身<rt>なかみ</rt></ruby>は CSV を gz にして、そのあとに<ruby>空<rt>から</rt></ruby>の NYUKA_YYYYMMDDhhmmss.END を<ruby>置<rt>お</rt></ruby>きます。<ruby>置<rt>お</rt></ruby>き<ruby>場<rt>ば</rt></ruby>は gs://ods-seiyu-prod/IF0079_LM0026_011/YYYYMMDD/ です。Layer① の<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>3<ruby>時<rt>じ</rt></ruby>です。</p>
-      <p class="cue">見せる　Sinops-11　6枚目 Layer③</p>
-      <p>ファイルは NYUKA の gz です。Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は nyuka.txt です。Layer③ は NYUKA_YYYYMMDDhhmmss.END を<ruby>見<rt>み</rt></ruby>てから gz を<ruby>取<rt>と</rt></ruby>り、<ruby>中身<rt>なかみ</rt></ruby>は<ruby>加工<rt>かこう</rt></ruby>しません。Layer③ の<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>3<ruby>時<rt>じ</rt></ruby>20<ruby>分<rt>ぷん</rt></ruby>です。Sinops が<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>る<ruby>先<rt>さき</rt></ruby>のパスは、<ruby>西友<rt>せいゆう</rt></ruby>さんと<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
+      <p><ruby>元<rt>もと</rt></ruby>は<ruby>仕入明細<rt>しいれめいさい</rt></ruby>の ALLSIRE_MEISAI で、<ruby>勧告計算<rt>かんこくけいさん</rt></ruby>の<ruby>前日分<rt>ぜんじつぶん</rt></ruby>です。<ruby>伝票区分<rt>でんぴょうくぶん</rt></ruby>は、10が<ruby>店舗発注<rt>てんぽはっちゅう</rt></ruby>、11がバイヤー<ruby>発注<rt>はっちゅう</rt></ruby>、12が FAX <ruby>発注<rt>はっちゅう</rt></ruby>、31が<ruby>振入庫<rt>ふりにゅうこ</rt></ruby>です。<ruby>便区分<rt>びんくぶん</rt></ruby>は1<ruby>固定<rt>こてい</rt></ruby>で、<ruby>元<rt>もと</rt></ruby>の<ruby>便<rt>びん</rt></ruby>は<ruby>使<rt>つか</rt></ruby>いません。<ruby>店<rt>みせ</rt></ruby>と<ruby>商品<rt>しょうひん</rt></ruby>は<ruby>統合<rt>とうごう</rt></ruby>マスタのコードにして、<ruby>西友店舗<rt>せいゆうてんぽ</rt></ruby>マスタにある<ruby>店<rt>みせ</rt></ruby>だけ<ruby>残<rt>のこ</rt></ruby>します。あとは CSV を gz にして、<ruby>空<rt>から</rt></ruby>の NYUKA.end を 011 に<ruby>置<rt>お</rt></ruby>きます。<ruby>起動<rt>きどう</rt></ruby>は3<ruby>時<rt>じ</rt></ruby>、<ruby>文字<rt>もじ</rt></ruby>は SJIS です。</p>
+      <p class="cue">見せる　Sinops-11　5枚目 Layer②。一言で</p>
+      <p>このページは<ruby>対象外<rt>たいしょうがい</rt></ruby>です。DWH には<ruby>入<rt>い</rt></ruby>れません。</p>
+      <p class="cue">見せる　Sinops-11　6枚目 Layer③。転送なので短く</p>
+      <p>ここは<ruby>加工<rt>かこう</rt></ruby>しません。END を<ruby>見<rt>み</rt></ruby>て gz を<ruby>取<rt>と</rt></ruby>ります。<ruby>起動<rt>きどう</rt></ruby>は3<ruby>時<rt>じ</rt></ruby>20<ruby>分<rt>ぷん</rt></ruby>です。Sinops の<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>り<ruby>先<rt>さき</rt></ruby>は<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
       <p class="cue">見せる　Sinops-11　7枚目 項目マッピング Layer①。8枚目は読まない。9枚目は通過だけ</p>
-      <p><ruby>項目<rt>こうもく</rt></ruby>はこの6つです。<ruby>店舗<rt>てんぽ</rt></ruby>コード、<ruby>商品<rt>しょうひん</rt></ruby>コード、<ruby>入荷日<rt>にゅうかび</rt></ruby>、<ruby>伝票<rt>でんぴょう</rt></ruby>No、<ruby>便区分<rt>びんくぶん</rt></ruby>、<ruby>入荷数量<rt>にゅうかすうりょう</rt></ruby>。<ruby>便区分<rt>びんくぶん</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>が<ruby>固定<rt>こてい</rt></ruby>の1です。8<ruby>枚目<rt>まいめ</rt></ruby>の Layer② は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。9<ruby>枚目<rt>まいめ</rt></ruby>は<ruby>同<rt>おな</rt></ruby>じ<ruby>項目<rt>こうもく</rt></ruby>を nyuka.txt へそのまま<ruby>渡<rt>わた</rt></ruby>します。</p>
+      <p><ruby>店舗<rt>てんぽ</rt></ruby>コード、<ruby>商品<rt>しょうひん</rt></ruby>コード、<ruby>入荷日<rt>にゅうかび</rt></ruby>、<ruby>伝票<rt>でんぴょう</rt></ruby>No、<ruby>便区分<rt>びんくぶん</rt></ruby>、<ruby>入荷数量<rt>にゅうかすうりょう</rt></ruby>です。<ruby>伝票<rt>でんぴょう</rt></ruby>No は<ruby>直連携<rt>ちょくれんけい</rt></ruby>です。<ruby>便区分<rt>びんくぶん</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>が<ruby>固定<rt>こてい</rt></ruby>の1です。<ruby>次<rt>つぎ</rt></ruby>のページは、<ruby>同<rt>おな</rt></ruby>じ<ruby>項目<rt>こうもく</rt></ruby>を nyuka.txt へそのまま<ruby>渡<rt>わた</rt></ruby>します。</p>
     </div>
   </div>
 </section>
@@ -94,70 +98,84 @@
   <div class="cols">
     <div class="cn"><div class="lang">中文</div>
       <p class="cue">出示　Sinops-12　第3页 Data Flow</p>
-      <p>下一本是入荷予定。先看这张图。基干的发注数据进集计的 TANPIN_HACHU_MEISAI，云上整理布局，放到西友连携 GCS，再由 Sinops-R6 取走。西友店铺主档的限定和入荷実績一样，出来的只有西友店铺。图上的文件是 NYUKA_YOTEI 的 gz，Sinops 侧是 nyuka_yotei.txt。</p>
+      <p>入荷予定。基干的发注数据进集计的 TANPIN_HACHU_MEISAI。后面和入荷実績一样，只出西友的店，Sinops-R6 来取。文件是 NYUKA_YOTEI 的 gz，Sinops 侧是 nyuka_yotei.txt。</p>
       <p class="cue">出示　Sinops-12　第2页 IF概要</p>
-      <p>概要这里。件数是日平均约 45 万件、约 25MB。重跑跟入荷実績一样，全件替换。</p>
+      <p>发送方和接收方跟入荷実績一样。一天约 45 万件、约 25M。重跑也一样，不做部分重跑，全件替换。Layer① 有转换，Layer③ 不转换，交给 Sinops 导入。</p>
       <p class="cue">出示　Sinops-12　第4页 Layer①</p>
-      <p>来源是单品发注明细 TANPIN_HACHU_MEISAI，含今天到货的，以及还没到货的未来订货残，每天出。便和字符跟入荷実績一样。完了印是空的 NYUKA_YOTEI_YYYYMMDDhhmmss.END。放到 gs://ods-seiyu-prod/IF0079_LM0026_012/YYYYMMDD/。Layer① 每天 2 点启动。</p>
-      <p class="cue">出示　Sinops-12　第6页 Layer③</p>
-      <p>文件是 NYUKA_YOTEI 的 gz。Sinops 侧是 nyuka_yotei.txt。Layer③ 看到 NYUKA_YOTEI_YYYYMMDDhhmmss.END 再取 gz。Layer③ 每天 2 点 30 分启动。接收路径这本也还在和西友确认。</p>
-      <p class="cue">出示　Sinops-12　第7页 項目マッピング Layer①。第8页不讲。第9页只说通过</p>
-      <p>这本是 8 个项目。店铺代码、传票号、商品代码、入荷预定数量、入荷预定日、发注日、便区分、注释。第8页同样是对象外。第9页把同样的项目原样交到 nyuka_yotei.txt。</p>
+      <p>来源是单品发注明细 TANPIN_HACHU_MEISAI。抽出已经确定发注的、含今天到货在内、还没到货的后续订货残，也就是昨天已经确定的部分。0 件是继续还是跳过，还是 TBD。店铺和商品换成统合主档的代码，只留西友的店，位数不截断。入荷预定日空着时放纳品预定日，发注日空着时放发注预定日。便区分设为 1。传票号、数量、注释的处理在映射页。gzip 和空的 END 放到 012，每天 2 点。</p>
+      <p class="cue">出示　Sinops-12　第5页 Layer②。一句带过</p>
+      <p>这一页也是对象外。</p>
+      <p class="cue">出示　Sinops-12　第6页 Layer③。传送，带过</p>
+      <p>这里不加工。看到 END 再取 gz，每天 2 点 30 分。接收位置还在确认。</p>
+      <p class="cue">出示　Sinops-12　第7页 項目マッピング Layer①。第8页不讲。第9页只说通过。步骤栏仍写着字符串化和散装。这一页是原样。不念这句</p>
+      <p>店铺代码、传票号、商品代码、入荷预定数量、入荷预定日、发注日、便区分、注释。传票号和数量按这一页是原样。注释是发注数据区分：1 和 4 是通常，10 和 15 是本部发注，11 和 12 是特卖。可以空。下一页原样交到 nyuka_yotei.txt。</p>
     </div>
     <div class="jp"><div class="lang">日文（読み上げ）</div>
       <p class="cue">見せる　Sinops-12　3枚目 Data Flow</p>
-      <p><ruby>入荷予定<rt>にゅうかよてい</rt></ruby>です。先にこの<ruby>図<rt>ず</rt></ruby>です。<ruby>基幹<rt>きかん</rt></ruby>の<ruby>発注<rt>はっちゅう</rt></ruby>データから、<ruby>集計<rt>しゅうけい</rt></ruby>の TANPIN_HACHU_MEISAI を<ruby>出<rt>だ</rt></ruby>して、クラウド<ruby>機<rt>き</rt></ruby>でレイアウトを<ruby>整<rt>ととの</rt></ruby>え、<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。そこから Sinops-R6 が<ruby>取<rt>と</rt></ruby>ります。<ruby>西友店舗<rt>せいゆうてんぽ</rt></ruby>マスタの<ruby>限定<rt>げんてい</rt></ruby>は<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じで、<ruby>出<rt>だ</rt></ruby>すのは<ruby>西友<rt>せいゆう</rt></ruby>の<ruby>店舗<rt>てんぽ</rt></ruby>だけです。<ruby>図<rt>ず</rt></ruby>のファイルは NYUKA_YOTEI の gz、Sinops <ruby>側<rt>がわ</rt></ruby>は nyuka_yotei.txt です。</p>
+      <p><ruby>入荷予定<rt>にゅうかよてい</rt></ruby>です。<ruby>基幹<rt>きかん</rt></ruby>の<ruby>発注<rt>はっちゅう</rt></ruby>データから、<ruby>集計<rt>しゅうけい</rt></ruby>の TANPIN_HACHU_MEISAI を<ruby>出<rt>だ</rt></ruby>します。あとは<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じで、<ruby>西友<rt>せいゆう</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>だけ<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSに<ruby>出<rt>だ</rt></ruby>して、Sinops-R6 が<ruby>取<rt>と</rt></ruby>ります。ファイルは NYUKA_YOTEI の gz、Sinops <ruby>側<rt>がわ</rt></ruby>は nyuka_yotei.txt です。</p>
       <p class="cue">見せる　Sinops-12　2枚目 IF概要</p>
-      <p><ruby>概要<rt>がいよう</rt></ruby>です。<ruby>件数<rt>けんすう</rt></ruby>は1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>45<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>25MBです。リランは<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じで、<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えです。</p>
+      <p><ruby>送信元<rt>そうしんもと</rt></ruby>と<ruby>受信先<rt>じゅしんさき</rt></ruby>は<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>45<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>25Mです。リランも<ruby>同<rt>おな</rt></ruby>じで、<ruby>部分<rt>ぶぶん</rt></ruby>リランはせず<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えです。Layer① は<ruby>変換<rt>へんかん</rt></ruby>あり、Layer③ は<ruby>変換<rt>へんかん</rt></ruby>なしで Sinops へ<ruby>取<rt>と</rt></ruby>り<ruby>込<rt>こ</rt></ruby>みます。</p>
       <p class="cue">見せる　Sinops-12　4枚目 Layer①</p>
-      <p><ruby>元<rt>もと</rt></ruby>は<ruby>単品発注明細<rt>たんぴんはっちゅうめいさい</rt></ruby>の TANPIN_HACHU_MEISAI で、<ruby>今日<rt>きょう</rt></ruby><ruby>入荷<rt>にゅうか</rt></ruby>するものを<ruby>含<rt>ふく</rt></ruby>めて、まだ<ruby>入荷<rt>にゅうか</rt></ruby>していない<ruby>先<rt>さき</rt></ruby>の<ruby>発注残<rt>はっちゅうざん</rt></ruby>を<ruby>毎日<rt>まいにち</rt></ruby><ruby>出<rt>だ</rt></ruby>します。<ruby>便<rt>びん</rt></ruby>と<ruby>文字<rt>もじ</rt></ruby>は<ruby>入荷実績<rt>にゅうかじっせき</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。<ruby>完了印<rt>かんりょうじるし</rt></ruby>は<ruby>空<rt>から</rt></ruby>の NYUKA_YOTEI_YYYYMMDDhhmmss.END です。<ruby>置<rt>お</rt></ruby>き<ruby>場<rt>ば</rt></ruby>は gs://ods-seiyu-prod/IF0079_LM0026_012/YYYYMMDD/ です。Layer① の<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>2<ruby>時<rt>じ</rt></ruby>です。</p>
-      <p class="cue">見せる　Sinops-12　6枚目 Layer③</p>
-      <p>ファイルは NYUKA_YOTEI の gz です。Sinops <ruby>側<rt>がわ</rt></ruby>は nyuka_yotei.txt です。Layer③ は NYUKA_YOTEI_YYYYMMDDhhmmss.END を<ruby>見<rt>み</rt></ruby>てから gz を<ruby>取<rt>と</rt></ruby>ります。Layer③ の<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>2<ruby>時<rt>じ</rt></ruby>30<ruby>分<rt>ぷん</rt></ruby>です。<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>る<ruby>先<rt>さき</rt></ruby>のパスは、こちらも<ruby>西友<rt>せいゆう</rt></ruby>さんと<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
-      <p class="cue">見せる　Sinops-12　7枚目 項目マッピング Layer①。8枚目は読まない。9枚目は通過だけ</p>
-      <p>こちらは8<ruby>項目<rt>こうもく</rt></ruby>です。<ruby>店舗<rt>てんぽ</rt></ruby>コード、<ruby>伝票<rt>でんぴょう</rt></ruby>No、<ruby>商品<rt>しょうひん</rt></ruby>コード、<ruby>入荷予定数量<rt>にゅうかよていすうりょう</rt></ruby>、<ruby>入荷予定日<rt>にゅうかよていび</rt></ruby>、<ruby>発注日<rt>はっちゅうび</rt></ruby>、<ruby>便区分<rt>びんくぶん</rt></ruby>、コメント。8<ruby>枚目<rt>まいめ</rt></ruby>も<ruby>対象外<rt>たいしょうがい</rt></ruby>です。9<ruby>枚目<rt>まいめ</rt></ruby>は<ruby>同<rt>おな</rt></ruby>じ<ruby>項目<rt>こうもく</rt></ruby>を nyuka_yotei.txt へそのまま<ruby>渡<rt>わた</rt></ruby>します。</p>
+      <p><ruby>元<rt>もと</rt></ruby>は<ruby>単品発注明細<rt>たんぴんはっちゅうめいさい</rt></ruby>の TANPIN_HACHU_MEISAI です。<ruby>発注<rt>はっちゅう</rt></ruby>が<ruby>確定<rt>かくてい</rt></ruby>した、<ruby>今日<rt>きょう</rt></ruby><ruby>入荷<rt>にゅうか</rt></ruby>するものを<ruby>含<rt>ふく</rt></ruby>めた、まだ<ruby>入荷<rt>にゅうか</rt></ruby>していない<ruby>先<rt>さき</rt></ruby>の<ruby>発注残<rt>はっちゅうざん</rt></ruby>です。<ruby>昨日<rt>きのう</rt></ruby><ruby>確定<rt>かくてい</rt></ruby>した<ruby>分<rt>ぶん</rt></ruby>です。0<ruby>件<rt>けん</rt></ruby>のときは<ruby>継続<rt>けいぞく</rt></ruby>かスキップか、まだ TBD です。<ruby>店<rt>みせ</rt></ruby>と<ruby>商品<rt>しょうひん</rt></ruby>は<ruby>統合<rt>とうごう</rt></ruby>マスタのコードにして、<ruby>西友<rt>せいゆう</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>だけ<ruby>残<rt>のこ</rt></ruby>します。<ruby>桁<rt>けた</rt></ruby>は<ruby>切<rt>き</rt></ruby>りません。<ruby>入荷予定日<rt>にゅうかよていび</rt></ruby>が<ruby>空<rt>から</rt></ruby>のときは<ruby>納品予定日<rt>のうひんよていび</rt></ruby>、<ruby>発注日<rt>はっちゅうび</rt></ruby>が<ruby>空<rt>から</rt></ruby>のときは<ruby>発注予定日<rt>はっちゅうよていび</rt></ruby>を<ruby>入<rt>い</rt></ruby>れます。<ruby>便区分<rt>びんくぶん</rt></ruby>は1です。<ruby>伝票<rt>でんぴょう</rt></ruby>No と<ruby>数量<rt>すうりょう</rt></ruby>、コメントはマッピングのページで<ruby>見<rt>み</rt></ruby>ます。gz と<ruby>空<rt>から</rt></ruby>の END を 012 に<ruby>置<rt>お</rt></ruby>きます。<ruby>起動<rt>きどう</rt></ruby>は2<ruby>時<rt>じ</rt></ruby>です。</p>
+      <p class="cue">見せる　Sinops-12　5枚目 Layer②。一言で</p>
+      <p>このページも<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
+      <p class="cue">見せる　Sinops-12　6枚目 Layer③。転送なので短く</p>
+      <p>ここは<ruby>加工<rt>かこう</rt></ruby>しません。END を<ruby>見<rt>み</rt></ruby>て gz を<ruby>取<rt>と</rt></ruby>ります。<ruby>起動<rt>きどう</rt></ruby>は2<ruby>時<rt>じ</rt></ruby>30<ruby>分<rt>ぷん</rt></ruby>です。<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>り<ruby>先<rt>さき</rt></ruby>は<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
+      <p class="cue">見せる　Sinops-12　7枚目 項目マッピング Layer①。8枚目は読まない。9枚目は通過だけ。ステップ名は文字列化とバラのまま。このページは「そのまま」。この文は読まない</p>
+      <p><ruby>店舗<rt>てんぽ</rt></ruby>コード、<ruby>伝票<rt>でんぴょう</rt></ruby>No、<ruby>商品<rt>しょうひん</rt></ruby>コード、<ruby>入荷予定数量<rt>にゅうかよていすうりょう</rt></ruby>、<ruby>入荷予定日<rt>にゅうかよていび</rt></ruby>、<ruby>発注日<rt>はっちゅうび</rt></ruby>、<ruby>便区分<rt>びんくぶん</rt></ruby>、コメントです。<ruby>伝票<rt>でんぴょう</rt></ruby>No と<ruby>数量<rt>すうりょう</rt></ruby>は、このページではそのままです。コメントは<ruby>発注<rt>はっちゅう</rt></ruby>データ<ruby>区分<rt>くぶん</rt></ruby>です。1と4は<ruby>通常<rt>つうじょう</rt></ruby>、10と15は<ruby>本部発注<rt>ほんぶはっちゅう</rt></ruby>、11と12は<ruby>特売<rt>とくばい</rt></ruby>です。<ruby>空<rt>から</rt></ruby>でもよいです。<ruby>次<rt>つぎ</rt></ruby>のページは nyuka_yotei.txt へそのまま<ruby>渡<rt>わた</rt></ruby>します。</p>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>発注　24 と 25</h2>
+  <h2>発注勧告</h2>
   <div class="cols">
     <div class="cn"><div class="lang">中文</div>
       <p class="cue">出示　Sinops-24　第3页 Data Flow</p>
-      <p>发注劝告当日。先看这张图。Sinops-R6 放到西友连携 GCS，云上收成一个文件，放到 TRIAL 的自动发注 GCS。放完之后是 Layer0，在自动发注的 GCP 里分生鲜和非生鲜。生鲜送到生鲜服务器的发注统合，非生鲜走现有传送进 OrderSV 的 EOB。</p>
+      <p>发注劝告当日。Sinops-R6 放到西友连携 GCS，云上收成一个文件，放到 TRIAL 的自动发注 GCS。放完之后是 Layer0，在自动发注的 GCP 里分生鲜和非生鲜。生鲜进生鲜服务器的发注统合，非生鲜走现有传送进 OrderSV 的 EOB。</p>
       <p class="cue">出示　Sinops-24　第2页 IF概要</p>
-      <p>概要这里。件数是日平均约 25 万件、约 20MB。采用当天时的着地是 md-data-integration-prod/LV3/SIREJAN_RCMDORDER_LAST/YYYYMMDD/。采用昨天的翌日以后时，着地是 SIREJAN_RCMDORDER_LAST_SUB/YYYYMMDD/。Layer0 里面的处理没有写进这两本。重跑是全件替换，作业和翌日以后共用。</p>
+      <p>发送方是 Sinops-R6，接收方是 TRIAL 的 OrderSV。一天约 25 万件、约 20M。Layer③ 每天把当日和翌日以后都送出。Layer① 是两本共用的一个作业，采用其中一本。采用当天时，着地是 md-data-integration-prod/LV3/SIREJAN_RCMDORDER_LAST/YYYYMMDD/。采用昨天的翌日以后时，着地是 SIREJAN_RCMDORDER_LAST_SUB/YYYYMMDD/。重跑是全件替换。Layer③ 不转换，从这里不往 OrderSV 出。完了印是 kankoku.END 和 subkankoku.END。</p>
       <p class="cue">出示　Sinops-25　第3页 Data Flow</p>
-      <p>接着是翌日以后的图。路径和当日一样。图上不同的是 Sinops 侧的文件和放置位置，后面翻到第6页再念名字。Layer① 是两本共用的一个作业。</p>
+      <p>翌日以后。路径和当日一样。文件名和位置到 Layer③ 那页再念。Layer① 是两本共用的一个作业。</p>
       <p class="cue">出示　Sinops-25　第2页 IF概要</p>
-      <p>概要这里。件数是日平均约 800 万件、约 650MB，最大 1000 万件、800MB。着地和重跑跟当日那本一样。</p>
-      <p class="cue">出示　Sinops-24　第6页 Layer③。翌日以后的文件换 Sinops-25　第6页</p>
-      <p>Layer③ 不加工，每天 5 点启动。当日是 kankoku 的 gz 和空的 kankoku.end，放到 LM0026_IF0079_001。翌日以后是 subkankoku 的 gz 和空的 subkankoku.end，放到 LM0026_IF0079_002。桶是 ods-seiyu-prod 的 dev/stg。Sinops 侧的参照路径还要确认。</p>
-      <p class="cue">出示　Sinops-24　第4页 Layer①（25 相同，不用换）。这一页的输出名是 gz。概要上的着地是两个目录</p>
-      <p>Layer① 每天 5 点 30 分启动。当天的发注劝告，和昨天的翌日以后里发注日等于当天的行，两本不叠，用其中一本。这一页的输出名是 SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz，放到 gs://autoorder-prod/lv3-trc-jiha-prod/。</p>
-      <p>数量不乘 1000。不是发注单位整数倍的，作为错误。Ordertype 用劝告文件里的部门，去查 JIHA 的 BUMON_ZONE 和 ZONE_LOGIC。01 变成 0，02 和 03 变成 1。不看商品主档。</p>
-      <p class="cue">出示　Sinops-24　第7页 項目マッピング Layer①。翌日以后换 Sinops-25　第7页。第8页不讲。第9页只说通过</p>
-      <p>项目是这 7 个。店铺 CD、仕入发注 JAN、推荐发注数量、供应商 CD、纳品日、Ordertype、更新日期。翌日以后的着地换成 LAST_SUB，来源文件是 subkankoku。第8页是对象外。第9页把 Sinops 侧的项目原样通过，发送目的地还写着要确认。</p>
-      <p class="cue">出示　Sinops-24　第12页 错误处理　ER-012</p>
+      <p>发送方和接收方跟当日一样，Sinops-R6 到 TRIAL 的 OrderSV。一天约 800 万件、约 650MB，最大 1000 万件、800MB。着地、重跑、采用一本，跟当日的概要一样。这本的 Layer③ 是 subkankoku，不转换。</p>
+      <p class="cue">出示　Sinops-24　第4页 Layer⓪（25 相同，不用换）。标题栏仍写着 Layer①。更新日是 TBD。不念</p>
+      <p>先看空的 SIREJAN_RCMDORDER_LAST_YYYYMMDD.END，没有就中断。然后再做字段筛选和 JIHA。店铺、商品、供应商换成统合主档的代码，对不上是错误，位数不截断。数量不乘 1000，也不四舍五入。不是发注单位整数倍的，作为错误。Ordertype 用劝告文件里的部门，部门就是西友的ライン。查 JIHA 的 BUMON_ZONE，再查 ZONE_LOGIC。01 变成 0，02 和 03 变成 1。不看商品主档。写好的文件放到 gs://autoorder-prod/lv3-trc-jiha-prod/。</p>
+      <p class="cue">出示　Sinops-24　第5页 Layer①（25 相同，不用换）</p>
+      <p>每天 5 点 30 分。从西友连携 GCS 取文件，先看 kankoku.END 和 subkankoku.END。内容不转换。当天的发注劝告，和昨天的翌日以后里发注日等于当天的行，不叠在一起，用其中一本。当天没有时用昨天的那部分，两本都没有就中断。采用的那一本原样放到 gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/，后面放空的 SIREJAN_RCMDORDER_LAST_YYYYMMDD.END。</p>
+      <p class="cue">出示　Sinops-24　第6页 Layer②。一句带过。25 不用换</p>
+      <p>这一页是对象外。</p>
+      <p class="cue">出示　Sinops-24　第7页 Layer③。翌日以后的文件换 Sinops-25　第7页。传送，带过</p>
+      <p>这里不加工。当日是 kankoku 的 gz 和空的 kankoku.END，放到 LM0026_IF0079_001。翌日以后是 subkankoku 的 gz 和空的 subkankoku.END，放到 LM0026_IF0079_002。每天 5 点。Sinops 侧的路径还在确认。</p>
+      <p class="cue">出示　Sinops-24　第8页 項目マッピング Layer①。翌日以后换 Sinops-25　第8页。第9页不讲。第10页只说通过</p>
+      <p>这一页是全项目通过。kankoku 的项目原样交到 autoorder-prod 的 SINOPS 下面那个 gz。翌日以后换成 subkankoku，gz 的名字一样。第10页发送目的地还写着要确认。</p>
+      <p class="cue">出示　Sinops-24　第11页 項目マッピング Layer⓪。翌日以后换 Sinops-25　第11页 Layer0</p>
+      <p>店铺 CD、仕入发注 JAN、推荐发注数量、供应商 CD、纳品日、Ordertype、更新日期。着地是 SIREJAN_RCMDORDER_LAST/日期/。来源是刚才那个 SINOPS 的 gz。Ordertype 就是第4页 Layer0 说过的部门转换。更新日期还是 TBD。翌日以后的着地换成 LAST_SUB/日期/。</p>
+      <p class="cue">出示　Sinops-24　第14页 错误处理　ER-012</p>
       <p>当天的文件到指定时刻还没有，或者出了障碍，当天就不用，改用昨天的翌日以后这一本。时刻的例子是 6 点，还是 TBD。</p>
     </div>
     <div class="jp"><div class="lang">日文（読み上げ）</div>
       <p class="cue">見せる　Sinops-24　3枚目 Data Flow</p>
-      <p><ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>の<ruby>当日<rt>とうじつ</rt></ruby>です。先にこの<ruby>図<rt>ず</rt></ruby>です。Sinops-R6 から<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSへ<ruby>出<rt>で</rt></ruby>て、クラウド<ruby>機<rt>き</rt></ruby>が1<ruby>本<rt>ぽん</rt></ruby>に<ruby>決<rt>き</rt></ruby>めて、TRIAL の<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。<ruby>置<rt>お</rt></ruby>いたあとは Layer0 です。<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>の GCP で<ruby>生鮮<rt>せいせん</rt></ruby>と<ruby>非生鮮<rt>ひせいせん</rt></ruby>を<ruby>分<rt>わ</rt></ruby>け、<ruby>生鮮<rt>せいせん</rt></ruby>は<ruby>生鮮<rt>せいせん</rt></ruby>サーバーの<ruby>発注統合<rt>はっちゅうとうごう</rt></ruby>、<ruby>非生鮮<rt>ひせいせん</rt></ruby>は<ruby>今<rt>いま</rt></ruby>の<ruby>転送<rt>てんそう</rt></ruby>で OrderSV の EOB です。</p>
+      <p><ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>の<ruby>当日<rt>とうじつ</rt></ruby>です。Sinops-R6 から<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSへ<ruby>出<rt>で</rt></ruby>て、クラウドが1<ruby>本<rt>ぽん</rt></ruby>に<ruby>決<rt>き</rt></ruby>めて、TRIAL の<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。<ruby>置<rt>お</rt></ruby>いたあとは Layer0 です。<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>の GCP で<ruby>生鮮<rt>せいせん</rt></ruby>と<ruby>非生鮮<rt>ひせいせん</rt></ruby>を<ruby>分<rt>わ</rt></ruby>けます。<ruby>生鮮<rt>せいせん</rt></ruby>は<ruby>生鮮<rt>せいせん</rt></ruby>サーバーの<ruby>発注統合<rt>はっちゅうとうごう</rt></ruby>、<ruby>非生鮮<rt>ひせいせん</rt></ruby>は<ruby>今<rt>いま</rt></ruby>の<ruby>転送<rt>てんそう</rt></ruby>で OrderSV の EOB です。</p>
       <p class="cue">見せる　Sinops-24　2枚目 IF概要</p>
-      <p><ruby>概要<rt>がいよう</rt></ruby>です。<ruby>件数<rt>けんすう</rt></ruby>は1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>25<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>20MBです。<ruby>当日<rt>とうじつ</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>した<ruby>着地<rt>ちゃくち</rt></ruby>は md-data-integration-prod/LV3/SIREJAN_RCMDORDER_LAST/YYYYMMDD/ 、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>した<ruby>着地<rt>ちゃくち</rt></ruby>は SIREJAN_RCMDORDER_LAST_SUB/YYYYMMDD/ です。Layer0 の<ruby>中<rt>なか</rt></ruby>の<ruby>処理<rt>しょり</rt></ruby>は、この2<ruby>冊<rt>さつ</rt></ruby>には<ruby>入<rt>い</rt></ruby>れていません。リランは<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えで、ジョブは<ruby>翌日以降<rt>よくじついこう</rt></ruby>と<ruby>共通<rt>きょうつう</rt></ruby>です。</p>
+      <p><ruby>送信元<rt>そうしんもと</rt></ruby>は Sinops-R6、<ruby>受信先<rt>じゅしんさき</rt></ruby>は TRIAL の OrderSV です。1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>25<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>20Mです。Layer③ は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>翌日以降<rt>よくじついこう</rt></ruby>を、<ruby>毎日<rt>まいにち</rt></ruby><ruby>出<rt>だ</rt></ruby>します。Layer① は2<ruby>冊<rt>さつ</rt></ruby>で<ruby>共通<rt>きょうつう</rt></ruby>の1ジョブで、どちらか1<ruby>本<rt>ぽん</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>します。<ruby>当日<rt>とうじつ</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>した<ruby>着地<rt>ちゃくち</rt></ruby>は md-data-integration-prod/LV3/SIREJAN_RCMDORDER_LAST/YYYYMMDD/ です。<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>した<ruby>着地<rt>ちゃくち</rt></ruby>は SIREJAN_RCMDORDER_LAST_SUB/YYYYMMDD/ です。リランは<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えです。Layer③ は<ruby>変換<rt>へんかん</rt></ruby>なしで、OrderSV へはここから<ruby>出<rt>だ</rt></ruby>しません。<ruby>完了印<rt>かんりょうじるし</rt></ruby>は kankoku.END と subkankoku.END です。</p>
       <p class="cue">見せる　Sinops-25　3枚目 Data Flow</p>
-      <p><ruby>続<rt>つづ</rt></ruby>いて<ruby>翌日以降<rt>よくじついこう</rt></ruby>の<ruby>図<rt>ず</rt></ruby>です。<ruby>経路<rt>けいろ</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。<ruby>図<rt>ず</rt></ruby>で<ruby>違<rt>ちが</rt></ruby>うのは Sinops <ruby>側<rt>がわ</rt></ruby>のファイルと<ruby>置<rt>お</rt></ruby>き<ruby>場<rt>ば</rt></ruby>で、<ruby>名前<rt>なまえ</rt></ruby>はあとで6<ruby>枚目<rt>まいめ</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながら<ruby>読<rt>よ</rt></ruby>みます。Layer① は2<ruby>冊<rt>さつ</rt></ruby>で<ruby>共通<rt>きょうつう</rt></ruby>の1ジョブです。</p>
+      <p><ruby>翌日以降<rt>よくじついこう</rt></ruby>です。<ruby>経路<rt>けいろ</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。ファイル<ruby>名<rt>めい</rt></ruby>と<ruby>置<rt>お</rt></ruby>き<ruby>場<rt>ば</rt></ruby>は、Layer③ のページで<ruby>読<rt>よ</rt></ruby>みます。Layer① は2<ruby>冊<rt>さつ</rt></ruby>で<ruby>共通<rt>きょうつう</rt></ruby>の1ジョブです。</p>
       <p class="cue">見せる　Sinops-25　2枚目 IF概要</p>
-      <p><ruby>概要<rt>がいよう</rt></ruby>です。<ruby>件数<rt>けんすう</rt></ruby>は1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>800<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>650MBで、<ruby>最大<rt>さいだい</rt></ruby>は1000<ruby>万件<rt>まんけん</rt></ruby>、800MBです。<ruby>着地<rt>ちゃくち</rt></ruby>とリランは<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>冊<rt>さつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。</p>
-      <p class="cue">見せる　Sinops-24　6枚目 Layer③。翌日以降のファイルは Sinops-25　6枚目</p>
-      <p>Layer③ は<ruby>加工<rt>かこう</rt></ruby>しません。<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>5<ruby>時<rt>じ</rt></ruby>です。<ruby>当日分<rt>とうじつぶん</rt></ruby>は kankoku の gz と<ruby>空<rt>から</rt></ruby>の kankoku.end を、LM0026_IF0079_001 に<ruby>置<rt>お</rt></ruby>きます。<ruby>翌日以降<rt>よくじついこう</rt></ruby>は subkankoku の gz と<ruby>空<rt>から</rt></ruby>の subkankoku.end を、LM0026_IF0079_002 に<ruby>置<rt>お</rt></ruby>きます。バケットは ods-seiyu-prod の dev/stg です。Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>参照<rt>さんしょう</rt></ruby>パスは、<ruby>確認<rt>かくにん</rt></ruby>が<ruby>残<rt>のこ</rt></ruby>っています。</p>
-      <p class="cue">見せる　Sinops-24　4枚目 Layer①（25は同じ。替えない）。このページの出力名は gz。概要の着地は2ディレクトリ</p>
-      <p>Layer① の<ruby>起動<rt>きどう</rt></ruby>は<ruby>日次<rt>にちじ</rt></ruby>5<ruby>時<rt>じ</rt></ruby>30<ruby>分<rt>ぷん</rt></ruby>です。<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>と、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>のうち<ruby>発注日<rt>はっちゅうび</rt></ruby>が<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>は、<ruby>重<rt>かさ</rt></ruby>ねずにどちらか1<ruby>本<rt>ぽん</rt></ruby>です。このページの<ruby>出力名<rt>しゅつりょくめい</rt></ruby>は SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz で、<ruby>置<rt>お</rt></ruby>き<ruby>場<rt>ば</rt></ruby>は gs://autoorder-prod/lv3-trc-jiha-prod/ です。</p>
-      <p><ruby>数量<rt>すうりょう</rt></ruby>は1000<ruby>倍<rt>ばい</rt></ruby>しません。<ruby>発注単位<rt>はっちゅうたんい</rt></ruby>の<ruby>整数倍<rt>せいすうばい</rt></ruby>でないものはエラーです。Ordertype は、<ruby>勧告<rt>かんこく</rt></ruby>ファイルの<ruby>部門<rt>ぶもん</rt></ruby>から JIHA の BUMON_ZONE と ZONE_LOGIC を<ruby>引<rt>ひ</rt></ruby>いて、01は0、02と03は1にします。<ruby>商品<rt>しょうひん</rt></ruby>マスタは<ruby>見<rt>み</rt></ruby>ません。</p>
-      <p class="cue">見せる　Sinops-24　7枚目 項目マッピング Layer①。翌日以降は Sinops-25　7枚目。8枚目は読まない。9枚目は通過だけ</p>
-      <p><ruby>項目<rt>こうもく</rt></ruby>はこの7つです。<ruby>店舗<rt>てんぽ</rt></ruby>CD、<ruby>仕入発注<rt>しいれはっちゅう</rt></ruby>JAN、<ruby>推奨発注数量<rt>すいしょうはっちゅうすうりょう</rt></ruby>、ベンダーCD、<ruby>納品日<rt>のうひんび</rt></ruby>、Ordertype、<ruby>更新日<rt>こうしんび</rt></ruby>。<ruby>翌日以降<rt>よくじついこう</rt></ruby>の<ruby>着地<rt>ちゃくち</rt></ruby>は LAST_SUB、<ruby>元<rt>もと</rt></ruby>ファイルは subkankoku です。8<ruby>枚目<rt>まいめ</rt></ruby>は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。9<ruby>枚目<rt>まいめ</rt></ruby>は Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>項目<rt>こうもく</rt></ruby>をそのまま<ruby>通<rt>とお</rt></ruby>し、<ruby>送信先<rt>そうしんさき</rt></ruby>は<ruby>要確認<rt>ようかくにん</rt></ruby>のままです。</p>
-      <p class="cue">見せる　Sinops-24　12枚目 エラー処理　ER-012</p>
+      <p><ruby>送信元<rt>そうしんもと</rt></ruby>と<ruby>受信先<rt>じゅしんさき</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じで、Sinops-R6 から TRIAL の OrderSV です。1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>800<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>650MBです。<ruby>最大<rt>さいだい</rt></ruby>は1000<ruby>万件<rt>まんけん</rt></ruby>、800MBです。<ruby>着地<rt>ちゃくち</rt></ruby>とリラン、1<ruby>本<rt>ぽん</rt></ruby>に<ruby>決<rt>き</rt></ruby>めるところは、<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>概要<rt>がいよう</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。この<ruby>冊<rt>さつ</rt></ruby>の Layer③ は subkankoku で、<ruby>変換<rt>へんかん</rt></ruby>はありません。</p>
+      <p class="cue">見せる　Sinops-24　4枚目 Layer⓪（25は同じ。替えない）。タイトルは Layer① のまま。更新日は TBD。読まない</p>
+      <p>先に<ruby>空<rt>から</rt></ruby>の SIREJAN_RCMDORDER_LAST_YYYYMMDD.END を<ruby>見<rt>み</rt></ruby>ます。<ruby>無<rt>な</rt></ruby>いときは<ruby>中断<rt>ちゅうだん</rt></ruby>です。そのあと<ruby>項目<rt>こうもく</rt></ruby>の<ruby>選別<rt>せんべつ</rt></ruby>と JIHA です。<ruby>店<rt>みせ</rt></ruby>、<ruby>商品<rt>しょうひん</rt></ruby>、<ruby>仕入先<rt>しいれさき</rt></ruby>は<ruby>統合<rt>とうごう</rt></ruby>マスタのコードにします。<ruby>合<rt>あ</rt></ruby>わないものはエラーで、<ruby>桁<rt>けた</rt></ruby>は<ruby>切<rt>き</rt></ruby>りません。<ruby>数量<rt>すうりょう</rt></ruby>は1000<ruby>倍<rt>ばい</rt></ruby>せず、<ruby>丸<rt>まる</rt></ruby>めません。<ruby>発注単位<rt>はっちゅうたんい</rt></ruby>の<ruby>整数倍<rt>せいすうばい</rt></ruby>でないものはエラーです。Ordertype は、<ruby>勧告<rt>かんこく</rt></ruby>ファイルの<ruby>部門<rt>ぶもん</rt></ruby>から<ruby>見<rt>み</rt></ruby>ます。<ruby>部門<rt>ぶもん</rt></ruby>は<ruby>西友<rt>せいゆう</rt></ruby>のラインです。JIHA の BUMON_ZONE、そのあと ZONE_LOGIC を<ruby>引<rt>ひ</rt></ruby>いて、01は0、02と03は1です。<ruby>商品<rt>しょうひん</rt></ruby>マスタは<ruby>見<rt>み</rt></ruby>ません。<ruby>書<rt>か</rt></ruby>いたファイルは gs://autoorder-prod/lv3-trc-jiha-prod/ に<ruby>置<rt>お</rt></ruby>きます。</p>
+      <p class="cue">見せる　Sinops-24　5枚目 Layer①（25は同じ。替えない）</p>
+      <p><ruby>起動<rt>きどう</rt></ruby>は5<ruby>時<rt>じ</rt></ruby>30<ruby>分<rt>ぷん</rt></ruby>です。<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSから<ruby>取<rt>と</rt></ruby>ります。先に kankoku.END と subkankoku.END を<ruby>見<rt>み</rt></ruby>ます。<ruby>中身<rt>なかみ</rt></ruby>は<ruby>変換<rt>へんかん</rt></ruby>しません。<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>と、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>のうち<ruby>発注日<rt>はっちゅうび</rt></ruby>が<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>は、<ruby>重<rt>かさ</rt></ruby>ねずに1<ruby>本<rt>ぽん</rt></ruby>です。<ruby>当日<rt>とうじつ</rt></ruby>が<ruby>無<rt>な</rt></ruby>いときは<ruby>昨日<rt>きのう</rt></ruby>のその<ruby>行<rt>ぎょう</rt></ruby>、<ruby>両方<rt>りょうほう</rt></ruby><ruby>無<rt>な</rt></ruby>いときは<ruby>中断<rt>ちゅうだん</rt></ruby>です。<ruby>採用<rt>さいよう</rt></ruby>した1<ruby>本<rt>ぽん</rt></ruby>は、そのまま gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/ に<ruby>置<rt>お</rt></ruby>き、そのあとに<ruby>空<rt>から</rt></ruby>の SIREJAN_RCMDORDER_LAST_YYYYMMDD.END を<ruby>置<rt>お</rt></ruby>きます。</p>
+      <p class="cue">見せる　Sinops-24　6枚目 Layer②。一言で。25は替えない</p>
+      <p>このページは<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
+      <p class="cue">見せる　Sinops-24　7枚目 Layer③。翌日以降のファイルは Sinops-25　7枚目。転送なので短く</p>
+      <p>ここは<ruby>加工<rt>かこう</rt></ruby>しません。<ruby>当日分<rt>とうじつぶん</rt></ruby>は kankoku の gz と<ruby>空<rt>から</rt></ruby>の kankoku.END を LM0026_IF0079_001、<ruby>翌日以降<rt>よくじついこう</rt></ruby>は subkankoku の gz と<ruby>空<rt>から</rt></ruby>の subkankoku.END を LM0026_IF0079_002 に<ruby>置<rt>お</rt></ruby>きます。5<ruby>時<rt>じ</rt></ruby>です。Sinops <ruby>側<rt>がわ</rt></ruby>のパスは<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
+      <p class="cue">見せる　Sinops-24　8枚目 項目マッピング Layer①。翌日以降は Sinops-25　8枚目。9枚目は読まない。10枚目は通過だけ</p>
+      <p>このページは<ruby>全項目<rt>ぜんこうもく</rt></ruby><ruby>通過<rt>つうか</rt></ruby>です。kankoku の<ruby>項目<rt>こうもく</rt></ruby>を、autoorder-prod の SINOPS の<ruby>下<rt>した</rt></ruby>の gz へそのまま<ruby>渡<rt>わた</rt></ruby>します。<ruby>翌日以降<rt>よくじついこう</rt></ruby>は subkankoku に<ruby>替<rt>か</rt></ruby>えて、gz の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>同<rt>おな</rt></ruby>じです。10<ruby>枚目<rt>まいめ</rt></ruby>の<ruby>送信先<rt>そうしんさき</rt></ruby>は<ruby>要確認<rt>ようかくにん</rt></ruby>のままです。</p>
+      <p class="cue">見せる　Sinops-24　11枚目 項目マッピング Layer⓪。翌日以降は Sinops-25　11枚目 Layer0</p>
+      <p><ruby>店舗<rt>てんぽ</rt></ruby>CD、<ruby>仕入発注<rt>しいれはっちゅう</rt></ruby>JAN、<ruby>推奨発注数量<rt>すいしょうはっちゅうすうりょう</rt></ruby>、ベンダーCD、<ruby>納品日<rt>のうひんび</rt></ruby>、Ordertype、<ruby>更新日<rt>こうしんび</rt></ruby>です。<ruby>着地<rt>ちゃくち</rt></ruby>は SIREJAN_RCMDORDER_LAST/<ruby>日付<rt>ひづけ</rt></ruby>/ です。<ruby>元<rt>もと</rt></ruby>はいまの SINOPS の gz です。Ordertype は4<ruby>枚目<rt>まいめ</rt></ruby>の Layer0 で<ruby>見<rt>み</rt></ruby>た<ruby>部門<rt>ぶもん</rt></ruby>の<ruby>変換<rt>へんかん</rt></ruby>です。<ruby>更新日<rt>こうしんび</rt></ruby>は TBD のままです。<ruby>翌日以降<rt>よくじついこう</rt></ruby>の<ruby>着地<rt>ちゃくち</rt></ruby>は LAST_SUB/<ruby>日付<rt>ひづけ</rt></ruby>/ です。</p>
+      <p class="cue">見せる　Sinops-24　14枚目 エラー処理　ER-012</p>
       <p><ruby>当日<rt>とうじつ</rt></ruby>のファイルが<ruby>指定時刻<rt>していじこく</rt></ruby>までに<ruby>無<rt>な</rt></ruby>い、または<ruby>障害<rt>しょうがい</rt></ruby>のときは、<ruby>当日<rt>とうじつ</rt></ruby>は<ruby>使<rt>つか</rt></ruby>わず、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>を1<ruby>本<rt>ぽん</rt></ruby>として<ruby>採用<rt>さいよう</rt></ruby>します。<ruby>時刻<rt>じこく</rt></ruby>の<ruby>例<rt>れい</rt></ruby>は6<ruby>時<rt>じ</rt></ruby>で、まだ TBD です。</p>
     </div>
   </div>
@@ -167,12 +185,12 @@
   <h2>コメント</h2>
   <div class="cols">
     <div class="cn"><div class="lang">中文</div>
-      <p class="cue">指　Sinops-11 与 12 的第6页、Sinops-24 第12页 ER-012、Sinops-24 第2页</p>
-      <p>意见从这几处开始就行：入荷在 Sinops 侧的接收位置，当天文件赶不上时改用昨天的翌日以后，Layer0 怎么分。6 点还是例子，请给正式时刻。</p>
+      <p class="cue">指　Sinops-11 与 12 的第6页、Sinops-24 第14页 ER-012、Sinops-24 第2页</p>
+      <p>入荷在 Sinops 侧的接收位置，和 ER-012 的时刻，还没定。6 点是例子，正式时刻想在这里定。Layer0 的分法，按 24 概要上写的，看一下是否可以。</p>
     </div>
     <div class="jp"><div class="lang">日文（読み上げ）</div>
-      <p class="cue">指す　11と12の6枚目、24の12枚目 ER-012、24の2枚目</p>
-      <p>コメントは、<ruby>入荷<rt>にゅうか</rt></ruby>の Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>り<ruby>先<rt>さき</rt></ruby>、<ruby>当日<rt>とうじつ</rt></ruby>のファイルが<ruby>間<rt>ま</rt></ruby>に<ruby>合<rt>あ</rt></ruby>わないときの<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>、Layer0 の<ruby>分<rt>わ</rt></ruby>け<ruby>方<rt>かた</rt></ruby>、このあたりからで<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。6<ruby>時<rt>じ</rt></ruby>は<ruby>例<rt>れい</rt></ruby>のままなので、<ruby>正式<rt>せいしき</rt></ruby>な<ruby>時刻<rt>じこく</rt></ruby>をください。</p>
+      <p class="cue">指す　11と12の6枚目、24の14枚目 ER-012、24の2枚目</p>
+      <p><ruby>入荷<rt>にゅうか</rt></ruby>の Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>り<ruby>先<rt>さき</rt></ruby>と、ER-012 の<ruby>時刻<rt>じこく</rt></ruby>が、まだ<ruby>空<rt>あ</rt></ruby>いています。6<ruby>時<rt>じ</rt></ruby>は<ruby>例<rt>れい</rt></ruby>なので、<ruby>正式<rt>せいしき</rt></ruby>な<ruby>時刻<rt>じこく</rt></ruby>をこの<ruby>場<rt>ば</rt></ruby>で<ruby>合<rt>あ</rt></ruby>わせたいです。Layer0 の<ruby>分<rt>わ</rt></ruby>けは、24の<ruby>概要<rt>がいよう</rt></ruby>に<ruby>書<rt>か</rt></ruby>いた<ruby>通<rt>とお</rt></ruby>りでよいか、<ruby>見<rt>み</rt></ruby>てほしいです。</p>
     </div>
   </div>
 </section>
