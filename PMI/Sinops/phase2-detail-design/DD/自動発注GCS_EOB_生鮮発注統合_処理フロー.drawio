@@ -1,0 +1,333 @@
+<mxfile host="Electron" pages="2">
+  <diagram id="seisen-dev" name="生鮮_実装手順">
+    <mxGraphModel dx="778" dy="558" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="h" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=20;fontStyle=1;fontFamily=Arial;fontColor=#1F4E79;" value="生鮮　実装手順　自動発注GCS → dborder" vertex="1">
+          <mxGeometry height="30" width="760" x="24" y="12" as="geometry" />
+        </mxCell>
+        <mxCell id="hs" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=12;fontFamily=Arial;fontColor=#333333;" value="上から下へ実装する。STEP 番号はシート 02_GCS→dborder。Ordertype は使わない。Layer②は対象外。" vertex="1">
+          <mxGeometry height="20" width="900" x="24" y="42" as="geometry" />
+        </mxCell>
+        <mxCell id="in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Arial;fontSize=12;align=left;spacingLeft=10;verticalAlign=middle;" value="&lt;b&gt;入力&lt;/b&gt;　gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/&lt;br&gt;LAST　SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz　＋　空の END&lt;br&gt;LAST_SUB　SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz&lt;br&gt;中身は Layer① のまま。変換は行ごと。中断条件に当たったらファイルを止める。&lt;br&gt;&lt;br&gt;&lt;b&gt;当日ジョブ&lt;/b&gt;　採用した当日分と LAST_SUB。同じ表。&lt;br&gt;&lt;b&gt;翌日ジョブ&lt;/b&gt;　LAST_SUB。1週間分は先行して更新。当日ファイルが無いときは、昨日の翌日以降のうち発注日が当日の行。" vertex="1">
+          <mxGeometry height="130" width="560" x="40" y="72" as="geometry" />
+        </mxCell>
+        <mxCell id="st" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=13;fontStyle=1;" value="開始" vertex="1">
+          <mxGeometry height="36" width="140" x="250" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="STEP10&lt;br&gt;LAST の END が&lt;br&gt;あるか" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="x10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;END が無い" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="296" as="geometry" />
+        </mxCell>
+        <mxCell id="p20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP20　ファイル取得&lt;/b&gt;&lt;br&gt;LAST と LAST_SUB を読む。中身はまだ変換しない。" vertex="1">
+          <mxGeometry height="52" width="400" x="120" y="386" as="geometry" />
+        </mxCell>
+        <mxCell id="d20" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="取得&lt;br&gt;できたか" vertex="1">
+          <mxGeometry height="80" width="200" x="220" y="454" as="geometry" />
+        </mxCell>
+        <mxCell id="x20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;取得失敗" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="469" as="geometry" />
+        </mxCell>
+        <mxCell id="p30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP30　統合マスタ&lt;/b&gt;&lt;br&gt;店CD → int　ベンダーCD → int&lt;br&gt;JAN はそのまま。切捨てなし。ゼロ埋めなし。" vertex="1">
+          <mxGeometry height="64" width="400" x="120" y="554" as="geometry" />
+        </mxCell>
+        <mxCell id="d30" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="一致し、&lt;br&gt;店と仕入先は&lt;br&gt;数値か" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="636" as="geometry" />
+        </mxCell>
+        <mxCell id="x30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;不一致、または非数値" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="656" as="geometry" />
+        </mxCell>
+        <mxCell id="p40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP40　納品日&lt;/b&gt;&lt;br&gt;yyyymmdd → datetime。年月日のみ。時刻は入れない。" vertex="1">
+          <mxGeometry height="52" width="400" x="120" y="746" as="geometry" />
+        </mxCell>
+        <mxCell id="d40" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="日付として&lt;br&gt;正しいか" vertex="1">
+          <mxGeometry height="80" width="200" x="220" y="814" as="geometry" />
+        </mxCell>
+        <mxCell id="x40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;日付不正" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="829" as="geometry" />
+        </mxCell>
+        <mxCell id="p50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;" value="&lt;b&gt;STEP50　固定値をセット&lt;/b&gt;&lt;br&gt;便 Bin = 1　（表の既定 便なし=9999 は使わない）&lt;br&gt;発注種類CD OrderKindCD = 1　普通発注&lt;br&gt;登録FLG EntryFLG = 0　客注数 CustOrderQty = NULL&lt;br&gt;登録日 CreateTime = getdate()　時分秒あり&lt;br&gt;更新日 UpdateTime = 空白&lt;br&gt;Ordertype はセットしない" vertex="1">
+          <mxGeometry height="128" width="400" x="120" y="914" as="geometry" />
+        </mxCell>
+        <mxCell id="p60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP60　数量&lt;/b&gt;&lt;br&gt;発注バラ数 → 推奨数 RecQuantity と 発注数 OrderQty&lt;br&gt;×1000 しない。発注数は NULL 可。" vertex="1">
+          <mxGeometry height="64" width="400" x="120" y="1062" as="geometry" />
+        </mxCell>
+        <mxCell id="p70" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e6;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP70　担当CD UserCD&lt;/b&gt;&lt;br&gt;空で書かない。採番し直すか 90000112（自動発注）。&lt;br&gt;どちらかは未確認。確定するまで値を仮置きしない。" vertex="1">
+          <mxGeometry height="64" width="400" x="120" y="1146" as="geometry" />
+        </mxCell>
+        <mxCell id="p80" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP80　キー&lt;/b&gt;&lt;br&gt;ProdJAN、BranchCD、SupplierCD、DeliveryDate、Bin&lt;br&gt;5列が同じ行があれば UPDATE。無ければ INSERT。" vertex="1">
+          <mxGeometry height="64" width="400" x="120" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="p90" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=14;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=12;" value="&lt;b&gt;STEP90　書込（DBOUT）&lt;/b&gt;&lt;br&gt;192.168.1.129（生鮮発注統合SV）&lt;br&gt;dborder / shT_OrderQty_test&lt;br&gt;EOB には入れない&lt;br&gt;分類・単価・単位・発注日は列がないので送らない" vertex="1">
+          <mxGeometry height="130" width="340" x="150" y="1314" as="geometry" />
+        </mxCell>
+        <mxCell id="d90" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="書けた&lt;br&gt;か" vertex="1">
+          <mxGeometry height="70" width="180" x="230" y="1464" as="geometry" />
+        </mxCell>
+        <mxCell id="x90" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;書込失敗" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="1474" as="geometry" />
+        </mxCell>
+        <mxCell id="en" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Arial;fontSize=13;fontStyle=1;" value="終了" vertex="1">
+          <mxGeometry height="36" width="140" x="250" y="1554" as="geometry" />
+        </mxCell>
+        <mxCell id="foot" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;dashed=1;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;" value="中断にエラー番号は付いていない。ファイルごと止める。項目マッピング頁の便・担当CDは、この手順と違う。実装はこの頁。" vertex="1">
+          <mxGeometry height="44" width="900" x="40" y="1610" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="in" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="st">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="st" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="d10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="d10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p20" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3n" edge="1" parent="1" source="d10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x10" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="p20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="d20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="d20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p30" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5n" edge="1" parent="1" source="d20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x20" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="p30" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="d30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="d30" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p40" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7n" edge="1" parent="1" source="d30" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x30" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" edge="1" parent="1" source="p40" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="d40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a9" edge="1" parent="1" source="d40" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p50" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a9n" edge="1" parent="1" source="d40" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x40" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a10" edge="1" parent="1" source="p50" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a11" edge="1" parent="1" source="p60" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a12" edge="1" parent="1" source="p70" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a13" edge="1" parent="1" source="p80" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="p90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a14" edge="1" parent="1" source="p90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="d90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a15" edge="1" parent="1" source="d90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="en" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a15n" edge="1" parent="1" source="d90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x90" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hiseisen-dev" name="非生鮮_実装手順">
+    <mxGraphModel dx="1125" dy="807" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1960" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="h" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=20;fontStyle=1;fontFamily=Arial;fontColor=#1F4E79;" value="非生鮮　実装手順　自動発注GCS → EOB" vertex="1">
+          <mxGeometry height="30" width="760" x="24" y="12" as="geometry" />
+        </mxCell>
+        <mxCell id="hs" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=12;fontFamily=Arial;fontColor=#333333;" value="上から下へ実装する。STEP 番号はシート 02_Layer⓪設計。採用判定はやり直さない。Layer②は対象外。" vertex="1">
+          <mxGeometry height="20" width="920" x="24" y="42" as="geometry" />
+        </mxCell>
+        <mxCell id="in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;align=left;spacingLeft=10;verticalAlign=middle;" value="&lt;b&gt;入力&lt;/b&gt;　gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/&lt;br&gt;採用した 1 本　SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz　＋　空の END&lt;br&gt;LAST_SUB　SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz&lt;br&gt;同じ加工を 2 本にかける。加工のあと、採用 1 本は EOB、LAST_SUB は EOB_SUB（仮）。" vertex="1">
+          <mxGeometry height="88" width="560" x="40" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="st" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=13;fontStyle=1;" value="開始" vertex="1">
+          <mxGeometry height="36" width="140" x="250" y="176" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="STEP10&lt;br&gt;LAST の END が&lt;br&gt;あるか" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="x10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;fontColor=#9b2c2c;" value="中断&lt;br&gt;END が無い" vertex="1">
+          <mxGeometry height="50" width="300" x="640" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="p20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP20〜40　統合マスタ&lt;/b&gt;&lt;br&gt;店CD、商品CD（仕入発注JAN）、仕入先CD&lt;br&gt;切捨てなし。3項目ともマスタ後の値にする。" vertex="1">
+          <mxGeometry height="64" width="400" x="120" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="d20" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="3項目とも&lt;br&gt;一致したか" vertex="1">
+          <mxGeometry height="80" width="200" x="220" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="p50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP50　数量&lt;/b&gt;&lt;br&gt;発注バラ数 → 推奨発注数量&lt;br&gt;×1000 しない。丸めない。" vertex="1">
+          <mxGeometry height="60" width="400" x="120" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="d50" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="数値で、&lt;br&gt;発注単位の&lt;br&gt;整数倍か" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="598" as="geometry" />
+        </mxCell>
+        <mxCell id="p60" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP60　納品日&lt;/b&gt;&lt;br&gt;yyyymmdd のまま。ShippingDate。" vertex="1">
+          <mxGeometry height="48" width="400" x="120" y="708" as="geometry" />
+        </mxCell>
+        <mxCell id="p70" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP70　部門CD&lt;/b&gt;&lt;br&gt;勧告ファイルの西友中分類。ライン＝部門。&lt;br&gt;商品マスタは見ない。" vertex="1">
+          <mxGeometry height="56" width="400" x="120" y="772" as="geometry" />
+        </mxCell>
+        <mxCell id="d80" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="STEP80&lt;br&gt;BUMON_ZONE&lt;br&gt;に部門があるか" vertex="1">
+          <mxGeometry height="96" width="240" x="200" y="846" as="geometry" />
+        </mxCell>
+        <mxCell id="p80" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;ZONECD を取る&lt;/b&gt;&lt;br&gt;JIHA.BUMON_ZONE。参照のみ。キーは部門CD。" vertex="1">
+          <mxGeometry height="48" width="400" x="120" y="962" as="geometry" />
+        </mxCell>
+        <mxCell id="d90" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="STEP90&lt;br&gt;ZONE_LOGIC&lt;br&gt;が引けるか" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="1026" as="geometry" />
+        </mxCell>
+        <mxCell id="p90" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;論理区分を取る&lt;/b&gt;&lt;br&gt;JIHA.ZONE_LOGIC。参照のみ。キーは ZONECD。" vertex="1">
+          <mxGeometry height="48" width="400" x="120" y="1134" as="geometry" />
+        </mxCell>
+        <mxCell id="d100" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="STEP100&lt;br&gt;区分は&lt;br&gt;01/02/03 か" vertex="1">
+          <mxGeometry height="90" width="220" x="210" y="1198" as="geometry" />
+        </mxCell>
+        <mxCell id="p100" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;Ordertype&lt;/b&gt;&lt;br&gt;01 → 0　　02 → 1　　03 → 1" vertex="1">
+          <mxGeometry height="48" width="400" x="120" y="1308" as="geometry" />
+        </mxCell>
+        <mxCell id="p110" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e6;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP110　更新日&lt;/b&gt;&lt;br&gt;発注日か、DB更新日か。未定。値を仮置きしない。" vertex="1">
+          <mxGeometry height="48" width="400" x="120" y="1372" as="geometry" />
+        </mxCell>
+        <mxCell id="p120" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;" value="&lt;b&gt;STEP120　7項目を gz に書く&lt;/b&gt;&lt;br&gt;店舗CD、仕入発注JAN、推奨発注数量、ベンダーCD、&lt;br&gt;納品日、Ordertype、更新日&lt;br&gt;ファイル名 SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz" vertex="1">
+          <mxGeometry height="72" width="400" x="120" y="1436" as="geometry" />
+        </mxCell>
+        <mxCell id="d120" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="必須は&lt;br&gt;揃っているか" vertex="1">
+          <mxGeometry height="80" width="200" x="220" y="1524" as="geometry" />
+        </mxCell>
+        <mxCell id="p130" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="&lt;b&gt;STEP130　採用した 1 本&lt;/b&gt;&lt;div&gt;&lt;b&gt;（DBOUT）&lt;/b&gt;&lt;br&gt;OrderSV / EOB　既存。再判定はしない。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="320" x="160" y="1624" as="geometry" />
+        </mxCell>
+        <mxCell id="p140" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=12;" value="&lt;b&gt;STEP140　LAST_SUB&lt;/b&gt;&lt;div&gt;&lt;b&gt;（DBOUT）&lt;/b&gt;&lt;br&gt;OrderSV / EOB_SUB（仮）&lt;br&gt;同じ加工。EOB とは別。表名は仮。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="96" width="320" x="160" y="1734" as="geometry" />
+        </mxCell>
+        <mxCell id="en" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Arial;fontSize=13;fontStyle=1;" value="終了" vertex="1">
+          <mxGeometry height="36" width="140" x="250" y="1850" as="geometry" />
+        </mxCell>
+        <mxCell id="er5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-005　当該ファイル中断&lt;/b&gt;&lt;br&gt;必須欠落&lt;br&gt;店・仕入先・商品が統合マスタと不一致&lt;br&gt;数量が非数値&lt;br&gt;発注単位の整数倍でない&lt;br&gt;×1000しない。倍数に丸めない。切捨てなし&lt;br&gt;レコード単位は未定。Hinemos 通知" vertex="1">
+          <mxGeometry height="150" width="330" x="620" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="er7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-007　0/1 にしない&lt;/b&gt;&lt;br&gt;部門（西友ライン）が BUMON_ZONE に無い&lt;br&gt;当該レコードの扱いは未定。Hinemos 通知&lt;br&gt;ファイル中断とは書いていない" vertex="1">
+          <mxGeometry height="90" width="330" x="620" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="x50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-005　当該ファイル中断&lt;/b&gt;&lt;br&gt;数量が非数値、または発注単位の整数倍でない&lt;br&gt;×1000しない。倍数に丸めない。Hinemos 通知" vertex="1">
+          <mxGeometry height="72" width="330" x="620" y="608" as="geometry" />
+        </mxCell>
+        <mxCell id="x90" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-007　0/1 にしない&lt;/b&gt;&lt;br&gt;ZONE_LOGIC が引けない&lt;br&gt;当該レコードの扱いは未定。Hinemos 通知" vertex="1">
+          <mxGeometry height="70" width="330" x="620" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="x100" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-007　0/1 にしない&lt;/b&gt;&lt;br&gt;論理区分が 01/02/03 以外&lt;br&gt;当該レコードの扱いは未定。Hinemos 通知" vertex="1">
+          <mxGeometry height="70" width="330" x="620" y="1208" as="geometry" />
+        </mxCell>
+        <mxCell id="x120" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-005　当該ファイル中断&lt;/b&gt;&lt;br&gt;必須欠落。Hinemos 通知&lt;br&gt;レコード単位は未定" vertex="1">
+          <mxGeometry height="64" width="330" x="620" y="1534" as="geometry" />
+        </mxCell>
+        <mxCell id="er6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;fontColor=#9b2c2c;" value="&lt;b&gt;ER-006　処理中断&lt;/b&gt;&lt;br&gt;自動発注GCSへのアップロード失敗&lt;br&gt;Hinemos 通知のあとリラン" vertex="1">
+          <mxGeometry height="80" width="330" x="620" y="1680" as="geometry" />
+        </mxCell>
+        <mxCell id="foot" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;dashed=1;fontFamily=Arial;fontSize=12;align=left;spacingLeft=8;verticalAlign=middle;" value="シートのタイトル欄は「Layer① 設計」のまま。実装する処理はこの Layer⓪。生鮮の表書き込みは別頁で、EOB には入れない。" vertex="1">
+          <mxGeometry height="40" width="930" x="24" y="1904" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" edge="1" parent="1" source="in" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="st">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" edge="1" parent="1" source="st" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" edge="1" parent="1" source="d10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p20" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b3n" edge="1" parent="1" source="d10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x10" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" edge="1" parent="1" source="p20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" edge="1" parent="1" source="d20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p50" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b5n" edge="1" parent="1" source="d20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="er5" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6" edge="1" parent="1" source="p50" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b7" edge="1" parent="1" source="d50" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p60" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b7n" edge="1" parent="1" source="d50" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0;" target="x50" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b8" edge="1" parent="1" source="p60" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="p70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b9" edge="1" parent="1" source="p70" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b10" edge="1" parent="1" source="d80" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p80" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b10n" edge="1" parent="1" source="d80" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" target="er7" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b11" edge="1" parent="1" source="p80" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b12" edge="1" parent="1" source="d90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p90" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b12n" edge="1" parent="1" source="d90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="x90" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b13" edge="1" parent="1" source="p90" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d100">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b14" edge="1" parent="1" source="d100" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p100" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b14n" edge="1" parent="1" source="d100" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" target="x100" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b15" edge="1" parent="1" source="p100" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="p110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b16" edge="1" parent="1" source="p110" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="p120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b17" edge="1" parent="1" source="p120" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="d120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b18" edge="1" parent="1" source="d120" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=11;" target="p130" value="はい">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b18n" edge="1" parent="1" source="d120" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=1;" target="x120" value="いいえ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b19" edge="1" parent="1" source="p130" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="p140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b20" edge="1" parent="1" source="p140" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;" target="en">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b21" edge="1" parent="1" source="p130" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.3;" target="er6" value="失敗">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b22" edge="1" parent="1" source="p140" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;fontColor=#b85450;fontFamily=Arial;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.7;" target="er6" value="失敗">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

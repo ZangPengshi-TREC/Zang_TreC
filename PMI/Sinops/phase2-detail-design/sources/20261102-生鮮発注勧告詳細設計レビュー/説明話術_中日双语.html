@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生鮮発注勧告 詳細設計レビュー 話術（中日）</title>
+<style>
+  :root { --navy:#1a365d; --orange:#c05621; --bg:#f7fafc; --line:#e2e8f0; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic","Microsoft YaHei",sans-serif; background:var(--bg); color:#1a202c; line-height:1.75; }
+  header { background:var(--navy); color:#fff; padding:1.2rem 1.1rem; }
+  header h1 { margin:0 0 .35rem; font-size:1.25rem; font-weight:700; }
+  header p { margin:.2rem 0; font-size:.9rem; }
+  main { max-width:1100px; margin:0 auto; padding:1rem 1rem 2.5rem; }
+  section { background:#fff; border:1px solid var(--line); margin:1rem 0; overflow:hidden; }
+  h2 { margin:0; padding:.65rem 1rem; background:var(--navy); color:#fff; font-size:1rem; font-weight:700; }
+  .cols { display:flex; align-items:stretch; }
+  .cn, .jp { flex:1 1 50%; padding:.85rem 1rem; min-width:0; }
+  .cn { background:#f0fff4; border-right:1px solid var(--line); }
+  .jp { background:#ebf8ff; }
+  .lang { font-size:.72rem; font-weight:700; color:#4a5568; margin-bottom:.3rem; }
+  p { margin:.45rem 0; }
+  rt { font-size:.55em; color:var(--orange); }
+  .cue { margin:.7rem 0 .2rem; padding:.15rem .55rem; background:#1a365d; color:#fff; font-size:.8rem; font-weight:700; }
+  @media (max-width: 800px) {
+    .cols { flex-direction: column; }
+    .cn { border-right: none; border-bottom:1px solid var(--line); }
+  }
+  @media print {
+    body { background:#fff; }
+    header { background:#fff; color:#1a202c; border-bottom:2px solid #1a365d; }
+    section { break-inside: avoid; }
+    .cn { display:none; }
+    .jp { background:#fff; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>生鮮発注勧告　詳細設計レビュー　話術</h1>
+  <p>当日 → 翌日以降。2冊は続けて。</p>
+  <p>左は中文。右の青だけ読む。紺の帯はページ。読まない。</p>
+  <p>各本は Data Flow の次に IF概要。表への書き込みは4枚目。</p>
+</header>
+<main>
+
+<section>
+  <h2>開場</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">表纸不讲。从当日第3页 Data Flow 打开</p>
+      <p>今天看生鲜的发注劝告。当日和翌日以后。没有 Layer②，也不进 DWH。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">表紙は開かない。当日の3枚目 Data Flow から</p>
+      <p><ruby>今日<rt>きょう</rt></ruby>は<ruby>生鮮<rt>せいせん</rt></ruby>の<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>です。<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>翌日以降<rt>よくじついこう</rt></ruby>です。Layer② はなく、DWH への<ruby>取込<rt>とりこみ</rt></ruby>もありません。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>生鮮発注勧告</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　生鲜当日　第3页 Data Flow。翌日以后第3页是同一张，不用换。左下通用图例不念。图上 OrderSV 的 EOB、EOB_SUB 不念。这一本念下面的生鲜框。不念这句</p>
+      <p>生鲜发注劝告当日。这张图上，生鲜写到 192.168.1.129 / dborder，表是发注统合，shT_OrderQty_test。西友连携 GCS 上有三处：001 的 sday 是当日的 KANKOKU zip 和空的 KANKOKU.END，002 的 yday 是昨天的 SUBKANKOKU zip 和空的 SUBKANKOKU.END，002 的 sday 是当日做成的 SUBKANKOKU zip 和空的 SUBKANKOKU.END。通常用当日这一本。指定时刻前当日已经做成，就用当日。当日没有，就用昨天 yday 里发注日等于当天的那一本。Layer① 两本共通，放到 TRIAL 的自动发注 GCS。当日做成的翌日以后，文件名是 SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz，先放到本 PJ 的 GCS，再传到自动发注 GCS。</p>
+      <p class="cue">出示　生鲜当日　第2页 IF概要。表的列在第4页念。不念这句</p>
+      <p>发送方是 Sinops-R6。接收是 192.168.1.129 的 dborder，表 shT_OrderQty_test。一天约 25 万件、约 20M。这一本的 Layer③ 送 kankoku 的 zip，完了印是 kankoku.END。翌日以后那本送 subkankoku 的 zip，完了印是 subkankoku.END。从 Layer③ 不往表上写。Layer① 两本共用一个作业，发注用其中一本。重跑是全件替换。</p>
+      <p class="cue">出示　生鲜翌日　第3页。和当日是同一张，不用换，这页不念</p>
+      <p>这页和当日是同一张图。</p>
+      <p class="cue">出示　生鲜翌日　第2页 IF概要。着地和第4页的列，当日已念</p>
+      <p>一天约 800 万件、约 650MB，最大 1000 万件、800MB。这本的 Layer③ 送 subkankoku，不转换。</p>
+      <p class="cue">出示　生鲜当日　第4页 GCS→dborder。翌日以后的对象行换生鲜翌日第4页，列不重复念。不念这句</p>
+      <p>这一页在 Layer0 前面，把自动发注 GCS 上的文件写进表。先看空的 SIREJAN_RCMDORDER_LAST_YYYYMMDD.END，没有就中断。文件是 LAST 和 LAST_SUB，内容还是 Layer① 放上去的。店、JAN、供应商换成统合主档。店和供应商做成整数。JAN 不截断、不补零。纳品日只留年月日。便是 1。表上的既定写着没有便就是 9999，这一页是 1。发注散装数写进推荐数，也写进发注数。客注数空着。发注种类 CD 是 1，普通发注。登录 FLG 是 0。登录日是当前时刻，带时分秒。更新日空着。担当 CD 不能空，是重新采番，还是 90000112，还没定。键是 JAN、店、供应商、纳品日、便。五列相同就更新原来的行。写到 192.168.1.129 的 dborder，表是 shT_OrderQty_test。分类、单价、单位、发注日没有列，不送。</p>
+      <p class="cue">出示　生鲜翌日　第4页。列不念。只念对象行</p>
+      <p>翌日以后写 LAST_SUB。一周的份提前更新。当日文件没有时，用昨天的翌日以后里、发注日等于当天的行。</p>
+      <p class="cue">出示　生鲜当日　第5页 Layer⓪（翌日相同，不用换）。写表第4页已念。更新日不念。不念这句</p>
+      <p>这一页不写表。备考写着表在前一页写。Ordertype 用劝告文件里的部门，部门是西友的ライン。查 JIHA 的 BUMON_ZONE，再查 ZONE_LOGIC。01 是 0，02 和 03 是 1。不看商品主档。第4页写表用的发注种类 CD 是固定 1。</p>
+      <p class="cue">出示　生鲜当日　第6页 Layer①（翌日相同，不用换）。用哪一本、sday 和 yday，第3页已念。写表第4页已念</p>
+      <p>这一页两本共通。每天 5 点 30 分。从西友连携 GCS 取 zip，先看 kankoku.END 和 subkankoku.END。内容不转换。用哪一本，和第3页一样。两本都没有就中断。采用的那一本原样放到 gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/，后面放空的 SIREJAN_RCMDORDER_LAST_YYYYMMDD.END。当日做成的翌日以后，先放到本 PJ 的 GCS，文件名是 SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz，再传到自动发注 GCS。</p>
+      <p class="cue">出示　生鲜当日　第7页 Layer②。一句带过。翌日不用换</p>
+      <p>这一页是对象外。</p>
+      <p class="cue">出示　生鲜当日　第8页 Layer③。各传各的。翌日以后的文件换生鲜翌日第8页</p>
+      <p>这里做成 zip 再放。当日是 kankoku 的 zip 和空的 kankoku.END，放到 LM0026_IF0079_001。翌日以后是 subkankoku 的 zip 和空的 subkankoku.END，放到 LM0026_IF0079_002。每天 5 点。Sinops 侧的路径还在确认。</p>
+      <p class="cue">出示　生鲜当日　第9页 項目マッピング GCS→dborder。翌日也是第9页。来源文件名两本都写着 LAST。翌日的对象第4页已念，是 LAST_SUB。接收先格子少了开头的 1，口头用 192.168.1.129。JAN 这一行转换栏的文字转 int 不念，型是 varchar。便这一行写着 TRIAL 的便，第4页是固定 1。担当和第4页的采番、90000112 不一样</p>
+      <p>这一页是写进表的列。来源文件名是 SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz。店和供应商按统合做成整数。便这一行写的是 TRIAL 的便。担当 CD 不能空，向运用支持申请新的系统 CD，现在还没定。其余列和第4页一样。</p>
+      <p class="cue">出示　生鲜当日　第10页 項目マッピング Layer①。翌日也是第10页。当日第11页不讲。写表第4页已念</p>
+      <p>这一页是全项目通过。kankoku 的 zip 里的项目，原样交到 autoorder-prod 的 SINOPS。翌日以后换成 subkankoku 的 zip，落到同一个 SINOPS 文件，名字一样。</p>
+      <p class="cue">出示　生鲜当日　第13页 項目マッピング Layer⓪。翌日是第11页。翌日第12页不讲。更新日不念。发注种类第4页已念</p>
+      <p>店铺 CD、仕入发注 JAN、推荐发注数量、供应商 CD、纳品日、Ordertype、更新日期。着地文件夹是 SIREJAN_RCMDORDER_LAST/日期/。翌日以后换成 LAST_SUB/日期/。</p>
+      <p class="cue">出示　生鲜当日　第16页 错误处理　ER-012。格子里的编号不念</p>
+      <p>当天的文件到指定时刻还没有，或者出了障碍，当天就不用，改用昨天的翌日以后这一本。时刻的例子是 6 点。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　生鮮当日　3枚目 Data Flow。翌日以降の3枚目は同じ。替えない。左下の共通凡例は読まない。図の OrderSV の EOB、EOB_SUB は読まない。この冊は下の生鮮の枠。この文は読まない</p>
+      <p><ruby>生鮮<rt>せいせん</rt></ruby>の<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>、<ruby>当日<rt>とうじつ</rt></ruby>です。この<ruby>図<rt>ず</rt></ruby>の<ruby>生鮮<rt>せいせん</rt></ruby>は、192.168.1.129 / dborder、<ruby>発注統合<rt>はっちゅうとうごう</rt></ruby>の shT_OrderQty_test です。<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSは3<ruby>箇所<rt>かしょ</rt></ruby>です。001 の sday は<ruby>当日<rt>とうじつ</rt></ruby>の KANKOKU zip と<ruby>空<rt>から</rt></ruby>の KANKOKU.END、002 の yday は<ruby>昨日<rt>きのう</rt></ruby>の SUBKANKOKU zip と<ruby>空<rt>から</rt></ruby>の SUBKANKOKU.END、002 の sday は<ruby>当日<rt>とうじつ</rt></ruby>にできた SUBKANKOKU zip と<ruby>空<rt>から</rt></ruby>の SUBKANKOKU.END です。<ruby>通常<rt>つうじょう</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>の1<ruby>本<rt>ぽん</rt></ruby>です。<ruby>指定時刻<rt>していじこく</rt></ruby>までに<ruby>当日<rt>とうじつ</rt></ruby>ができていれば<ruby>当日<rt>とうじつ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。<ruby>当日<rt>とうじつ</rt></ruby>が<ruby>無<rt>な</rt></ruby>いときは、<ruby>昨日<rt>きのう</rt></ruby>の yday のうち<ruby>発注日<rt>はっちゅうび</rt></ruby>が<ruby>当日<rt>とうじつ</rt></ruby>の1<ruby>本<rt>ぽん</rt></ruby>です。Layer① は2<ruby>冊<rt>さつ</rt></ruby><ruby>共通<rt>きょうつう</rt></ruby>で、TRIAL の<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSに<ruby>置<rt>お</rt></ruby>きます。<ruby>当日<rt>とうじつ</rt></ruby>にできた<ruby>翌日以降<rt>よくじついこう</rt></ruby>は SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz として、<ruby>先<rt>さき</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>PJのGCSへ<ruby>置<rt>お</rt></ruby>き、<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSへ<ruby>転送<rt>てんそう</rt></ruby>します。</p>
+      <p class="cue">見せる　生鮮当日　2枚目 IF概要。表の列は4枚目。この文は読まない</p>
+      <p><ruby>送信元<rt>そうしんもと</rt></ruby>は Sinops-R6 です。<ruby>受信<rt>じゅしん</rt></ruby>は 192.168.1.129 の dborder、<ruby>表<rt>ひょう</rt></ruby>は shT_OrderQty_test です。1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>25<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>20Mです。この<ruby>冊<rt>さつ</rt></ruby>の Layer③ は kankoku の zip、<ruby>完了印<rt>かんりょうじるし</rt></ruby>は kankoku.END です。<ruby>翌日以降<rt>よくじついこう</rt></ruby>の<ruby>冊<rt>さつ</rt></ruby>は subkankoku の zip、<ruby>完了印<rt>かんりょうじるし</rt></ruby>は subkankoku.END です。Layer③ から<ruby>表<rt>ひょう</rt></ruby>へは<ruby>書<rt>か</rt></ruby>きません。Layer① は2<ruby>冊<rt>さつ</rt></ruby>で<ruby>共通<rt>きょうつう</rt></ruby>の1ジョブで、<ruby>発注<rt>はっちゅう</rt></ruby>に<ruby>使<rt>つか</rt></ruby>うのは1<ruby>本<rt>ぽん</rt></ruby>です。リランは<ruby>全件<rt>ぜんけん</rt></ruby><ruby>洗<rt>あら</rt></ruby>い<ruby>替<rt>か</rt></ruby>えです。</p>
+      <p class="cue">見せる　生鮮翌日　3枚目。当日と同じ。替えない。このページは読まない</p>
+      <p>このページは<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じ図です。</p>
+      <p class="cue">見せる　生鮮翌日　2枚目 IF概要。着地と4枚目の列は当日で読んだ</p>
+      <p>1<ruby>日<rt>にち</rt></ruby><ruby>約<rt>やく</rt></ruby>800<ruby>万件<rt>まんけん</rt></ruby>、<ruby>約<rt>やく</rt></ruby>650MBです。<ruby>最大<rt>さいだい</rt></ruby>は1000<ruby>万件<rt>まんけん</rt></ruby>、800MBです。この<ruby>冊<rt>さつ</rt></ruby>の Layer③ は subkankoku で、<ruby>変換<rt>へんかん</rt></ruby>はありません。</p>
+      <p class="cue">見せる　生鮮当日　4枚目 GCS→dborder。翌日以降の対象行は生鮮翌日の4枚目。列は繰り返さない。この文は読まない</p>
+      <p>このページは Layer0 の<ruby>前<rt>まえ</rt></ruby>に、<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSのファイルを<ruby>表<rt>ひょう</rt></ruby>へ<ruby>書<rt>か</rt></ruby>きます。先に<ruby>空<rt>から</rt></ruby>の SIREJAN_RCMDORDER_LAST_YYYYMMDD.END を<ruby>見<rt>み</rt></ruby>ます。<ruby>無<rt>な</rt></ruby>いときは<ruby>中断<rt>ちゅうだん</rt></ruby>です。ファイルは LAST と LAST_SUB で、<ruby>中身<rt>なかみ</rt></ruby>は Layer① が<ruby>置<rt>お</rt></ruby>いたままです。<ruby>店<rt>みせ</rt></ruby>、JAN、<ruby>仕入先<rt>しいれさき</rt></ruby>は<ruby>統合<rt>とうごう</rt></ruby>マスタのあとです。<ruby>店<rt>みせ</rt></ruby>と<ruby>仕入先<rt>しいれさき</rt></ruby>は int にします。JAN は<ruby>切<rt>き</rt></ruby>らず、ゼロ<ruby>埋<rt>う</rt></ruby>めもしません。<ruby>納品日<rt>のうひんび</rt></ruby>は<ruby>年月日<rt>ねんがっぴ</rt></ruby>だけです。<ruby>便<rt>びん</rt></ruby>は1です。<ruby>表<rt>ひょう</rt></ruby>の<ruby>既定<rt>きてい</rt></ruby>は<ruby>便<rt>びん</rt></ruby>なしが9999、このページは1です。<ruby>発注<rt>はっちゅう</rt></ruby>バラ<ruby>数<rt>すう</rt></ruby>は<ruby>推奨数<rt>すいしょうすう</rt></ruby>と<ruby>発注数<rt>はっちゅうすう</rt></ruby>の<ruby>両方<rt>りょうほう</rt></ruby>に<ruby>書<rt>か</rt></ruby>きます。<ruby>客注数<rt>きゃくちゅうすう</rt></ruby>は<ruby>空<rt>から</rt></ruby>です。<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD は1、<ruby>普通発注<rt>ふつうはっちゅう</rt></ruby>です。<ruby>登録<rt>とうろく</rt></ruby>FLG は0です。<ruby>登録日<rt>とうろくび</rt></ruby>は<ruby>今<rt>いま</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>で、<ruby>時分秒<rt>じふんびょう</rt></ruby>があります。<ruby>更新日<rt>こうしんび</rt></ruby>は<ruby>空<rt>から</rt></ruby>です。<ruby>担当<rt>たんとう</rt></ruby>CD は<ruby>空<rt>から</rt></ruby>にしません。<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか、90000112 か、まだ<ruby>決<rt>き</rt></ruby>まっていません。キーは JAN、<ruby>店<rt>みせ</rt></ruby>、<ruby>仕入先<rt>しいれさき</rt></ruby>、<ruby>納品日<rt>のうひんび</rt></ruby>、<ruby>便<rt>びん</rt></ruby>です。5<ruby>列<rt>れつ</rt></ruby>が<ruby>同<rt>おな</rt></ruby>じなら<ruby>既存<rt>きそん</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>を<ruby>更新<rt>こうしん</rt></ruby>します。<ruby>書<rt>か</rt></ruby>き<ruby>先<rt>さき</rt></ruby>は 192.168.1.129 の dborder、<ruby>表<rt>ひょう</rt></ruby>は shT_OrderQty_test です。<ruby>分類<rt>ぶんるい</rt></ruby>、<ruby>単価<rt>たんか</rt></ruby>、<ruby>単位<rt>たんい</rt></ruby>、<ruby>発注日<rt>はっちゅうび</rt></ruby>は<ruby>列<rt>れつ</rt></ruby>がないので<ruby>送<rt>おく</rt></ruby>りません。</p>
+      <p class="cue">見せる　生鮮翌日　4枚目。列は読まない。対象行だけ</p>
+      <p><ruby>翌日以降<rt>よくじついこう</rt></ruby>は LAST_SUB を<ruby>書<rt>か</rt></ruby>きます。1<ruby>週間<rt>しゅうかん</rt></ruby><ruby>分<rt>ぶん</rt></ruby>は<ruby>先<rt>さき</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby>します。<ruby>当日<rt>とうじつ</rt></ruby>のファイルが<ruby>無<rt>な</rt></ruby>いときは、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>のうち、<ruby>発注日<rt>はっちゅうび</rt></ruby>が<ruby>当日<rt>とうじつ</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>です。</p>
+      <p class="cue">見せる　生鮮当日　5枚目 Layer⓪（翌日は同じ。替えない）。表は4枚目で読んだ。更新日は読まない。この文は読まない</p>
+      <p>このページでは<ruby>表<rt>ひょう</rt></ruby>へ<ruby>書<rt>か</rt></ruby>きません。<ruby>備考<rt>びこう</rt></ruby>は、<ruby>表<rt>ひょう</rt></ruby>は<ruby>前<rt>まえ</rt></ruby>のページ、と<ruby>書<rt>か</rt></ruby>いてあります。Ordertype は<ruby>勧告<rt>かんこく</rt></ruby>ファイルの<ruby>部門<rt>ぶもん</rt></ruby>です。<ruby>部門<rt>ぶもん</rt></ruby>は<ruby>西友<rt>せいゆう</rt></ruby>のラインです。JIHA の BUMON_ZONE、そのあと ZONE_LOGIC です。01は0、02と03は1です。<ruby>商品<rt>しょうひん</rt></ruby>マスタは<ruby>見<rt>み</rt></ruby>ません。4<ruby>枚目<rt>まいめ</rt></ruby>で<ruby>表<rt>ひょう</rt></ruby>に<ruby>書<rt>か</rt></ruby>く<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD は<ruby>固定<rt>こてい</rt></ruby>の1です。</p>
+      <p class="cue">見せる　生鮮当日　6枚目 Layer①（翌日は同じ。替えない）。どれを使うか、sday と yday は3枚目で読んだ。表は4枚目で読んだ</p>
+      <p>このページは2<ruby>冊<rt>さつ</rt></ruby><ruby>共通<rt>きょうつう</rt></ruby>です。<ruby>起動<rt>きどう</rt></ruby>は5<ruby>時<rt>じ</rt></ruby>30<ruby>分<rt>ぷん</rt></ruby>です。<ruby>西友連携<rt>せいゆうれんけい</rt></ruby>GCSから zip を<ruby>取<rt>と</rt></ruby>ります。先に kankoku.END と subkankoku.END を<ruby>見<rt>み</rt></ruby>ます。<ruby>中身<rt>なかみ</rt></ruby>は<ruby>変換<rt>へんかん</rt></ruby>しません。どれを<ruby>使<rt>つか</rt></ruby>うかは3<ruby>枚目<rt>まいめ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。<ruby>両方<rt>りょうほう</rt></ruby><ruby>無<rt>な</rt></ruby>いときは<ruby>中断<rt>ちゅうだん</rt></ruby>です。<ruby>採用<rt>さいよう</rt></ruby>した1<ruby>本<rt>ぽん</rt></ruby>は、そのまま gs://autoorder-prod/lv3-trc-jiha-prod/SINOPS/ に<ruby>置<rt>お</rt></ruby>き、そのあとに<ruby>空<rt>から</rt></ruby>の SIREJAN_RCMDORDER_LAST_YYYYMMDD.END を<ruby>置<rt>お</rt></ruby>きます。<ruby>当日<rt>とうじつ</rt></ruby>にできた<ruby>翌日以降<rt>よくじついこう</rt></ruby>は、<ruby>先<rt>さき</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>PJのGCSへ SIREJAN_RCMDORDER_LAST_SUB_YYYYMMDD.gz として<ruby>置<rt>お</rt></ruby>き、<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>GCSへ<ruby>転送<rt>てんそう</rt></ruby>します。</p>
+      <p class="cue">見せる　生鮮当日　7枚目 Layer②。一言で。翌日は替えない</p>
+      <p>このページは<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
+      <p class="cue">見せる　生鮮当日　8枚目 Layer③。各自のファイル。翌日以降のファイルは生鮮翌日　8枚目</p>
+      <p>ここは zip にして<ruby>置<rt>お</rt></ruby>きます。<ruby>当日分<rt>とうじつぶん</rt></ruby>は kankoku の zip と<ruby>空<rt>から</rt></ruby>の kankoku.END を LM0026_IF0079_001、<ruby>翌日以降<rt>よくじついこう</rt></ruby>は subkankoku の zip と<ruby>空<rt>から</rt></ruby>の subkankoku.END を LM0026_IF0079_002 に<ruby>置<rt>お</rt></ruby>きます。5<ruby>時<rt>じ</rt></ruby>です。Sinops <ruby>側<rt>がわ</rt></ruby>のパスは<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。</p>
+      <p class="cue">見せる　生鮮当日　9枚目 項目マッピング GCS→dborder。翌日も9枚目。送信元ファイル名は2冊とも LAST。翌日の対象は4枚目で読んだ LAST_SUB。受信先は先頭の 1 が無い。口頭は 192.168.1.129。JAN の行の「文字→int」は読まない。型は varchar。便の行は TRIAL の便。4枚目は固定 1。担当は4枚目の採番、90000112 と違う</p>
+      <p>このページは<ruby>表<rt>ひょう</rt></ruby>に<ruby>書<rt>か</rt></ruby>く<ruby>列<rt>れつ</rt></ruby>です。<ruby>送信元<rt>そうしんもと</rt></ruby>のファイル<ruby>名<rt>めい</rt></ruby>は SIREJAN_RCMDORDER_LAST_YYYYMMDD.gz です。<ruby>店<rt>みせ</rt></ruby>と<ruby>仕入先<rt>しいれさき</rt></ruby>は<ruby>統合<rt>とうごう</rt></ruby>のあと int です。<ruby>便<rt>びん</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>は TRIAL の<ruby>便<rt>びん</rt></ruby>です。<ruby>担当<rt>たんとう</rt></ruby>CD は<ruby>空<rt>から</rt></ruby>にしません。<ruby>運用<rt>うんよう</rt></ruby>サポートへ<ruby>新<rt>あたら</rt></ruby>しいシステム CD を<ruby>申請<rt>しんせい</rt></ruby>します。まだ<ruby>決<rt>き</rt></ruby>まっていません。<ruby>残<rt>のこ</rt></ruby>りの<ruby>列<rt>れつ</rt></ruby>は4<ruby>枚目<rt>まいめ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。</p>
+      <p class="cue">見せる　生鮮当日　10枚目 項目マッピング Layer①。翌日も10枚目。当日の11枚目は読まない。表は4枚目で読んだ</p>
+      <p>このページは<ruby>全項目<rt>ぜんこうもく</rt></ruby><ruby>通過<rt>つうか</rt></ruby>です。kankoku の zip の<ruby>項目<rt>こうもく</rt></ruby>を、autoorder-prod の SINOPS へそのまま<ruby>渡<rt>わた</rt></ruby>します。<ruby>翌日以降<rt>よくじついこう</rt></ruby>は subkankoku の zip に<ruby>替<rt>か</rt></ruby>えて、SINOPS のファイル<ruby>名<rt>めい</rt></ruby>は<ruby>同<rt>おな</rt></ruby>じです。</p>
+      <p class="cue">見せる　生鮮当日　13枚目 項目マッピング Layer⓪。翌日は11枚目。翌日の12枚目は読まない。更新日は読まない。発注種類は4枚目で読んだ</p>
+      <p><ruby>店舗<rt>てんぽ</rt></ruby>CD、<ruby>仕入発注<rt>しいれはっちゅう</rt></ruby>JAN、<ruby>推奨発注数量<rt>すいしょうはっちゅうすうりょう</rt></ruby>、ベンダーCD、<ruby>納品日<rt>のうひんび</rt></ruby>、Ordertype、<ruby>更新日<rt>こうしんび</rt></ruby>です。<ruby>着地<rt>ちゃくち</rt></ruby>のフォルダは SIREJAN_RCMDORDER_LAST/<ruby>日付<rt>ひづけ</rt></ruby>/ です。<ruby>翌日以降<rt>よくじついこう</rt></ruby>は LAST_SUB/<ruby>日付<rt>ひづけ</rt></ruby>/ です。</p>
+      <p class="cue">見せる　生鮮当日　16枚目 エラー処理　ER-012。セルの番号は読まない</p>
+      <p><ruby>当日<rt>とうじつ</rt></ruby>のファイルが<ruby>指定時刻<rt>していじこく</rt></ruby>までに<ruby>無<rt>な</rt></ruby>い、または<ruby>障害<rt>しょうがい</rt></ruby>のときは、<ruby>当日<rt>とうじつ</rt></ruby>は<ruby>使<rt>つか</rt></ruby>わず、<ruby>昨日<rt>きのう</rt></ruby>の<ruby>翌日以降<rt>よくじついこう</rt></ruby>を1<ruby>本<rt>ぽん</rt></ruby>として<ruby>採用<rt>さいよう</rt></ruby>します。<ruby>時刻<rt>じこく</rt></ruby>の<ruby>例<rt>れい</rt></ruby>は6<ruby>時<rt>じ</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>コメント</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">指　第4页和第9页的担当 CD、第4页和第9页的便、第8页 Sinops 的路径、第16页 ER-012</p>
+      <p>担当 CD，第4页是重新采番或 90000112，第9页是向运用支持申请新的系统 CD，还没定。便，第4页是固定 1，第9页写着 TRIAL 的便。Sinops 侧的接收路径还在确认。ER-012 的时刻，6 点是例子，正式时刻想在这里定。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">指す　4枚目と9枚目の担当CD、4枚目と9枚目の便、8枚目の Sinops のパス、16枚目 ER-012</p>
+      <p><ruby>担当<rt>たんとう</rt></ruby>CD は、4<ruby>枚目<rt>まいめ</rt></ruby>が<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか 90000112、9<ruby>枚目<rt>まいめ</rt></ruby>が<ruby>運用<rt>うんよう</rt></ruby>サポートへ<ruby>新<rt>あたら</rt></ruby>しいシステム CD の<ruby>申請<rt>しんせい</rt></ruby>で、まだ<ruby>決<rt>き</rt></ruby>まっていません。<ruby>便<rt>びん</rt></ruby>は、4<ruby>枚目<rt>まいめ</rt></ruby>が<ruby>固定<rt>こてい</rt></ruby>の1、9<ruby>枚目<rt>まいめ</rt></ruby>は TRIAL の<ruby>便<rt>びん</rt></ruby>と<ruby>書<rt>か</rt></ruby>いてあります。Sinops <ruby>側<rt>がわ</rt></ruby>の<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>りパスは<ruby>確認中<rt>かくにんちゅう</rt></ruby>です。ER-012 の<ruby>時刻<rt>じこく</rt></ruby>は、6<ruby>時<rt>じ</rt></ruby>が<ruby>例<rt>れい</rt></ruby>なので、<ruby>正式<rt>せいしき</rt></ruby>な<ruby>時刻<rt>じこく</rt></ruby>をこの<ruby>場<rt>ば</rt></ruby>で<ruby>合<rt>あ</rt></ruby>わせたいです。</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
