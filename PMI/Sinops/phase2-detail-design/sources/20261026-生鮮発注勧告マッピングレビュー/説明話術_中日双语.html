@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生鮮発注勧告 マッピングレビュー 話術（中日）</title>
+<style>
+  :root { --navy:#1a365d; --orange:#c05621; --bg:#f7fafc; --line:#e2e8f0; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic","Microsoft YaHei",sans-serif; background:var(--bg); color:#1a202c; line-height:1.75; }
+  header { background:var(--navy); color:#fff; padding:1.2rem 1.1rem; }
+  header h1 { margin:0 0 .35rem; font-size:1.25rem; font-weight:700; }
+  header p { margin:.2rem 0; font-size:.9rem; }
+  main { max-width:1100px; margin:0 auto; padding:1rem 1rem 2.5rem; }
+  section { background:#fff; border:1px solid var(--line); margin:1rem 0; overflow:hidden; }
+  h2 { margin:0; padding:.65rem 1rem; background:var(--navy); color:#fff; font-size:1rem; font-weight:700; }
+  .cols { display:flex; align-items:stretch; }
+  .cn, .jp { flex:1 1 50%; padding:.85rem 1rem; min-width:0; }
+  .cn { background:#f0fff4; border-right:1px solid var(--line); }
+  .jp { background:#ebf8ff; }
+  .lang { font-size:.72rem; font-weight:700; color:#4a5568; margin-bottom:.3rem; }
+  p { margin:.45rem 0; }
+  rt { font-size:.55em; color:var(--orange); }
+  .cue { margin:.7rem 0 .2rem; padding:.15rem .55rem; background:#1a365d; color:#fff; font-size:.8rem; font-weight:700; }
+  @media (max-width: 800px) {
+    .cols { flex-direction: column; }
+    .cn { border-right: none; border-bottom:1px solid var(--line); }
+  }
+  @media print {
+    body { background:#fff; }
+    header { background:#fff; color:#1a202c; border-bottom:2px solid #1a365d; }
+    section { break-inside: avoid; }
+    .cn { display:none; }
+    .jp { background:#fff; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>生鮮発注勧告　マッピングレビュー　話術</h1>
+  <p>当日 kankoku.txt → 翌日以降 subkankoku.txt</p>
+  <p>各冊は ①項目マッピング　②GAP　③変換ルール</p>
+  <p>左は中文。右の青だけ読む。紺の帯はめくる合図。読まない。</p>
+</header>
+<main>
+
+<section>
+  <h2>開場</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p>今天看生鲜的发注劝告。当日和翌日以后，各三份：项目映射、GAP、变换规则。方向是 Sinops 送到 TRIAL。写入的表是 192.168.1.129 的 dborder，shT_OrderQty_test。非生鲜用的 SIREJAN，这两本不用。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p><ruby>今日<rt>きょう</rt></ruby>は<ruby>生鮮<rt>せいせん</rt></ruby>の<ruby>発注勧告<rt>はっちゅうかんこく</rt></ruby>です。<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>翌日以降<rt>よくじついこう</rt></ruby>、それぞれ<ruby>項目<rt>こうもく</rt></ruby>マッピング、GAP、<ruby>変換<rt>へんかん</rt></ruby>ルールの3つです。</p>
+      <p><ruby>向<rt>む</rt></ruby>きは Sinops から TRIAL です。<ruby>入<rt>い</rt></ruby>れる<ruby>表<rt>ひょう</rt></ruby>は、192.168.1.129 の dborder、shT_OrderQty_test です。</p>
+      <p><ruby>非生鮮<rt>ひせいせん</rt></ruby>の SIREJAN は、この2<ruby>冊<rt>さつ</rt></ruby>では<ruby>使<rt>つか</rt></ruby>いません。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>当日 ① 項目マッピング</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　当日①　シート kankoku.txt（当日分）。2枚目は開かない</p>
+      <p>打开当日的项目映射，停在 kankoku.txt 当日这一页。左边是 TRIAL 要写入的列，右边是 Sinops 送出的项目。</p>
+      <p>唯一键。JAN 用统合后的商品代码，不截断，不补零。店 CD 和供应商 CD 用统合后的代码，转成 int，位数差归统合作业。纳品日从 yyyymmdd 转成 datetime，只保留年月日。便固定为 1。</p>
+      <p>其他。推荐数和发注数 OrderQty 都放发注散数。客注数 CustOrderQty 是 NULL。发注种类 CD 固定 1，普通发注。登录 FLG 固定 0。注记是 1 为店铺已登录，-1 以外为店铺未登录。担当 CD 不能空。重新采号，或者 90000112，自动订货。哪一个，未定。登录日是 getdate，当前日期，带时分秒。更新日是空白。非空是 JAN、店、供应商、纳品日、便、发注种类 CD、登录 FLG、登录日。</p>
+      <p>对象外。表上没有发注日这一列。大分类、中分类、小分类、细目、发注单位数、标准进价、标准售价、发注单位，不送。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　当日①　シート kankoku.txt（当日分）。2枚目は開かない</p>
+      <p><ruby>当日<rt>とうじつ</rt></ruby>の<ruby>項目<rt>こうもく</rt></ruby>マッピングを<ruby>開<rt>ひら</rt></ruby>きます。シートは kankoku.txt、<ruby>当日分<rt>とうじつぶん</rt></ruby>です。<ruby>左<rt>ひだり</rt></ruby>が TRIAL の<ruby>列<rt>れつ</rt></ruby>、<ruby>右<rt>みぎ</rt></ruby>が Sinops の<ruby>項目<rt>こうもく</rt></ruby>です。</p>
+      <p><ruby>唯一<rt>ゆいいつ</rt></ruby>キーです。JAN は、<ruby>商品<rt>しょうひん</rt></ruby>コードをマスタ<ruby>統合<rt>とうごう</rt></ruby>のあと、そのまま<ruby>入<rt>い</rt></ruby>れます。<ruby>切捨<rt>きりす</rt></ruby>てもゼロ<ruby>埋<rt>う</rt></ruby>めもしません。<ruby>店<rt>みせ</rt></ruby>CD とベンダーCD は、<ruby>統合後<rt>とうごうご</rt></ruby>のコードを int にします。<ruby>桁<rt>けた</rt></ruby>は<ruby>統合作業<rt>とうごうさぎょう</rt></ruby>です。<ruby>納品日<rt>のうひんび</rt></ruby>は、yyyymmdd を datetime にします。<ruby>年月日<rt>ねんがっぴ</rt></ruby>だけです。<ruby>便<rt>びん</rt></ruby>は<ruby>固定<rt>こてい</rt></ruby>の1です。</p>
+      <p>その<ruby>他<rt>ほか</rt></ruby>です。<ruby>推奨数<rt>すいしょうすう</rt></ruby>と、<ruby>発注数<rt>はっちゅうすう</rt></ruby>の OrderQty には、どちらも<ruby>発注<rt>はっちゅう</rt></ruby>バラ<ruby>数<rt>すう</rt></ruby>を<ruby>入<rt>い</rt></ruby>れます。<ruby>客注数<rt>きゃくちゅうすう</rt></ruby>は NULL です。<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD は<ruby>固定<rt>こてい</rt></ruby>の1です。<ruby>普通発注<rt>ふつうはっちゅう</rt></ruby>です。<ruby>登録<rt>とうろく</rt></ruby>FLG は<ruby>固定<rt>こてい</rt></ruby>の0です。<ruby>注記<rt>ちゅうき</rt></ruby>は、1が<ruby>店舗登録済<rt>てんぽとうろくずみ</rt></ruby>、マイナス1<ruby>以外<rt>いがい</rt></ruby>が<ruby>店舗未登録<rt>てんぽみとうろく</rt></ruby>です。<ruby>担当<rt>たんとう</rt></ruby>CD は<ruby>空<rt>から</rt></ruby>にしません。<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか、90000112 です。90000112 は<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>です。どちらにするかは<ruby>未定<rt>みてい</rt></ruby>です。<ruby>登録日<rt>とうろくび</rt></ruby>は getdate です。<ruby>現在<rt>げんざい</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>で、<ruby>時分秒<rt>じふんびょう</rt></ruby>があります。<ruby>更新日<rt>こうしんび</rt></ruby>は<ruby>空白<rt>くうはく</rt></ruby>です。<ruby>非空<rt>ひくう</rt></ruby>は、JAN、<ruby>店<rt>みせ</rt></ruby>、ベンダー、<ruby>納品日<rt>のうひんび</rt></ruby>、<ruby>便<rt>びん</rt></ruby>、<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD、<ruby>登録<rt>とうろく</rt></ruby>FLG、<ruby>登録日<rt>とうろくび</rt></ruby>です。</p>
+      <p><ruby>対象外<rt>たいしょうがい</rt></ruby>です。<ruby>発注日<rt>はっちゅうび</rt></ruby>の<ruby>列<rt>れつ</rt></ruby>は、この<ruby>表<rt>ひょう</rt></ruby>にありません。<ruby>大分類<rt>だいぶんるい</rt></ruby>、<ruby>中分類<rt>ちゅうぶんるい</rt></ruby>、<ruby>小分類<rt>しょうぶんるい</rt></ruby>、<ruby>細目<rt>さいもく</rt></ruby>、<ruby>発注単位数<rt>はっちゅうたんいすう</rt></ruby>、<ruby>標準仕入単価<rt>ひょうじゅんしいれたんか</rt></ruby>、<ruby>標準売価<rt>ひょうじゅんばいか</rt></ruby>、<ruby>発注単位<rt>はっちゅうたんい</rt></ruby>は<ruby>送<rt>おく</rt></ruby>りません。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>当日 ② GAP</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　当日②　シート GAP分析一覧</p>
+      <p>打开当日的 GAP。未确认是第 12 行，共 1 行。</p>
+      <p>12 担当 CD。不能空。重新采号，或者 90000112，自动订货。哪一个，未定。</p>
+      <p>已确认。1 数量。推荐数和 OrderQty 都放发注散数。2 便。固定 1。3 登录日。当前日期，带时分秒。4 纳品日。型是 datetime，只保留年月日。5 同一键。5 列相同，改原来那一行。6 表名。shT_OrderQty_test，带着 test。连接是 192.168.1.129、dborder。7 采用。翌日以后的一周，提前更新进去。障害时，用前一天 subkankoku 里对应当天的行。预定时刻没有记载。8 位数。店、JAN、供应商走主数据统合。9 分类、单价、单位不送。10 发注种类 CD 是 1。11 登录 FLG 是 0。13 更新日是空白。14 非空。JAN、店、供应商、纳品日、便、发注种类 CD、登录 FLG、登录日。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　当日②　シート GAP分析一覧</p>
+      <p>GAP<ruby>分析一覧<rt>ぶんせきいちらん</rt></ruby>です。<ruby>未確認<rt>みかくにん</rt></ruby>は12の1<ruby>行<rt>ぎょう</rt></ruby>です。</p>
+      <p>12、<ruby>担当<rt>たんとう</rt></ruby>CD です。<ruby>空<rt>から</rt></ruby>にしません。<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか、90000112 です。90000112 は<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>です。どちらにするかは<ruby>未定<rt>みてい</rt></ruby>です。</p>
+      <p><ruby>確認済<rt>かくにんずみ</rt></ruby>です。1、<ruby>数量<rt>すうりょう</rt></ruby>。<ruby>推奨数<rt>すいしょうすう</rt></ruby>と OrderQty の<ruby>両方<rt>りょうほう</rt></ruby>に、<ruby>発注<rt>はっちゅう</rt></ruby>バラ<ruby>数<rt>すう</rt></ruby>を<ruby>入<rt>い</rt></ruby>れます。2、<ruby>便<rt>びん</rt></ruby>。<ruby>固定<rt>こてい</rt></ruby>の1です。3、<ruby>登録日<rt>とうろくび</rt></ruby>。<ruby>現在<rt>げんざい</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>です。<ruby>時分秒<rt>じふんびょう</rt></ruby>があります。4、<ruby>納品日<rt>のうひんび</rt></ruby>。<ruby>型<rt>かた</rt></ruby>は datetime です。<ruby>年月日<rt>ねんがっぴ</rt></ruby>だけです。5、<ruby>同<rt>おな</rt></ruby>じキーです。5<ruby>列<rt>れつ</rt></ruby>が<ruby>同<rt>おな</rt></ruby>じなら、<ruby>既存<rt>きそん</rt></ruby>の<ruby>行<rt>ぎょう</rt></ruby>を<ruby>更新<rt>こうしん</rt></ruby>します。6、<ruby>表名<rt>ひょうめい</rt></ruby>は shT_OrderQty_test です。test が<ruby>付<rt>つ</rt></ruby>いています。<ruby>接続先<rt>せつぞくさき</rt></ruby>は、192.168.1.129 の dborder です。7、<ruby>採用<rt>さいよう</rt></ruby>。<ruby>翌日以降<rt>よくじついこう</rt></ruby>の1<ruby>週間<rt>しゅうかん</rt></ruby>は、<ruby>先<rt>さき</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby>して<ruby>入<rt>い</rt></ruby>れます。<ruby>障害<rt>しょうがい</rt></ruby>のときは、<ruby>前日<rt>ぜんじつ</rt></ruby>の subkankoku のうち、<ruby>今日<rt>きょう</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たる<ruby>行<rt>ぎょう</rt></ruby>です。<ruby>時刻<rt>じこく</rt></ruby>は<ruby>未記載<rt>みきさい</rt></ruby>です。8、<ruby>桁<rt>けた</rt></ruby>。<ruby>店<rt>みせ</rt></ruby>、JAN、<ruby>仕入先<rt>しいれさき</rt></ruby>はマスタ<ruby>統合<rt>とうごう</rt></ruby>です。9、<ruby>分類<rt>ぶんるい</rt></ruby>、<ruby>単価<rt>たんか</rt></ruby>、<ruby>単位<rt>たんい</rt></ruby>は<ruby>送<rt>おく</rt></ruby>りません。10、<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD は1です。11、<ruby>登録<rt>とうろく</rt></ruby>FLG は0です。13、<ruby>更新日<rt>こうしんび</rt></ruby>は<ruby>空白<rt>くうはく</rt></ruby>です。14、<ruby>非空<rt>ひくう</rt></ruby>です。JAN、<ruby>店<rt>みせ</rt></ruby>、ベンダー、<ruby>納品日<rt>のうひんび</rt></ruby>、<ruby>便<rt>びん</rt></ruby>、<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD、<ruby>登録<rt>とうろく</rt></ruby>FLG、<ruby>登録日<rt>とうろくび</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>当日 ③ 変換ルール</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　当日③　シート 型変換ルール。然后 NULL・固定値設定ルール</p>
+      <p>打开当日的变换规则。店、JAN、供应商、纳品日、便、登录日、发注散数，和映射里念过的一样，这里不重复。纳品日的例子是 20261020，只保留年月日。分类到细目，单位和单价，是对象外。</p>
+      <p>下一页是固定值和 NULL。便是 1。发注种类 CD 是 1，普通发注。登录 FLG 是 0。担当 CD 不能空。重新采号，或者 90000112，自动订货。客注数是 NULL。登录日是 getdate，当前日期，带时分秒。更新日是空白。分类、单价、单位不送。采用不在这一页，在 GAP 的第 7 行。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　当日③　シート 型変換ルール。つぎ NULL・固定値設定ルール</p>
+      <p><ruby>型変換<rt>かたへんかん</rt></ruby>ルールです。<ruby>店<rt>みせ</rt></ruby>、JAN、<ruby>仕入先<rt>しいれさき</rt></ruby>、<ruby>納品日<rt>のうひんび</rt></ruby>、<ruby>便<rt>びん</rt></ruby>、<ruby>登録日<rt>とうろくび</rt></ruby>、<ruby>発注<rt>はっちゅう</rt></ruby>バラ<ruby>数<rt>すう</rt></ruby>は、マッピングで<ruby>読<rt>よ</rt></ruby>んだ<ruby>通<rt>とお</rt></ruby>りです。ここでは<ruby>読<rt>よ</rt></ruby>み<ruby>返<rt>かえ</rt></ruby>しません。<ruby>納品日<rt>のうひんび</rt></ruby>の<ruby>例<rt>れい</rt></ruby>は 20261020 です。<ruby>年月日<rt>ねんがっぴ</rt></ruby>だけです。<ruby>分類<rt>ぶんるい</rt></ruby>から<ruby>細目<rt>さいもく</rt></ruby>、<ruby>単位<rt>たんい</rt></ruby>と<ruby>単価<rt>たんか</rt></ruby>は<ruby>対象外<rt>たいしょうがい</rt></ruby>です。</p>
+      <p><ruby>次<rt>つぎ</rt></ruby>のシートです。<ruby>便<rt>びん</rt></ruby>は1。<ruby>発注種類<rt>はっちゅうしゅるい</rt></ruby>CD は1、<ruby>普通発注<rt>ふつうはっちゅう</rt></ruby>。<ruby>登録<rt>とうろく</rt></ruby>FLG は0。<ruby>担当<rt>たんとう</rt></ruby>CD は<ruby>空<rt>から</rt></ruby>にしません。<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか、90000112 です。90000112 は<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>です。<ruby>客注数<rt>きゃくちゅうすう</rt></ruby>は NULL。<ruby>登録日<rt>とうろくび</rt></ruby>は getdate です。<ruby>現在<rt>げんざい</rt></ruby>の<ruby>日時<rt>にちじ</rt></ruby>で、<ruby>時分秒<rt>じふんびょう</rt></ruby>があります。<ruby>更新日<rt>こうしんび</rt></ruby>は<ruby>空白<rt>くうはく</rt></ruby>。<ruby>分類<rt>ぶんるい</rt></ruby>、<ruby>単価<rt>たんか</rt></ruby>、<ruby>単位<rt>たんい</rt></ruby>は<ruby>送<rt>おく</rt></ruby>りません。<ruby>採用<rt>さいよう</rt></ruby>は、このシートにはありません。GAP の7<ruby>行目<rt>ぎょうめ</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>翌日以降 ① 項目マッピング</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　翌日以降①　シート subkankoku.txt（翌日以降分）。行は読まない</p>
+      <p>换到翌日以后那一本的项目映射。只有 subkankoku.txt 这一页。行和当日相同，不重念。表头是仅障害时。生鲜这边，之前听波多野先生说过，生鲜也要看到未来几天的预订状况。现在发注统合也可以反映未来几天的数据，所以翌日以后的一周，可以提前更新进去。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　翌日以降①　シート subkankoku.txt（翌日以降分）。行は読まない</p>
+      <p><ruby>翌日以降<rt>よくじついこう</rt></ruby>の<ruby>項目<rt>こうもく</rt></ruby>マッピングを<ruby>開<rt>ひら</rt></ruby>きます。シートは subkankoku.txt だけです。<ruby>行<rt>ぎょう</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じなので、<ruby>読<rt>よ</rt></ruby>み<ruby>返<rt>かえ</rt></ruby>しません。<ruby>表紙<rt>ひょうし</rt></ruby>は、<ruby>障害時<rt>しょうがいじ</rt></ruby>のみ、です。<ruby>生鮮<rt>せいせん</rt></ruby>は、<ruby>以前<rt>いぜん</rt></ruby>、<ruby>波多野<rt>はたの</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>から、<ruby>未来<rt>みらい</rt></ruby>の<ruby>数日<rt>すうじつ</rt></ruby>の<ruby>発注状況<rt>はっちゅうじょうきょう</rt></ruby>も<ruby>見<rt>み</rt></ruby>る、と<ruby>伺<rt>うかが</rt></ruby>っています。いまの<ruby>発注統合<rt>はっちゅうとうごう</rt></ruby>は、<ruby>未来<rt>みらい</rt></ruby>の<ruby>数日<rt>すうじつ</rt></ruby>も<ruby>反映<rt>はんえい</rt></ruby>できます。なので、<ruby>翌日以降<rt>よくじついこう</rt></ruby>の1<ruby>週間<rt>しゅうかん</rt></ruby>は、<ruby>先<rt>さき</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby>して<ruby>入<rt>い</rt></ruby>れます。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>翌日以降 ② GAP</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">出示　翌日以降②　7行目だけ</p>
+      <p>翌日以后的 GAP。影响文件写成了 subkankoku.txt。内容与当日相同。只念第 7 行。翌日以后的一周，提前更新进去。障害时用前一天 subkankoku 里对应当天的行。时刻未定。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">見せる　翌日以降②　7行目だけ</p>
+      <p><ruby>影響<rt>えいきょう</rt></ruby>ファイルは subkankoku.txt です。<ruby>中身<rt>なかみ</rt></ruby>は<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。7<ruby>行目<rt>ぎょうめ</rt></ruby>だけ<ruby>読<rt>よ</rt></ruby>みます。</p>
+      <p><ruby>翌日以降<rt>よくじついこう</rt></ruby>の1<ruby>週間<rt>しゅうかん</rt></ruby>は、<ruby>先<rt>さき</rt></ruby>に<ruby>更新<rt>こうしん</rt></ruby>して<ruby>入<rt>い</rt></ruby>れます。<ruby>障害<rt>しょうがい</rt></ruby>のときは、<ruby>前日<rt>ぜんじつ</rt></ruby>の subkankoku の、<ruby>今日<rt>きょう</rt></ruby>に<ruby>当<rt>あ</rt></ruby>たる<ruby>行<rt>ぎょう</rt></ruby>。<ruby>時刻<rt>じこく</rt></ruby>は<ruby>未定<rt>みてい</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>翌日以降 ③ 変換ルール</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">打开后只看标题。内容不念</p>
+      <p>翌日以后的变换规则和固定值，与当日相同。标题是翌日以后。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">開いてタイトルだけ。中身は読まない</p>
+      <p><ruby>型変換<rt>かたへんかん</rt></ruby>と<ruby>固定値<rt>こていち</rt></ruby>は、<ruby>当日<rt>とうじつ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。タイトルだけ、<ruby>翌日以降<rt>よくじついこう</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>確認</h2>
+  <div class="cols">
+    <div class="cn"><div class="lang">中文</div>
+      <p class="cue">指　当日 GAP 的 1 到 6 行</p>
+      <p>今天想对上的，是未确认的 1 行。担当 CD 不能空。重新采号，或者 90000112，自动订货。</p>
+    </div>
+    <div class="jp"><div class="lang">日文（読み上げ）</div>
+      <p class="cue">指す　当日 GAP の1から6</p>
+      <p><ruby>未確認<rt>みかくにん</rt></ruby>は12の1<ruby>行<rt>ぎょう</rt></ruby>です。<ruby>担当<rt>たんとう</rt></ruby>CD は<ruby>空<rt>から</rt></ruby>にしません。<ruby>採番<rt>さいばん</rt></ruby>し<ruby>直<rt>なお</rt></ruby>すか、90000112 です。90000112 は<ruby>自動発注<rt>じどうはっちゅう</rt></ruby>です。</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

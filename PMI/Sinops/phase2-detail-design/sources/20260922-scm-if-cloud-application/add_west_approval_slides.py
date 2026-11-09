@@ -179,17 +179,14 @@ def add_west_slide(prs) -> None:
     # Left: why this environment is required.
     rr(slide, L, Emu(1360000), Emu(5150000), Emu(3740000), CARD)
     add_text(slide, Emu(1016000), Emu(1490000), Emu(4750000), Emu(280000),
-             "① 実施が必要となる条件", 15, INK, bold=True)
+             "① 実施必要な条件", 15, INK, bold=True)
     add_text(
         slide,
         Emu(1016000), Emu(1840000), Emu(4750000), Emu(2880000),
-        "A　大阪の集計データを日次で西友へ渡す\n"
-        "B　型変換・共通化は TRIAL 側 Layer①で行う\n"
-        "C　最終 TXT のみ exchange へ一方向納品する\n"
-        "D　元データは本PJ GCS（landing）に置く\n"
-        "E　SCM 連携面は 1 プロジェクトに集約する\n"
-        "F　Layer②③ は西友の既存 DataSpider を使う\n\n"
-        "この前提なら既存 DSS では Layer①を代替できず、TRIAL GCP の日次バッチ機が必要。未合意なら申請を進めない。",
+        "A　集計SVのデータを日次で西友へ渡す。型変換・加工はTRIAL側。既存DSSでは代替できない\n"
+        "B　既存の発注転送GCPは用途・障害優先度が違い流用しない\n"
+        "C　新規GCPはLayer①のみ。Layer②③は西友の既存DataSpider\n\n"
+        "流星さん確認済。本番は新規申請。納期が急ならdevを暫定使用（開発〜単体テスト）。",
         12,
         INK,
     )
